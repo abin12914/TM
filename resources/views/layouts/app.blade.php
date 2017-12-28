@@ -2,9 +2,11 @@
 <html>
     <!-- sections/head.main.blade -->
     @include('sections.head')
+    
     {{-- additional stylesheet includes --}}
     @section('stylesheets')
     @show
+    
     <body class="hold-transition skin-blue fixed sidebar-mini">
         <div class="wrapper">
             <!-- sections/header.main.blade -->
@@ -18,15 +20,16 @@
             @show
 
             <!-- sections/footer.main.blade -->
-            @include('sections.footer')      
+            @include('sections.footer')
 
             <!-- sections/rightsidebar.main.blade -->
-            @include('sections.rightsidebar')      
+            @include('sections.rightsidebar')
         </div>
         <!-- ./wrapper -->
 
         <!-- REQUIRED JS SCRIPTS -->
         @include('sections.scripts')
+        
         {{-- additional js scripts includes --}}
         @section('scripts')
         @show
