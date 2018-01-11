@@ -1,14 +1,14 @@
 @extends('layouts.public')
 @section('title', 'Home')
 @section('content')
-@if (Session::has('message'))
+@if(Session::has('message'))
     <div class="alert {{ Session::get('alert-class', 'alert-info') }}" id="alert-message">
         <h4>
             {!! Session::get('message') !!}
         </h4>
     </div>
 @endif
-@if (Session::has('fixed-message'))
+@if(Session::has('fixed-message'))
     <div class="alert {{ Session::get('fixed-alert-class', 'alert-info') }}" id="fixed-alert-message">
         <h4 style="margin-left: 20px;">
             {!! Session::get('fixed-message') !!}
@@ -38,9 +38,6 @@
         </a>
         <br>
         <p class="login-box-msg">Need Help? <a>Contact</a> The Developer Team.</p>
-        <div class="pull-right">
-            <a href="{{ route('licence-view') }}">License</a>
-        </div>
     </div>
   <!-- /.login-box-body -->
 </div>

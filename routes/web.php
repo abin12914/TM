@@ -11,20 +11,20 @@
 |
 */
 
-//licence
-Route::get('/licence', 'LoginController@licence')->name('licence-view');
-Route::get('/under/construction', 'LoginController@underConstruction')->name('under-construction-view');
+//under construction
+Route::get('/under/construction', 'LoginController@underConstruction')->name('under-construction');
 
 Route::group(['middleware' => 'is.guest'], function() {
     Route::get('/', 'LoginController@publicHome')->name('public-home');
-    //user validity expired
-    Route::get('/user/expired', 'LoginController@userExpired')->name('user-expired');
 
     Route::get('/login', 'LoginController@login')->name('login-view');
     Route::post('/login/action', 'LoginController@loginAction')->name('login-action');
 });
 
 Route::group(['middleware' => 'auth.check'], function () {
+    //user validity expired
+    Route::get('/user/expired', 'LoginController@userExpired')->name('user-expired');
+    
     //common routes
     Route::get('/dashboard', 'LoginController@dashboard')->name('user-dashboard');
     Route::get('/my/profile', 'UserController@profileView')->name('user-profile-view');
@@ -51,8 +51,8 @@ Route::group(['middleware' => 'auth.check'], function () {
     //admin routes
     Route::group(['middleware' => ['user.role:admin,']], function () {
         //vehicle type
-        Route::get('/vehicle-type/register', 'VehicleTypeController@register')->name('vehicle-type-register-view');
-        Route::post('/vehicle-type/register/action', 'VehicleTypeController@registerAction')->name('vehicle-type-register-action');
+        Route::get('/truck-type/register', 'TruckTypeController@register')->name('truck-type-register-view');
+        Route::post('/truck-type/register/action', 'TruckTypeController@registerAction')->name('truck-type-register-action');
 
         //edit
         //account
@@ -67,7 +67,7 @@ Route::group(['middleware' => 'auth.check'], function () {
     });
 
     //user routes
-    Route::group(['middleware' => ['user.role:user,admin']], function () {
+    Route::group(['middleware' => ['user.role:1,2']], function () {
         //account
         Route::get('/account/register', 'AccountController@register')->name('account-register-view');
         Route::post('/account/register/action', 'AccountController@registerAction')->name('account-register-action');
@@ -93,14 +93,15 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::get('/machine/jackhammer/list', 'JackhammerController@jackhammerList')->name('jackhammer-list');
         Route::get('/get/account/by/jackhammer/{id}', 'JackhammerController@getAccountByJackhammerId')->name('get-account-by-jackhammer-id');
 
-        //vehicle
-        Route::get('/vehicle/register', 'VehicleController@register')->name('vehicle-register-view');
-        Route::post('/vehicle/register/action', 'VehicleController@registerAction')->name('vehicle-register-action');
-        Route::get('/vehicle/list', 'VehicleController@vehicleList')->name('vehicle-list');
+        //trucks
+        Route::resource('trucks', 'TruckController');
+        /*Route::get('/truck/register', 'TruckController@register')->name('truck-register-view');
+        Route::post('/truck/register/action', 'TruckController@registerAction')->name('truck-register-action');
+        Route::get('/truck/list', 'TruckController@truckList')->name('truck-list');*/
 
-        //vehicle type
-        Route::get('/vehicle-type/list', 'VehicleTypeController@vehicleTypeList')->name('vehicle-type-list');
-        Route::get('/vehicle-type/chart', 'VehicleTypeController@chart')->name('vehicle-type-chart');
+        //truck type
+        Route::get('/truck-type/list', 'TruckTypeController@truckTypeList')->name('truck-type-list');
+        Route::get('/truck-type/chart', 'TruckTypeController@chart')->name('truck-type-chart');
 
         //sales
         Route::get('/sales/register', 'SalesController@register')->name('sales-register-view');
@@ -111,7 +112,7 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::get('/sales/bill/print/{id}', 'SalesController@saleBillPrint')->name('sales-bill-print');
 
         Route::get('/sales/list', 'SalesController@salesList')->name('sales-list-search');
-        Route::get('/sales/get/last/vehicle/{id}', 'SalesController@getLastSaleByVehicleId')->name('sale-get-last-by-vehicle-id');
+        Route::get('/sales/get/last/truck/{id}', 'SalesController@getLastSaleByTruckId')->name('sale-get-last-by-truck-id');
 
         //sales /weighment updation
         Route::get('/sales/weighment/pending/list', 'SalesController@weighmentPending')->name('sales-weighment-pending-view');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Validator;
+use \Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -31,19 +32,35 @@ class LoginController extends Controller
     {
         $userName       = $request->get('username');
         $password       = $request->get('password');
-        $rememberUser   = !empty($request->get('rememberUser')) ? $request->get('rememberUser') : false;
+        $rememberUser   = !empty($request->get('rememberUser')) ? true : false;
 
         $validator  = Validator::make($request->all(), [
                 'username' => 'required',
                 'password' => 'required',
             ]);
          if($validator->fails()) {
+            //validation failed
             return redirect(route('login-view'))->withErrors($validator)->withInput();
          }
+
          if(Auth::attempt(['user_name' => $userName, 'password' => $password, 'status' => '1'], $rememberUser)) {
-            dd(1);
             // Authentication passed...
-            return redirect(route('user-dashboard'))->with("message","Welcome " . Auth::user()->name . ". You are successfully logged in to the Trucking Manager.")->with("alert-class","alert-success");
+            $user = Auth::user();
+            if(!empty($user->valid_till)) {
+                $today          = Carbon::now();
+                $userValidDate  = Carbon::createFromFormat('Y-m-d H:i:s', $user->valid_till);
+                //user validity checking
+                if($today->diffInDays($userValidDate, false) <= 7) {
+                    //user expired or expiring soon
+                    if($today->diffInDays($userValidDate, false) < 0) {
+                        //user expired
+                        return redirect(route('user-expired'))->with("expired-user", $user->user_name);
+                    }
+                    //user expiring soon
+                    return redirect(route('user-dashboard'))->with("message",("Welcome " . $user->name . ". Your trial pack ends on " . $user->valid_till . ". Please contact developer team for more info."))->with("alert-class","alert-warning");
+                }
+            }
+            return redirect(route('user-dashboard'))->with("message","Welcome " . $user->name . ". You are successfully logged in to the Trucking Manager.")->with("alert-class","alert-success");
         }
         // Authentication fails...
         $validator->errors()->add("username_password", "Invalid Username Or Password");
@@ -68,14 +85,6 @@ class LoginController extends Controller
     }
 
     /**
-     * Return view for software licence
-     */
-    public function licence()
-    {
-        return view('public.license');
-    }
-
-    /**
      * Return view for uncompleted pages
      */
     public function underConstruction()
@@ -88,6 +97,12 @@ class LoginController extends Controller
      */
     public function userExpired()
     {
-        return view('public.expired');
+        if(Auth::check()) {
+            $user = Auth::user();
+            Auth::logout();
+            return view('public.user-expired');
+        } else {
+            return redirect(route('login-view'));
+        }
     }
 }
