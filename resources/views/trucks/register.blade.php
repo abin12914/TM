@@ -17,7 +17,7 @@
         @if (Session::has('message'))
             <div class="alert {{ Session::get('alert-class', 'alert-info') }}" id="alert-message">
                 <h4>
-                  {{ Session::get('message') }}
+                    {{ Session::get('message') }}
                 </h4>
             </div>
         @endif
@@ -166,8 +166,8 @@
                                                 <div class="col-sm-6 {{ !empty($errors->first('pollution_date')) ? 'has-error' : '' }}">
                                                     <label for="pollution_date" class="control-label"><b style="color: red;">* </b> Pollution Certificate Expires : </label>
                                                     <input type="text" class="form-control decimal_number_only datepicker" name="pollution_date" id="pollution_date" placeholder="Poluution under control certificate expires" value="{{ old('pollution_date') }}">
-                                                    @if(!empty($errors->first('time')))
-                                                        <p style="color: red;" >{{$errors->first('time')}}</p>
+                                                    @if(!empty($errors->first('pollution_date')))
+                                                        <p style="color: red;" >{{$errors->first('pollution_date')}}</p>
                                                     @endif
                                                 </div>
                                             </div>
@@ -180,7 +180,6 @@
                                     <div class="col-xs-3">
                                         <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="11">Clear</button>
                                     </div>
-                                    {{-- <div class="col-sm-1"></div> --}}
                                     <div class="col-xs-3">
                                         <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="10">Submit</button>
                                     </div>

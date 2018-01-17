@@ -69,30 +69,20 @@ Route::group(['middleware' => 'auth.check'], function () {
     //user routes
     Route::group(['middleware' => ['user.role:1,2']], function () {
         //account
-        Route::get('/account/register', 'AccountController@register')->name('account-register-view');
+        Route::resource('accounts', 'AccountController');
+        /*Route::get('/account/register', 'AccountController@register')->name('account-register-view');
         Route::post('/account/register/action', 'AccountController@registerAction')->name('account-register-action');
-        Route::get('/account/list', 'AccountController@accountList')->name('account-list');
+        Route::get('/account/list', 'AccountController@accountList')->name('account-list');*/
 
         //staff
-        Route::get('/hr/employee/register', 'EmployeeController@register')->name('employee-register-view');
+        Route::resource('employees', 'EmployeeController');
+        /*Route::get('/hr/employee/register', 'EmployeeController@register')->name('employee-register-view');
         Route::post('/hr/employee/register/action', 'EmployeeController@registerAction')->name('employee-register-action');
         Route::get('/hr/employee/list', 'EmployeeController@employeeList')->name('employee-list');
         Route::get('/employee/get/account/{id}', 'EmployeeController@getEmployeeByaccountId')->name('employee-get-by-account-id');
-        Route::get('/employee/get/employee/{id}', 'EmployeeController@getEmployeeByEmployeeId')->name('employee-get-by-employee-id');
+        Route::get('/employee/get/employee/{id}', 'EmployeeController@getEmployeeByEmployeeId')->name('employee-get-by-employee-id');*/
 
-        //machine
-        //excavator
-        Route::get('/machine/excavator/register', 'ExcavatorController@register')->name('excavator-register-view');
-        Route::post('/machine/excavator/register/action', 'ExcavatorController@registerAction')->name('excavator-register-action');
-        Route::get('/machine/excavator/list', 'ExcavatorController@excavatorList')->name('excavator-list');
-        Route::get('/get/account/by/excavator/{id}', 'ExcavatorController@getAccountByExcavatorId')->name('get-account-by-excavator-id');
-
-        //jackhammer
-        Route::get('/machine/jackhammer/register', 'JackhammerController@register')->name('jackhammer-register-view');
-        Route::post('/machine/jackhammer/register/action', 'JackhammerController@registerAction')->name('jackhammer-register-action');
-        Route::get('/machine/jackhammer/list', 'JackhammerController@jackhammerList')->name('jackhammer-list');
-        Route::get('/get/account/by/jackhammer/{id}', 'JackhammerController@getAccountByJackhammerId')->name('get-account-by-jackhammer-id');
-
+        
         //trucks
         Route::resource('trucks', 'TruckController');
         /*Route::get('/truck/register', 'TruckController@register')->name('truck-register-view');
@@ -102,6 +92,12 @@ Route::group(['middleware' => 'auth.check'], function () {
         //truck type
         Route::get('/truck-type/list', 'TruckTypeController@truckTypeList')->name('truck-type-list');
         Route::get('/truck-type/chart', 'TruckTypeController@chart')->name('truck-type-chart');
+
+        //sites
+        Route::resource('sites', 'SiteController');
+
+        //transportation
+        Route::resource('transportations', 'TransportationController');
 
         //sales
         Route::get('/sales/register', 'SalesController@register')->name('sales-register-view');

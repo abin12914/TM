@@ -23,33 +23,96 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN MENU</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
+            <li class="{{ Request::is('dashboard')? 'active' : '' }}">
+                <a href="{{ route('user-dashboard') }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Dashboard</span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
-                </ul>
             </li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
-                </ul>
-            </li>
+            @if(Auth::user()->isAdmin())
+                <li class="treeview {{ Request::is('trucks/*')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-industry"></i>
+                        <span>Trucks</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('trucks/create')? 'active' : '' }}">
+                            <a href="{{route('trucks.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ Request::is('accounts/*')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-industry"></i>
+                        <span>Accounts</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('accounts/create')? 'active' : '' }}">
+                            <a href="{{route('accounts.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ Request::is('employees/*')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-industry"></i>
+                        <span>Employees</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('employees/create')? 'active' : '' }}">
+                            <a href="{{route('employees.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ Request::is('sites/*')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-industry"></i>
+                        <span>Sites</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('sites/create')? 'active' : '' }}">
+                            <a href="{{route('sites.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ Request::is('transportations/*')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-industry"></i>
+                        <span>Transportation</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('transportations/create')? 'active' : '' }}">
+                            <a href="{{ route('transportations.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
         </ul>
         <!-- /.sidebar-menu -->
-        <img src="/images/truck_for_small_view.gif" height="100%;" width="100%;">
     </section>
     <!-- /.sidebar -->
 </aside>

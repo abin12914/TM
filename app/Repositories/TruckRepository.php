@@ -32,7 +32,7 @@ class TruckRepository
      * Return statecodes.
      */
     public function saveTruck($request)
-    {return false;
+    {
         $registrationNumber = $request->get('reg_number');
         $description        = $request->get('description');
         $truckType          = $request->get('truck_type');
@@ -56,10 +56,8 @@ class TruckRepository
         $truck->status          = 1;
         if($truck->save()) {
             return true;
-            //redirect()->back()->with("message","Truck details saved successfully.")->with("alert-class","alert-success");
-        } else {
-            return false;
-            //redirect()->back()->withInput()->with("message","Failed to save the truck details. Try again after reloading the page!")->with("alert-class","alert-danger");
         }
+        
+        return false;
     }
 }
