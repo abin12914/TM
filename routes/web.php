@@ -99,6 +99,9 @@ Route::group(['middleware' => 'auth.check'], function () {
         //transportation
         Route::resource('transportations', 'TransportationController');
 
+        //supply
+        Route::resource('supply', 'SupplyController');
+
         //sales
         Route::get('/sales/register', 'SalesController@register')->name('sales-register-view');
         Route::post('/sales/credit/register/action', 'SalesController@creditSaleRegisterAction')->name('credit-sales-register-action')->middleware('date.restrict');

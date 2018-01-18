@@ -3,18 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\TruckRepository;
-use App\Http\Requests\TruckRegistrationRequest;
 
-class TruckController extends Controller
+class SupplyController extends Controller
 {
-    protected $truckRepo;
-
-    public function __construct(TruckRepository $truckRepo)
-    {
-        $this->truckRepo        = $truckRepo;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +13,7 @@ class TruckController extends Controller
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -32,13 +23,7 @@ class TruckController extends Controller
      */
     public function create()
     {
-        $stateCodes = $this->truckRepo->getStateCodes();
-        $truckTypes = $this->truckRepo->getTruckTypes();
-
-        return view('trucks.register',[
-                'truckTypes'    => $truckTypes,
-                'stateCodes'    => $stateCodes
-            ]);
+        return view('supply.register');
     }
 
     /**
@@ -47,15 +32,9 @@ class TruckController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TruckRegistrationRequest $request)
+    public function store(Request $request)
     {
-        $saveFlag   = $this->truckRepo->saveTruck($request);
-
-        if($saveFlag) {
-            return redirect()->back()->with("message","Truck details saved successfully.")->with("alert-class", "alert-success");
-        }
-        
-        return redirect()->back()->with("message","Failed to save the truck details. Try again after reloading the page!")->with("alert-class", "alert-danger");
+        //
     }
 
     /**

@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-6 {{ !empty($errors->first('insurance_date')) ? 'has-error' : '' }}">
-                                                <label for="insurance_date" class="control-label"><b style="color: red;">* </b> Origin Site : </label>
+                                                <label for="insurance_date" class="control-label"><b style="color: red;">* </b> Source : </label>
                                                 <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
                                                     <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
                                                     <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
@@ -76,7 +76,7 @@
                                                 @endif
                                             </div>
                                             <div class="col-sm-6 {{ !empty($errors->first('tax_date')) ? 'has-error' : '' }}">
-                                                <label for="tax_date" class="control-label"><b style="color: red;">* </b> Destination Site : </label>
+                                                <label for="tax_date" class="control-label"><b style="color: red;">* </b> Destination : </label>
                                                 <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
                                                     <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
                                                     <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
@@ -91,8 +91,14 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-6 {{ !empty($errors->first('insurance_date')) ? 'has-error' : '' }}">
-                                                <label for="insurance_date" class="control-label"><b style="color: red;">* </b> Distance : </label>
-                                                <input type="text" class="form-control decimal_number_only datepicker" name="tax_date" id="tax_date" placeholder="Road tax expires" value="{{ old('tax_date') }}">
+                                                <label for="insurance_date" class="control-label"><b style="color: red;">* </b> Contractor : </label>
+                                                <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
+                                                    <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
+                                                    <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
+                                                    <option value="2" {{ (old('relation_type') == '2') ? 'selected' : '' }}>Customer</option>
+                                                    <option value="3" {{ (old('relation_type') == '3') ? 'selected' : '' }}>Contractor</option>
+                                                    <option value="4" {{ (old('relation_type') == '4') ? 'selected' : '' }}>General/Other</option>
+                                                </select>
                                                 @if(!empty($errors->first('insurance_date')))
                                                     <p style="color: red;" >{{$errors->first('insurance_date')}}</p>
                                                 @endif
@@ -136,6 +142,21 @@
                                                 @endif
                                             </div>
                                             <div class="col-sm-6 {{ !empty($errors->first('tax_date')) ? 'has-error' : '' }}">
+                                                <label for="tax_date" class="control-label"><b style="color: red;">* </b> Material : </label>
+                                                <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
+                                                    <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
+                                                    <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
+                                                    <option value="2" {{ (old('relation_type') == '2') ? 'selected' : '' }}>Customer</option>
+                                                    <option value="3" {{ (old('relation_type') == '3') ? 'selected' : '' }}>Contractor</option>
+                                                    <option value="4" {{ (old('relation_type') == '4') ? 'selected' : '' }}>General/Other</option>
+                                                </select>
+                                                @if(!empty($errors->first('tax_date')))
+                                                    <p style="color: red;" >{{$errors->first('tax_date')}}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-6 {{ !empty($errors->first('tax_date')) ? 'has-error' : '' }}">
                                                 <label for="tax_date" class="control-label"><b style="color: red;">* </b> Driver : </label>
                                                 <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
                                                     <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
@@ -146,6 +167,13 @@
                                                 </select>
                                                 @if(!empty($errors->first('tax_date')))
                                                     <p style="color: red;" >{{$errors->first('tax_date')}}</p>
+                                                @endif
+                                            </div>
+                                            <div class="col-sm-6 {{ !empty($errors->first('insurance_date')) ? 'has-error' : '' }}">
+                                                <label for="insurance_date" class="control-label"><b style="color: red;">* </b> Driver Bata : </label>
+                                                <input type="text" class="form-control decimal_number_only datepicker" name="tax_date" id="tax_date" placeholder="Road tax expires" value="{{ old('tax_date') }}">
+                                                @if(!empty($errors->first('insurance_date')))
+                                                    <p style="color: red;" >{{$errors->first('insurance_date')}}</p>
                                                 @endif
                                             </div>
                                         </div>

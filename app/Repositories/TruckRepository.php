@@ -29,6 +29,18 @@ class TruckRepository
     }
 
     /**
+     * Return truck types.
+     */
+    public function getTruckTypes()
+    {
+        $truckTypes = [];
+        
+        $truckTypes = TruckType::where('status', 1)->orderBy('name')->get();
+
+        return $truckTypes;
+    }
+
+    /**
      * Return statecodes.
      */
     public function saveTruck($request)
