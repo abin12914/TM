@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\AccountRepository;
 use App\Http\Requests\AccountRegistrationRequest;
 
 class AccountController extends Controller
 {
+    protected $accountRepo;
+
+    public function __construct(AccountRepository $accountRepo)
+    {
+        $this->accountRepo  = $accountRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +43,13 @@ class AccountController extends Controller
      */
     public function store(AccountRegistrationRequest $request)
     {
-        //
+        $response   = $this->accountRepo->saveAccount($request);
+
+        if($response['flag']) {
+            return redirect()->back()->with("message","Account details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "alert-success");
+        }
+        
+        return redirect()->back()->with("message","Failed to save the account details. Error Code : ". $response['errorCode'])->with("alert-class", "alert-danger");
     }
 
     /**

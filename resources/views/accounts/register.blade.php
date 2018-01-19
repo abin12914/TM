@@ -59,79 +59,56 @@
                                                     <p style="color: red;" >{{$errors->first('description')}}</p>
                                                 @endif
                                             </div>
+                                        </div><br>
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title" style="float: left;">Personal Details</h3>
                                         </div>
-                                        {{-- <div class="form-group">
-                                            <label for="account_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Account Type : </label>
-                                            <div class="col-sm-10 {{ !empty($errors->first('account_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control" name="account_type" id="account_type" tabindex="3">
-                                                    @if(Auth::user()->isSuperAdmin()))
-                                                        <option value="" {{ empty(old('account_type'))? "selected" : "" }}>Select account type</option>
-                                                        <option value="1" {{ (old('account_type') == '1') ? 'selected' : '' }}>Real account</option>
-                                                        <option value="2" {{ (old('account_type') == '2') ? 'selected' : '' }}>Nominal account</option>
-                                                        <option value="3" {{ (old('account_type') == '3') ? 'selected' : '' }}>Personal account</option>
-                                                    @else
-                                                        <option value="3" selected>Personal account</option>
-                                                    @endif
-                                                </select>
-                                                @if(!empty($errors->first('account_type')))
-                                                    <p style="color: red;" >{{$errors->first('account_type')}}</p>
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-2 control-label">Name : </label>
+                                            <div class="col-sm-10 {{ !empty($errors->first('name')) ? 'has-error' : '' }}">
+                                                <input type="text" name="name" class="form-control" id="name" placeholder="Account holder name" value="{{ old('name') }}" tabindex="5">
+                                                @if(!empty($errors->first('name')))
+                                                    <p style="color: red;" >{{$errors->first('name')}}</p>
                                                 @endif
                                             </div>
-                                        </div> --}}
-                                        <div id="personal_account_details"{{--  {{ (!(empty(old('account_type'))) && (old('account_type') != 3)) ? 'hidden' : '' }} --}}>
-                                            <br>
-                                            <div class="box-header with-border">
-                                                <h3 class="box-title" style="float: left;">Personal Details</h3>
-                                                    {{-- <p id="real_account_flag_message" style="color:blue;" {{ (old('account_type') != 3)  && !empty(old('account_type')) ? '' : 'hidden' }}>&nbsp&nbsp&nbsp Fields will be auto filled do not edit these fields for real accounts or nominal accounts.</p> --}}
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="name" class="col-sm-2 control-label">Name : </label>
-                                                <div class="col-sm-10 {{ !empty($errors->first('name')) ? 'has-error' : '' }}">
-                                                    <input type="text" name="name" class="form-control" id="name" placeholder="Account holder name" value="{{ old('name') }}" tabindex="5"{{--  {{ (old('account_type') != 3) && !empty(old('account_type')) ? 'disabled' : '' }} --}}>
-                                                    @if(!empty($errors->first('name')))
-                                                        <p style="color: red;" >{{$errors->first('name')}}</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="phone" class="col-sm-2 control-label"> Phone : </label>
-                                                <div class="col-sm-10 {{ !empty($errors->first('phone')) ? 'has-error' : '' }}">
-                                                    <input type="text" name="phone" class="form-control number_only" id="phone" placeholder="Phone number" value="{{ old('phone') }}" tabindex="6"{{--  {{ (old('account_type') != 3)  && !empty(old('account_type')) ? 'disabled' : '' }} --}} maxlength="13">
-                                                    @if(!empty($errors->first('phone')))
-                                                        <p style="color: red;" >{{$errors->first('phone')}}</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="address" class="col-sm-2 control-label">Address : </label>
-                                                <div class="col-sm-10 {{ !empty($errors->first('address')) ? 'has-error' : '' }}">
-                                                    @if(!empty(old('address')))
-                                                        <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="7"{{--  {{ (old('account_type') != 3)  && !empty(old('account_type')) ? 'disabled' : '' }} --}} maxlength="200">{{ old('address') }}</textarea>
-                                                    @else
-                                                        <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="7"{{--  {{ (old('account_type') != 3)  && !empty(old('account_type')) ? 'disabled' : '' }} --}} maxlength="200"></textarea>
-                                                    @endif
-                                                    @if(!empty($errors->first('address')))
-                                                        <p style="color: red;" >{{$errors->first('address')}}</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                            <label for="relation_type" class="col-sm-2 control-label">Primary Relation : </label>
-                                                <div class="col-sm-10 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
-                                                    <select class="form-control" name="relation_type" id="relation_type" tabindex="8"{{--  {{ (old('account_type') != 3)  && !empty(old('account_type')) ? 'disabled' : '' }} --}}>
-                                                        <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
-                                                        <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
-                                                        <option value="2" {{ (old('relation_type') == '2') ? 'selected' : '' }}>Customer</option>
-                                                        <option value="3" {{ (old('relation_type') == '3') ? 'selected' : '' }}>Contractor</option>
-                                                        <option value="4" {{ (old('relation_type') == '4') ? 'selected' : '' }}>General/Other</option>
-                                                    </select>
-                                                    @if(!empty($errors->first('relation_type')))
-                                                        <p style="color: red;" >{{$errors->first('relation_type')}}</p>
-                                                    @endif
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone" class="col-sm-2 control-label"> Phone : </label>
+                                            <div class="col-sm-10 {{ !empty($errors->first('phone')) ? 'has-error' : '' }}">
+                                                <input type="text" name="phone" class="form-control number_only" id="phone" placeholder="Phone number" value="{{ old('phone') }}" tabindex="6" maxlength="13">
+                                                @if(!empty($errors->first('phone')))
+                                                    <p style="color: red;" >{{$errors->first('phone')}}</p>
+                                                @endif
                                             </div>
                                         </div>
-                                        <br>
+                                        <div class="form-group">
+                                            <label for="address" class="col-sm-2 control-label">Address : </label>
+                                            <div class="col-sm-10 {{ !empty($errors->first('address')) ? 'has-error' : '' }}">
+                                                @if(!empty(old('address')))
+                                                    <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="7" maxlength="200">{{ old('address') }}</textarea>
+                                                @else
+                                                    <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="7" maxlength="200"></textarea>
+                                                @endif
+                                                @if(!empty($errors->first('address')))
+                                                    <p style="color: red;" >{{$errors->first('address')}}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="relation_type" class="col-sm-2 control-label">Primary Relation : </label>
+                                            <div class="col-sm-10 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
+                                                <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
+                                                    <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
+                                                    <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
+                                                    <option value="2" {{ (old('relation_type') == '2') ? 'selected' : '' }}>Customer</option>
+                                                    <option value="3" {{ (old('relation_type') == '3') ? 'selected' : '' }}>Contractor</option>
+                                                    <option value="4" {{ (old('relation_type') == '4') ? 'selected' : '' }}>General/Other</option>
+                                                </select>
+                                                @if(!empty($errors->first('relation_type')))
+                                                    <p style="color: red;" >{{$errors->first('relation_type')}}</p>
+                                                @endif
+                                            </div>
+                                        </div><br>
                                         <div class="box-header with-border">
                                             <h3 class="box-title" style="float: left;">Financial Details</h3>
                                                 <p>&nbsp&nbsp&nbsp</p>

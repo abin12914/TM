@@ -17,4 +17,10 @@
 
     <!-- Google Font - (downloaded to file) -->
     <link rel="stylesheet" href="/css/dist/fonts/googleapifont.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/bower_components/select2/dist/select2.min.css">
+    <!-- bootstrap-datepicker -->
+    <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/dist/bootstrap-datepicker.min.css">
+    {{-- custom css --}}
+    <link rel="stylesheet" href="/css/main.css">
 </head>

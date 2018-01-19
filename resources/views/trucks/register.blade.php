@@ -30,7 +30,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title" style="float: left;">Truck Details</h3>
                                 <p>&nbsp&nbsp&nbsp(Fields marked with <b style="color: red;">* </b>are mandatory.)</p>
-                        </div>
+                        </div><br>
                         <!-- /.box-header -->
                         <!-- form start -->
                         <form action="{{route('trucks.store')}}" method="post" class="form-horizontal">
@@ -42,7 +42,7 @@
                                             <label for="reg_number_state_code" class="col-sm-2 control-label"><b style="color: red;">* </b> Registration Number : </label>
                                             <div class="col-sm-10">
                                                 <div class="col-sm-2 {{ !empty($errors->first('reg_number_state_code')) ? 'has-error' : '' }}">
-                                                    <select class="form-control" name="reg_number_state_code" id="reg_number_state_code" tabindex="1">
+                                                    <select class="form-control select2" name="reg_number_state_code" id="reg_number_state_code" tabindex="1" style="width: 100%;">
                                                         @if(!empty($stateCodes))
                                                             @foreach($stateCodes as $stateCode)
                                                                 <option value="{{ $stateCode->code }}" {{ empty(old('reg_number_state_code')) ? ($stateCode->code == 'KL' ? "selected" : "") : (old('reg_number_state_code') == $stateCode->code ? 'selected' : '') }}>{{ $stateCode->code }}</option>
@@ -93,7 +93,7 @@
                                         <div class="form-group">
                                             <label for="truck_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Truck Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('truck_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control" name="truck_type" id="truck_type" tabindex="7">
+                                                <select class="form-control select2" name="truck_type" id="truck_type" tabindex="7" style="width: 100%;">
                                                     <option value="" {{ empty(old('truck_type')) ? 'selected' : '' }}selected>Select truck type</option>
                                                     @if(!empty($truckTypes))
                                                         @foreach($truckTypes as $truckType)
@@ -118,7 +118,7 @@
                                         <div class="form-group">
                                             <label for="body_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Body Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('body_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control" name="body_type" id="body_type" tabindex="9">
+                                                <select class="form-control select2" name="body_type" id="body_type" tabindex="9" style="width: 100%;">
                                                     <option value="" {{ empty(old('body_type')) ? 'selected' : '' }}>Select body type</option>
                                                     <option value="1" {{ (old('body_type') == 1) ? 'selected' : '' }}>Level</option>
                                                     <option value="2" {{ (old('body_type') == 2) ? 'selected' : '' }}>Extended Body</option>
@@ -198,5 +198,5 @@
 </div>
 @endsection
 @section('scripts')
-    {{-- <script src="/js/registration/vehicleRegistration.js?rndstr={{ rand(1000,9999) }}"></script> --}}
+    <script src="/js/registrations/truckRegistration.js?rndstr={{ rand(1000,9999) }}"></script>
 @endsection

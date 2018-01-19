@@ -12,7 +12,7 @@ class TruckController extends Controller
 
     public function __construct(TruckRepository $truckRepo)
     {
-        $this->truckRepo        = $truckRepo;
+        $this->truckRepo    = $truckRepo;
     }
 
     /**
@@ -22,7 +22,11 @@ class TruckController extends Controller
      */
     public function index()
     {
+        $trucks = $this->truckRepo->getTrucks();
         
+        return view('trucks.list', [
+                'trucks' => $trucks
+            ]);
     }
 
     /**
@@ -49,13 +53,13 @@ class TruckController extends Controller
      */
     public function store(TruckRegistrationRequest $request)
     {
-        $saveFlag   = $this->truckRepo->saveTruck($request);
+        $response   = $this->truckRepo->saveTruck($request);
 
-        if($saveFlag) {
-            return redirect()->back()->with("message","Truck details saved successfully.")->with("alert-class", "alert-success");
+        if($response['flag']) {
+            return redirect()->back()->with("message","Truck details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "alert-success");
         }
         
-        return redirect()->back()->with("message","Failed to save the truck details. Try again after reloading the page!")->with("alert-class", "alert-danger");
+        return redirect()->back()->with("message","Failed to save the truck details. Error Code : ". $response['errorCode'])->with("alert-class", "alert-danger");
     }
 
     /**

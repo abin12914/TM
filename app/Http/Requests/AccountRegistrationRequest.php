@@ -34,19 +34,14 @@ class AccountRegistrationRequest extends FormRequest
                                             'nullable',
                                             'max:200',
                                         ],
-            /*'account_type'          =>  [
-                                            'required',
-                                            'max:8',
-                                            Rule::in([1, 2, 3])
-                                        ],*/
             'financial_status'      =>  [
                                             'required',
-                                            'max:8',
-                                            Rule::in([0, 1, 2])
+                                            Rule::in([0, 1, 2]),
                                         ],
             'opening_balance'       =>  [
-                                            'required'
+                                            'required',
                                             'numeric',
+                                            'min:0',
                                             'max:9999999',
                                         ],
             'name'                  =>  [
@@ -65,7 +60,7 @@ class AccountRegistrationRequest extends FormRequest
                                         ],
             'relation_type'         =>  [
                                             'required',
-                                            Rule::in([1, 2, 3, 4])
+                                            Rule::in([1, 2, 3, 4]),
                                         ],
         ];
     }

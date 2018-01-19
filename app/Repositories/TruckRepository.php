@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Truck;
 use Illuminate\Support\Facades\DB;
 use App\Models\TruckType;
+use \Carbon\Carbon;
 
 class TruckRepository
 {
@@ -41,6 +42,18 @@ class TruckRepository
     }
 
     /**
+     * Return truck types.
+     */
+    public function getTrucks()
+    {
+        $trucks = [];
+        
+        $trucks = Truck::where('status', 1)->paginate(15);
+
+        return $trucks;
+    }
+
+    /**
      * Return statecodes.
      */
     public function saveTruck($request)
@@ -50,10 +63,10 @@ class TruckRepository
         $truckType          = $request->get('truck_type');
         $volume             = $request->get('volume');
         $bodyType           = $request->get('body_type');
-        $insuranceUpto      = $request->get('insurance_date');
-        $taxUpto            = $request->get('tax_date');
-        $permitUpto         = $request->get('permit_date');
-        $pollutionUpto      = $request->get('pollution_date');
+        $insuranceUpto      = Carbon::createFromFormat('d-m-Y', $request->get("insurance_date"))->format('Y-m-d');
+        $taxUpto            = Carbon::createFromFormat('d-m-Y', $request->get("tax_date"))->format('Y-m-d');
+        $permitUpto         = Carbon::createFromFormat('d-m-Y', $request->get("permit_date"))->format('Y-m-d');
+        $pollutionUpto      = Carbon::createFromFormat('d-m-Y', $request->get("pollution_date"))->format('Y-m-d');
 
         $truck = new Truck;
         $truck->reg_number      = $registrationNumber;
@@ -67,9 +80,15 @@ class TruckRepository
         $truck->polution_upto   = $pollutionUpto;
         $truck->status          = 1;
         if($truck->save()) {
-            return true;
+            return [
+                'flag'  => true,
+                'id'    => $truck->id
+            ];
         }
         
-        return false;
+        return [
+            'flag'      => false,
+            'errorCode' => "01/01"
+        ];
     }
 }

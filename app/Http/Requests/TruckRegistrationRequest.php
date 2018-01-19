@@ -35,7 +35,6 @@ class TruckRegistrationRequest extends FormRequest
                                                 ],
             'reg_number_state_code'         =>  [
                                                     'required',
-                                                    'max:2',
                                                     Rule::in(DB::table('vehicle_registration_state_codes')->pluck('code')->toArray()),
                                                 ],
             'reg_number_region_code'        =>  [
@@ -52,6 +51,7 @@ class TruckRegistrationRequest extends FormRequest
             'reg_number_unique_digit'       =>  [
                                                     'required',
                                                     'max:9999',
+                                                    'min:1',
                                                     'integer',
                                                 ],
             'description'                   =>  [
@@ -66,12 +66,11 @@ class TruckRegistrationRequest extends FormRequest
             'volume'                        =>  [
                                                     'required',
                                                     'integer',
-                                                    'max:9999',
+                                                    'max:999',
                                                 ],
             'body_type'                     =>  [
                                                     'required',
-                                                    'max:7',
-                                                    Rule::in(['level','extra-1','extra-2']),
+                                                    Rule::in([1, 2, 3]),
                                                 ],
             'insurance_date'                =>  [
                                                     'required',
