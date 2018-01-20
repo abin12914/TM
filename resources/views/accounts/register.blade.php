@@ -64,7 +64,7 @@
                                             <h3 class="box-title" style="float: left;">Personal Details</h3>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name" class="col-sm-2 control-label">Name : </label>
+                                            <label for="name" class="col-sm-2 control-label"><b style="color: red;">* </b> Name : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('name')) ? 'has-error' : '' }}">
                                                 <input type="text" name="name" class="form-control" id="name" placeholder="Account holder name" value="{{ old('name') }}" tabindex="5">
                                                 @if(!empty($errors->first('name')))
@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="phone" class="col-sm-2 control-label"> Phone : </label>
+                                            <label for="phone" class="col-sm-2 control-label"><b style="color: red;">* </b> Phone : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('phone')) ? 'has-error' : '' }}">
                                                 <input type="text" name="phone" class="form-control number_only" id="phone" placeholder="Phone number" value="{{ old('phone') }}" tabindex="6" maxlength="13">
                                                 @if(!empty($errors->first('phone')))
@@ -95,14 +95,17 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                        <label for="relation_type" class="col-sm-2 control-label">Primary Relation : </label>
+                                        <label for="relation_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Primary Relation : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control" name="relation_type" id="relation_type" tabindex="8">
+                                                <select class="form-control select2" name="relation_type" id="relation_type" tabindex="8">
                                                     <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>
-                                                    <option value="1" {{ (old('relation_type') == '1') ? 'selected' : '' }}>Supplier</option>
-                                                    <option value="2" {{ (old('relation_type') == '2') ? 'selected' : '' }}>Customer</option>
-                                                    <option value="3" {{ (old('relation_type') == '3') ? 'selected' : '' }}>Contractor</option>
-                                                    <option value="4" {{ (old('relation_type') == '4') ? 'selected' : '' }}>General/Other</option>
+                                                    @if(!empty($relationTypes))
+                                                        @foreach($relationTypes as $key => $relationType)
+                                                            <option value="{{ $key }}" {{ (old('relation_type') == $key) ? 'selected' : '' }}>
+                                                                {{ $relationType }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                                 @if(!empty($errors->first('relation_type')))
                                                     <p style="color: red;" >{{$errors->first('relation_type')}}</p>
@@ -116,7 +119,7 @@
                                         <div class="form-group">
                                             <label for="financial_status" class="col-sm-2 control-label"><b style="color: red;">* </b> Financial Status : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('financial_status')) ? 'has-error' : '' }}">
-                                                <select class="form-control" name="financial_status" id="financial_status"  tabindex="9">
+                                                <select class="form-control select2" name="financial_status" id="financial_status"  tabindex="9">
                                                     <option value="" {{ empty(old('financial_status')) ? 'selected' : '' }}>Select financial status</option>
                                                     <option value="0" {{ (old('financial_status') == '0') ? 'selected' : '' }}>None (No pending transactions)</option>
                                                     <option value="2" {{ (old('financial_status') == '2') ? 'selected' : '' }}>Debitor (Account holder owe to the company)</option>
@@ -130,7 +133,7 @@
                                         <div class="form-group">
                                             <label for="opening_balance" class="col-sm-2 control-label"><b style="color: red;">* </b> Opening Balance : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('opening_balance')) ? 'has-error' : '' }}">
-                                                <input type="text" class="form-control decimal_number_only" name="opening_balance" id="opening_balance" placeholder="Opening balance" value="{{ old('opening_balance') }}" ="" tabindex="10" maxlength="8">
+                                                <input type="text" class="form-control decimal_number_only" name="opening_balance" id="opening_balance" placeholder="Opening balance" value="{{ old('opening_balance') }}" ="" tabindex="10" maxlength="8" {{ old('financial_status') == '0' ? 'readonly' : '' }}>
                                                 @if(!empty($errors->first('opening_balance')))
                                                     <p style="color: red;" >{{$errors->first('opening_balance')}}</p>
                                                 @endif

@@ -84,10 +84,14 @@ class TruckRegistrationRequest extends FormRequest
                                                     'required',
                                                     'date_format:d-m-Y',
                                                 ],
-            'pollution_date'                =>  [
+            'fitness_date'                  =>  [
                                                     'required',
                                                     'date_format:d-m-Y',
                                                 ],
+            /*'pollution_date'                =>  [
+                                                    'required',
+                                                    'date_format:d-m-Y',
+                                                ],*/
         ];
     }
 }

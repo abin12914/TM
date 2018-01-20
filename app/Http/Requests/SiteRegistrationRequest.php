@@ -28,7 +28,7 @@ class SiteRegistrationRequest extends FormRequest
             'site_name'     =>  [
                                     'required',
                                     'max:200',
-                                    'unique:sites',
+                                    'unique:sites,name',
                                 ],
             'place'         =>  [
                                     'required',
@@ -38,7 +38,7 @@ class SiteRegistrationRequest extends FormRequest
                                     'nullable',
                                     'max:200',
                                 ],
-            'relation_type' =>  [
+            'location_type' =>  [
                                     'required',
                                     Rule::in([1, 2, 3, 4, 5])
                                 ],

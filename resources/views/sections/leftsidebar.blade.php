@@ -49,7 +49,7 @@
                 </li>
                 <li class="treeview {{ Request::is('accounts/*') || Request::is('accounts') ? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-industry"></i>
+                        <i class="fa fa-book"></i>
                         <span>Accounts</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -68,9 +68,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview {{ Request::is('employees/*')? 'active' : '' }}">
+                <li class="treeview {{ Request::is('employees/*') || Request::is('employees')? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-industry"></i>
+                        <i class="fa fa-male"></i>
                         <span>Employees</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -82,11 +82,16 @@
                                 <i class="fa fa-circle-o"></i> Register
                             </a>
                         </li>
+                        <li class="{{ Request::is('employees')? 'active' : '' }}">
+                            <a href="{{route('employees.index') }}">
+                                <i class="fa fa-circle-o"></i> List
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li class="treeview {{ Request::is('sites/*')? 'active' : '' }}">
+                <li class="treeview {{ Request::is('sites/*') || Request::is('sites')? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-industry"></i>
+                        <i class="fa fa-location-arrow"></i>
                         <span>Sites</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -98,11 +103,16 @@
                                 <i class="fa fa-circle-o"></i> Register
                             </a>
                         </li>
+                        <li class="{{ Request::is('sites')? 'active' : '' }}">
+                            <a href="{{route('sites.index') }}">
+                                <i class="fa fa-circle-o"></i> List
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li class="treeview {{ (Request::is('transportations/*') || Request::is('supply/*'))? 'active' : '' }}">
+                <li class="treeview {{ (Request::is('transportations/*') || Request::is('transportations') || Request::is('supply/*') || Request::is('supply') )? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-industry"></i>
+                        <i class="fa fa-truck"></i>
                         <span>Trucking</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -124,6 +134,26 @@
                                 </li>
                                 <li class="{{ Request::is('supply/create')? 'active' : '' }}">
                                     <a href="{{ route('supply.create') }}">
+                                        <i class="fa fa-circle-o"></i> Supply
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview {{ (Request::is('transportations') || Request::is('supply'))? 'active' : '' }}">
+                            <a href="#">
+                                <i class="fa fa-circle-o"></i> List
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{{ Request::is('transportations')? 'active' : '' }}">
+                                    <a href="{{ route('transportations.index') }}">
+                                        <i class="fa fa-circle-o"></i> Transportation
+                                    </a>
+                                </li>
+                                <li class="{{ Request::is('supply')? 'active' : '' }}">
+                                    <a href="{{ route('supply.index') }}">
                                         <i class="fa fa-circle-o"></i> Supply
                                     </a>
                                 </li>

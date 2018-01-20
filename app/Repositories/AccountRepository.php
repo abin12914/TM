@@ -19,6 +19,28 @@ class AccountRepository
     }
 
     /**
+     * Return accounts.
+     */
+    public function getAccounts($slug = null, $value = null, $noOfRecord = null)
+    {
+        $accounts = [];
+        
+        //type 3 accounts are personal accounts
+        $accounts = $this->account->where('status', 1)->where('type', 3);
+
+        if(!empty($slug) && !empty($value)) {
+            $accounts = $accounts->where($slug,$value);
+        }
+        if(!empty($noOfRecord)) {
+            $accounts = $accounts->paginate($noOfRecord);
+        } else {
+            $accounts = $accounts->get();
+        }
+
+        return $accounts;
+    }
+
+    /**
      * Action for saving accounts.
      */
     public function saveAccount($request)
@@ -40,7 +62,7 @@ class AccountRepository
         } else {
             return [
                 'flag'      => false,
-                'errorCode' => "02/01"
+                'errorCode' => "01"
             ];
         }
 
@@ -72,6 +94,7 @@ class AccountRepository
                     $debitAccountId     = $openingBalanceAccountId;
                     $creditAccountId    = $account->id;
                     $particulars        = "Opening balance of ". $name . " - None";
+                    $openingBalance     = 0;
                 }
 
                 $dateTime = Carbon::now()->format('Y-m-d H:i:s');
@@ -111,7 +134,7 @@ class AccountRepository
         } else {
             return [
                 'flag'      => false,
-                'errorCode' => "02/".$saveFlag,
+                'errorCode' => $saveFlag,
             ];
         }
     }

@@ -9,6 +9,21 @@ use App\Http\Requests\AccountRegistrationRequest;
 class AccountController extends Controller
 {
     protected $accountRepo;
+    public $errorHead = 2;
+
+    public $relationTypes = [
+            1   => 'Supplier',
+            2   => 'Customer',
+            3   => 'Contractor',
+            4   => 'General/Others',
+            5   => 'Employees',
+        ];
+
+    public $accountTypes = [
+            1   => 'Real',
+            2   => 'Nominal',
+            3   => 'Personal',
+        ];
 
     public function __construct(AccountRepository $accountRepo)
     {
@@ -22,7 +37,13 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        $accounts = $this->accountRepo->getAccounts(null, null, 15);
+        
+        return view('accounts.list', [
+                'accounts'      => $accounts,
+                'relationTypes' => $this->relationTypes,
+                'accountTypes'  => $this->accountTypes,
+            ]);
     }
 
     /**
@@ -32,7 +53,12 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return view('accounts.register');
+        //excluding the relationtype 'employee'[index = 5] for new account registration
+        unset($this->relationTypes[5]);
+
+        return view('accounts.register', [
+                'relationTypes' => $this->relationTypes,
+            ]);
     }
 
     /**

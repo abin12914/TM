@@ -34,7 +34,7 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Purchases', //account id : 3
                 'description'       => 'Purchases account',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
                 'status'            => 1,  
@@ -43,7 +43,7 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Trip Rent', //account id : 4
                 'description'       => 'Trip rent account',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
                 'status'            => 1,
@@ -52,7 +52,7 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Employee Wage', //account id : 5
                 'description'       => 'Employee wage account',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
                 'status'            => 1,
@@ -61,7 +61,7 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Employee Salary', //account id : 6
                 'description'       => 'Employee salary account',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
                 'status'            => 1,
@@ -70,7 +70,7 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Service And Expenses', //account id : 7
                 'description'       => 'Service and expense account',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
                 'status'            => 1,
@@ -79,7 +79,7 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Account Opening Balance', //account id : 8
                 'description'       => 'Account opening Balance account',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
                 'status'            => 1,
@@ -88,28 +88,28 @@ class AccountsTableSeeder extends Seeder
                 'account_name'      => 'Temp1', //account id : 9
                 'description'       => 'Temporary account 1',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
-                'status'            => 1,
+                'status'            => 0,
             ],
             [
                 'account_name'      => 'Temp2', //account id : 10
                 'description'       => 'Temporary account 2',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
-                'status'            => 1,
+                'status'            => 0,
             ],
             [
                 'account_name'      => 'Temp3', //account id : 11
                 'description'       => 'Temporary account 3',
                 'type'              => 2, //nominal account
-                'relation'          => 2, //nominal
+                'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
-                'status'            => 1,
+                'status'            => 0,
             ],
         ]);
 
@@ -157,17 +157,17 @@ class AccountsTableSeeder extends Seeder
             [
                 'account_id'    => '09',
                 'name'          => 'Temporary account 1',
-                'status'        => 1,
+                'status'        => 0,
             ],
             [
                 'account_id'    => '10',
                 'name'          => 'Temporary account 2',
-                'status'        => 1,
+                'status'        => 0,
             ],
             [
                 'account_id'    => '11',
                 'name'          => 'Temporary account 3',
-                'status'        => 1,
+                'status'        => 0,
             ],
         ]);
     }

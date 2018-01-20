@@ -81,11 +81,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label"><b style="color: red;">* </b> Salary Type : </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('wage_type')) ? 'has-error' : '' }}">
-                                            <select class="form-control" name="wage_type" id="wage_type" tabindex="5">
+                                            <select class="form-control select2" name="wage_type" id="wage_type" tabindex="5">
                                                 <option value="" {{ empty(old('wage_type')) ? 'selected' : '' }}>Select wage/salary type</option>
-                                                <option value="1" {{ old('wage_type') == '1' ? 'selected' : '' }}>Monthly Salary</option>
-                                                <option value="2" {{ old('wage_type') == '2' ? 'selected' : '' }}>Daily Wage</option>
-                                                <option value="3" {{ old('wage_type') == '3' ? 'selected' : '' }}>Trip Bata</option>
+                                                @if(!empty($wageTypes))
+                                                    @foreach($wageTypes as $key => $wageType)
+                                                        <option value="{{ $key }}" {{ old('wage_type') == $key ? 'selected' : '' }}>{{ $wageType }}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             @if(!empty($errors->first('wage_type')))
                                                 <p style="color: red;" >{{$errors->first('wage_type')}}</p>
@@ -113,11 +115,11 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label"><b style="color: red;">* </b> Financial Status: </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('financial_status')) ? 'has-error' : '' }}">
-                                            <select class="form-control" name="financial_status" id="financial_status" tabindex="8">
+                                            <select class="form-control select2" name="financial_status" id="financial_status" tabindex="8">
                                                 <option value="" {{ empty(old('financial_status')) ? 'selected' : '' }}>Select Status</option>
-                                                <option value="none" {{ old('financial_status') == 'none' ? 'selected' : '' }}>None (No pending transactions)</option>
-                                                <option value="credit" {{ old('financial_status') == 'credit' ? 'selected' : '' }}>Debitor (Account Holder Owe Company)</option>
-                                                <option value="debit" {{ old('financial_status') == 'debit' ? 'selected' : '' }}>Creditor (Company Owe Account Holder)</option>
+                                                <option value="0" {{ old('financial_status') == '0' ? 'selected' : '' }}>None (No pending transactions)</option>
+                                                <option value="2" {{ old('financial_status') == '2' ? 'selected' : '' }}>Debitor (Account Holder Owe Company)</option>
+                                                <option value="1" {{ old('financial_status') == '1' ? 'selected' : '' }}>Creditor (Company Owe Account Holder)</option>
                                             </select>
                                             @if(!empty($errors->first('financial_status')))
                                                 <p style="color: red;" >{{$errors->first('financial_status')}}</p>
@@ -127,7 +129,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label"><b style="color: red;">* </b> Opening Balance: </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('opening_balance')) ? 'has-error' : '' }}">
-                                            <input type="text" class="form-control decimal_number_only" name="opening_balance" id="opening_balance" placeholder="Opening balance" value="{{ old('opening_balance') }}" tabindex="9">
+                                            <input type="text" class="form-control decimal_number_only" name="opening_balance" id="opening_balance" placeholder="Opening balance" value="{{ old('opening_balance') }}" tabindex="9" {{ old('financial_status') == '0' ? 'readonly' : '' }}>
                                             @if(!empty($errors->first('opening_balance')))
                                                 <p style="color: red;" >{{$errors->first('opening_balance')}}</p>
                                             @endif
@@ -158,7 +160,4 @@
     </section>
     <!-- /.content -->
 </div>
-@endsection
-@section('scripts')
-    <script src="/js/registration/employeeRegistration.js?rndstr={{ rand(1000,9999) }}"></script>
 @endsection

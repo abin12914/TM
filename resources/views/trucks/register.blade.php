@@ -156,6 +156,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <div class="col-sm-6 {{ !empty($errors->first('fitness_date')) ? 'has-error' : '' }}">
+                                                    <label for="fitness_date" class="control-label"><b style="color: red;">* </b> Certificate of Fitness Expires : </label>
+                                                    <input type="text" class="form-control decimal_number_only datepicker" name="fitness_date" id="fitness_date" placeholder="Certificate of fitness expires" value="{{ old('fitness_date') }}">
+                                                    @if(!empty($errors->first('fitness_date')))
+                                                        <p style="color: red;" >{{$errors->first('fitness_date')}}</p>
+                                                    @endif
+                                                </div>
                                                 <div class="col-sm-6 {{ !empty($errors->first('permit_date')) ? 'has-error' : '' }}">
                                                     <label for="permit_date" class="control-label"><b style="color: red;">* </b> Permit Expires : </label>
                                                     <input type="text" class="form-control decimal_number_only datepicker" name="permit_date" id="permit_date" placeholder="Permit expires" value="{{ old('permit_date') }}">
@@ -163,6 +170,8 @@
                                                         <p style="color: red;" >{{$errors->first('permit_date')}}</p>
                                                     @endif
                                                 </div>
+                                            </div>
+                                            {{-- <div class="form-group">
                                                 <div class="col-sm-6 {{ !empty($errors->first('pollution_date')) ? 'has-error' : '' }}">
                                                     <label for="pollution_date" class="control-label"><b style="color: red;">* </b> Pollution Certificate Expires : </label>
                                                     <input type="text" class="form-control decimal_number_only datepicker" name="pollution_date" id="pollution_date" placeholder="Poluution under control certificate expires" value="{{ old('pollution_date') }}">
@@ -170,7 +179,7 @@
                                                         <p style="color: red;" >{{$errors->first('pollution_date')}}</p>
                                                     @endif
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>

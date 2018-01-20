@@ -72,13 +72,15 @@
                                         <div class="form-group">
                                             <label for="location_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Location Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('location_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control" name="location_type" id="location_type">
+                                                <select class="form-control select2" name="location_type" id="location_type">
                                                     <option value="" {{ empty(old('location_type')) ? 'selected' : '' }}>Select location type</option>
-                                                    <option value="1" {{ (old('location_type') == '1') ? 'selected' : '' }}>Quarry</option>
-                                                    <option value="2" {{ (old('location_type') == '2') ? 'selected' : '' }}>Crusher Plant</option>
-                                                    <option value="3" {{ (old('location_type') == '3') ? 'selected' : '' }}>Construction Area</option>
-                                                    <option value="4" {{ (old('location_type') == '4') ? 'selected' : '' }}>Small Mining Area</option>
-                                                    <option value="5" {{ (old('location_type') == '5') ? 'selected' : '' }}>Residential Area</option>
+                                                    @if(!empty($siteTypes))
+                                                        @foreach($siteTypes as $key => $siteType)
+                                                            <option value="{{ $key }}" {{ (old('location_type') == $key) ? 'selected' : '' }}>
+                                                                {{ $siteType }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                                 @if(!empty($errors->first('location_type')))
                                                     <p style="color: red;" >{{$errors->first('location_type')}}</p>

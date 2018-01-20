@@ -3,9 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\SupplyRepository;
+use App\Repositories\TransportationRepository;
+use App\Repositories\TruckRepository;
+use App\Repositories\AccountRepository;
+use App\Repositories\SiteRepository;
+use App\Repositories\EmployeeRepository;
+use App\Http\Requests\TransportationRegistrationRequest;
+use App\Http\Requests\PurchaseRegistrationRequest;
+use App\Http\Requests\SaleRegistrationRequest;
 
 class SupplyController extends Controller
 {
+    protected $supplyRepo, $transportationRepo;
+    public $errorHead = 6;
+    
+    public function __construct(SupplyRepository $supplyRepo, TransportationRepository $transportationRepo)
+    {
+        $this->supplyRepo           = $supplyRepo;
+        $this->transportationRepo   = $transportationRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +39,23 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
     {
-        return view('supply.register');
+        $trucks     = $truckRepo->getTrucks();
+        $accounts   = $accountRepo->getAccounts();
+        $sites      = $siteRpepo->getSites();
+        $employees  = $employeeRepo->getEmployees();
+        $materials  = $this->transportationRepo->getMaterials();
+
+        return view('supply.register', [
+                'trucks'        => $trucks,
+                'accounts'      => $accounts,
+                'sites'         => $sites,
+                'employees'     => $employees,
+                'materials'     => $materials,
+                'rentTypes'     => $this->transportationRepo->rentTypes,
+                'measureTypes'  => $this->supplyRepo->measureTypes,
+            ]);
     }
 
     /**
@@ -32,9 +64,9 @@ class SupplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TransportationRegistrationRequest $requ, PurchaseRegistrationRequest $reque, SaleRegistrationRequest $request)
     {
-        //
+        $this->transportationRepo->saveTransportation($request);
     }
 
     /**

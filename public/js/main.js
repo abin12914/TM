@@ -10,13 +10,13 @@ $(function () {
     //Date picker for registrations
     $('.datepicker_reg').datepicker({
         todayHighlight: true,
-        endDate: '+0d',
+        endDate: 'today',
         format: 'dd-mm-yyyy',
         autoclose: true,
     });
 
     //setting current date as selected
-    $('.datepicker_reg').datepicker('setDate', new Date());
+    $('.datepicker_reg').datepicker('setDate', 'now');
 
     //default value setting in account registering
     $('body').on("change", "#financial_status", function () {

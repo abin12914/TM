@@ -2,61 +2,34 @@
 
 namespace App\Repositories;
 
-use App\Models\Truck;
-use Illuminate\Support\Facades\DB;
-use App\Models\TruckType;
+use App\Models\Purchase;
+use App\Models\Transportation;
+use App\Models\Sale;
 use \Carbon\Carbon;
 
-class TruckRepository
+class SupplyRepository
 {
+    public $measureTypes = [
+            1   => 'Weighment [Ton]',
+            2   => 'Volume [Feet]',
+            3   => 'Fixed For TruckType',
+        ];
 
-    protected $truck;
-
-    public function __construct(Truck $truck)
+    /**
+     * Return transportations.
+     */
+    public function getSupplys()
     {
-        $this->truck = $truck;
+        $supplys = [];
+
+        return $supplys;
     }
+
 
     /**
      * Return statecodes.
      */
-    public function getStateCodes()
-    {
-        $stateCodes = [];
-
-        $stateCodes = DB::table('vehicle_registration_state_codes')->orderBy('code')->get();
-
-        return $stateCodes;
-    }
-
-    /**
-     * Return truck types.
-     */
-    public function getTruckTypes()
-    {
-        $truckTypes = [];
-        
-        $truckTypes = TruckType::where('status', 1)->orderBy('name')->get();
-
-        return $truckTypes;
-    }
-
-    /**
-     * Return trucks.
-     */
-    public function getTrucks()
-    {
-        $trucks = [];
-        
-        $trucks = $this->truck->where('status', 1)->paginate(15);
-
-        return $trucks;
-    }
-
-    /**
-     * Return statecodes.
-     */
-    public function saveTruck($request)
+    public function saveSupply($request)
     {
         $registrationNumber = $request->get('reg_number');
         $description        = $request->get('description');

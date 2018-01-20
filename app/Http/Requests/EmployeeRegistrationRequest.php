@@ -33,7 +33,7 @@ class EmployeeRegistrationRequest extends FormRequest
                                         'required',
                                         'numeric',
                                         'digits_between:10,13',
-                                        'unique:account_details',
+                                        Rule::unique('account_details')->ignore($this->account_id),
                                     ],
             'address'           =>  [
                                         'nullable',
@@ -46,12 +46,13 @@ class EmployeeRegistrationRequest extends FormRequest
                                     ],
             'wage_type'         =>  [
                                         'required',
-                                        'max:7',
-                                        Rule::in(['staff','labour']),
+                                        Rule::in([1, 2, 3]),
                                     ],
             'wage'              =>  [
                                         'required',
                                         'numeric',
+                                        'min:0',
+                                        'max:9999999',
                                     ],
             'account_name'      =>  [
                                         'required',
@@ -65,6 +66,7 @@ class EmployeeRegistrationRequest extends FormRequest
             'opening_balance'   =>  [
                                         'required',
                                         'numeric',
+                                        'min:0',
                                         'max:9999999'
                                     ]
         ];

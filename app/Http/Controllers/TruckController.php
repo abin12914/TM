@@ -9,6 +9,7 @@ use App\Http\Requests\TruckRegistrationRequest;
 class TruckController extends Controller
 {
     protected $truckRepo;
+    public $errorHead = 1;
 
     public function __construct(TruckRepository $truckRepo)
     {
