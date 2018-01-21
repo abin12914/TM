@@ -21,6 +21,16 @@
                 </h4>
             </div>
         @endif
+
+        {{-- @if (!empty($errors) && count($errors) > 0)
+            <div class="alert alert-danger">
+                <h4>
+                    @foreach($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+                </h4>
+            </div>
+        @endif --}}
         <!-- Main row -->
         <div class="row no-print">
             <div class="col-md-12">
@@ -28,6 +38,8 @@
                 <div class="col-md-8">
                     <!-- form start -->
                     <form action="{{route('supply.store')}}" method="post" class="form-horizontal">
+                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                        <input type="hidden" name="supply_flag" value="true">
                         <!-- nav-tabs-custom -->
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
@@ -38,7 +50,6 @@
                             <div class="tab-content">
                                 <div class="active tab-pane" id="transportation_tab">
                                     <div class="box-body">
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <div class="row">
                                             <div class="col-md-1"></div>
                                             <div class="col-md-10">
@@ -48,18 +59,19 @@
 
                                             </div>
                                         </div>
-                                        <div class="clearfix"> </div><br><br>
+                                        <div class="clearfix"> </div><br>
                                         <div class="row">
-                                            <div class="col-xs-4"></div>
-                                            <div class="col-xs-4">
-                                                <a href="#purchase_tab">
-                                                    <button type="button" class="btn btn-primary btn-block">
-                                                        Next
-                                                    </button>
-                                                </a>
+                                            <div class="box-footer">
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-10">
+                                                    <button type="button" class="btn btn-default" disabled>Prev</button>
+                                                    <a href="#purchase_tab" data-toggle="tab" class="arrows">
+                                                        <button type="button" class="btn btn-info pull-right">Next</button>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <!-- /.col -->
-                                        </div><br>
+                                            <!-- /.box-footer -->
+                                        </div>
                                     </div>
                                     <!-- /.box-body -->
                                 </div>
@@ -75,18 +87,21 @@
 
                                             </div>
                                         </div>
-                                        <div class="clearfix"> </div><br><br>
+                                        <div class="clearfix"> </div><br>
                                         <div class="row">
-                                            <div class="col-xs-4"></div>
-                                            <div class="col-xs-4">
-                                                <a href="#sale_tab">
-                                                    <button type="button" class="btn btn-primary btn-block">
-                                                        Next
-                                                    </button>
-                                                </a>
+                                            <div class="box-footer">
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-10">
+                                                    <a href="#transportation_tab" data-toggle="tab" class="arrows">
+                                                        <button type="button" class="btn btn-default">Prev</button>
+                                                    </a>
+                                                    <a href="#sale_tab" data-toggle="tab" class="arrows">
+                                                        <button type="button" class="btn btn-info pull-right">Next</button>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <!-- /.col -->
-                                        </div><br>
+                                            <!-- /.box-footer -->
+                                        </div>
                                     </div>
                                     <!-- /.box-body -->
                                 </div>
@@ -102,20 +117,21 @@
 
                                             </div>
                                         </div>
-                                        <div class="clearfix"> </div><br><br>
+                                        <div class="clearfix"> </div><br>
                                         <div class="row">
-                                            <div class="row">
-                                            <div class="col-xs-3"></div>
-                                            <div class="col-xs-3">
-                                                <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="12">Clear</button>
+                                            <div class="box-footer">
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-10">
+                                                    <a href="#purchase_tab" data-toggle="tab" class="arrows">
+                                                        <button type="button" class="btn btn-default">Prev</button>
+                                                    </a>
+                                                    <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                                </div>
                                             </div>
-                                            <div class="col-xs-3">
-                                                <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="11">Submit</button>
-                                            </div>
+                                            <!-- /.box-footer -->
                                             <!-- /.col -->
-                                        </div><br>
+                                        </div>
                                             <!-- /.col -->
-                                        </div><br>
                                     </div>
                                     <!-- /.box-body -->
                                 </div>

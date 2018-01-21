@@ -9,9 +9,7 @@ use App\Repositories\TruckRepository;
 use App\Repositories\AccountRepository;
 use App\Repositories\SiteRepository;
 use App\Repositories\EmployeeRepository;
-use App\Http\Requests\TransportationRegistrationRequest;
-use App\Http\Requests\PurchaseRegistrationRequest;
-use App\Http\Requests\SaleRegistrationRequest;
+use App\Http\Requests\SupplyRegistrationRequest;
 
 class SupplyController extends Controller
 {
@@ -64,9 +62,13 @@ class SupplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TransportationRegistrationRequest $requ, PurchaseRegistrationRequest $reque, SaleRegistrationRequest $request)
+    public function store(SupplyRegistrationRequest $request)
     {
-        $this->transportationRepo->saveTransportation($request);
+        $response   = $this->transportationRepo->saveTransportation($request);
+
+        if($response['flag']) {
+            
+        }
     }
 
     /**

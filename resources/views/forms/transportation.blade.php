@@ -1,7 +1,7 @@
 <div class="form-group">
     <div class="col-sm-6">
         <label for="truck_id" class="control-label"><b style="color: red;">* </b> Truck : </label>
-        <select class="form-control select2 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}" name="truck_id" id="truck_id" tabindex="1">
+        <select class="form-control select2 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}" name="truck_id" id="truck_id" tabindex="1" style="width: 100%;">
             <option value="" {{ empty(old('truck_id')) ? 'selected' : '' }}>Select truck</option>
             @if(!empty($trucks))
                 @foreach($trucks as $truck)
@@ -26,7 +26,7 @@
 <div class="form-group">
     <div class="col-sm-6">
         <label for="source_id" class="control-label"><b style="color: red;">* </b> Source : </label>
-        <select class="form-control select2 {{ !empty($errors->first('source_id')) ? 'has-error' : '' }}" name="source_id" id="source_id" tabindex="8">
+        <select class="form-control select2 {{ !empty($errors->first('source_id')) ? 'has-error' : '' }}" name="source_id" id="source_id" tabindex="8" style="width: 100%;">
             <option value="" {{ empty(old('source_id')) ? 'selected' : '' }}>Select source site</option>
             @if(!empty($sites))
                 @foreach($sites as $site)
@@ -42,7 +42,7 @@
     </div>
     <div class="col-sm-6">
         <label for="destination_id" class="control-label"><b style="color: red;">* </b> Destination : </label>
-        <select class="form-control select2 {{ !empty($errors->first('destination_id')) ? 'has-error' : '' }}" name="destination_id" id="destination_id" tabindex="8">
+        <select class="form-control select2 {{ !empty($errors->first('destination_id')) ? 'has-error' : '' }}" name="destination_id" id="destination_id" tabindex="8" style="width: 100%;">
             <option value="" {{ empty(old('destination_id')) ? 'selected' : '' }}>Select destination site</option>
             @if(!empty($sites))
                 @foreach($sites as $site)
@@ -60,7 +60,7 @@
 <div class="form-group">
     <div class="col-sm-6">
         <label for="contractor_account_id" class="control-label"><b style="color: red;">* </b> Contractor : </label>
-        <select class="form-control select2 {{ !empty($errors->first('contractor_account_id')) ? 'has-error' : '' }}" name="contractor_account_id" id="contractor_account_id" tabindex="8">
+        <select class="form-control select2 {{ !empty($errors->first('contractor_account_id')) ? 'has-error' : '' }}" name="contractor_account_id" id="contractor_account_id" tabindex="8" style="width: 100%;">
             <option value="" {{ empty(old('contractor_account_id')) ? 'selected' : '' }}>Select contractor</option>
             @if(!empty($accounts))
                 @foreach($accounts as $account)
@@ -76,7 +76,7 @@
     </div>
     <div class="col-sm-6">
         <label for="rent_type" class="control-label"><b style="color: red;">* </b> Rent Type : </label>
-        <select class="form-control select2 {{ !empty($errors->first('rent_type')) ? 'has-error' : '' }}" name="rent_type" id="rent_type" tabindex="8">
+        <select class="form-control select2 {{ !empty($errors->first('rent_type')) ? 'has-error' : '' }}" name="rent_type" id="rent_type" tabindex="8" style="width: 100%;">
             <option value="" {{ empty(old('rent_type')) ? 'selected' : '' }}>Select rent type</option>
             @if(!empty($rentTypes))
                 @foreach($rentTypes as $key => $rentType)
@@ -117,7 +117,7 @@
     </div>
     <div class="col-sm-6">
         <label for="material_id" class="control-label"><b style="color: red;">* </b> Material : </label>
-        <select class="form-control select2 {{ !empty($errors->first('material_id')) ? 'has-error' : '' }}" name="material_id" id="material_id" tabindex="8">
+        <select class="form-control select2 {{ !empty($errors->first('material_id')) ? 'has-error' : '' }}" name="material_id" id="material_id" tabindex="8" style="width: 100%;">
             <option value="" {{ empty(old('material_id')) ? 'selected' : '' }}>Select material</option>
             @if(!empty($materials))
                 @foreach($materials as $material)
@@ -135,7 +135,7 @@
 <div class="form-group">
     <div class="col-sm-6">
         <label for="employee_id" class="control-label"><b style="color: red;">* </b> Driver : </label>
-        <select class="form-control select2 {{ !empty($errors->first('employee_id')) ? 'has-error' : '' }}" name="employee_id" id="employee_id" tabindex="8">
+        <select class="form-control select2 {{ !empty($errors->first('employee_id')) ? 'has-error' : '' }}" name="employee_id" id="employee_id" tabindex="8" style="width: 100%;">
             <option value="" {{ empty(old('employee_id')) ? 'selected' : '' }}>Select driver</option>
             @if(!empty($employees))
                 @foreach($employees as $employee)
