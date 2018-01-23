@@ -33,7 +33,7 @@ class SupplyRegistrationRequest extends FormRequest
         return array_merge(
             $transportationRules,
             $purchaseRules,
-            $saleRules,
+            $saleRules
         );
     }
 }

@@ -6,10 +6,10 @@ $(function () {
 
         //disable and assign value if fixed rent
         if(rentType && rentType == 3) {
-            $('#rent_measurement').prop("disabled",true);
+            $('#rent_measurement').prop("readonly",true);
             $('#rent_measurement').val(1);
         } else {
-            $('#rent_measurement').prop("disabled",false);
+            $('#rent_measurement').prop("readonly",false);
             $('#rent_measurement').val('');
         }
 
@@ -35,6 +35,8 @@ $(function () {
         calculateTotalRent();
     });
 });
+
+//method for total rent calculation and driver wage calculation
 function calculateTotalRent() {
     var quantity    = ($('#rent_measurement').val() > 0 ? $('#rent_measurement').val() : 0 );
     var rate        = ($('#rent_rate').val() > 0 ? $('#rent_rate').val() : 0 );

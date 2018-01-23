@@ -39,8 +39,14 @@ $(function () {
     $('body').on("keypress", ".number_only", function (evt) {
         var fieldValue  = $(this).val();
         var elementId   = $(this).attr("id");
-
         var charCode = (evt.which) ? evt.which : event.keyCode;
+
+        if(fieldValue.length == 1 && fieldValue == 0) {
+            if(charCode != 46) {
+                $(this).val('');
+            }
+        }
+
         if(elementId == 'phone') {
             if(fieldValue.length == 0 && charCode == 43) {
                 return true;
@@ -63,9 +69,17 @@ $(function () {
 
     // for checking if the pressed key is a number or decimal
     $('body').on("keypress", ".decimal_number_only", function (evt) {
+        var original = $(this).val();
         // attaching 1 to the end for number like 1.0
         var fieldValue = $(this).val() + '1';
         var charCode = (evt.which) ? evt.which : event.keyCode;
+
+        if(original.length == 1 && original == 0) {
+            if(charCode != 46) {
+                $(this).val('');
+            }
+        }
+        
         if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57))) {
             evt.preventDefault();
             $(this).data("title", "Only numbers are allowed!").tooltip("show");

@@ -29,7 +29,11 @@ class SupplyController extends Controller
      */
     public function index()
     {
-        //
+        $supplyTransportations = $this->supplyRepo->getSupplyTransportations();
+        
+        return view('supply.list', [
+                'supplyTransportations' => $supplyTransportations,
+            ]);
     }
 
     /**
@@ -64,11 +68,32 @@ class SupplyController extends Controller
      */
     public function store(SupplyRegistrationRequest $request)
     {
-        $response   = $this->transportationRepo->saveTransportation($request);
+        $transportation = $this->transportationRepo->saveTransportation($request);
 
-        if($response['flag']) {
-            
+        if($transportation['flag']) {
+
+            $purchase = $this->supplyRepo->savePurchase($request, $transportation['id']);
+
+            if($purchase['flag']) {
+
+                $sale = $this->supplyRepo->saveSale($request, $transportation['id']);
+
+                if($sale['flag']) {
+                    return redirect()->back()->with("message","Supply details saved successfully. Reference Number : ". $transportation['id'])->with("alert-class", "alert-success");
+                } else {
+                    //delete purchase
+                    //delete transportation
+
+                    return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/03/". $sale['errorCode'])->with("alert-class", "alert-danger");
+                }
+            } else {
+                //delete transportation
+
+                return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/02/". $purchase['errorCode'])->with("alert-class", "alert-danger");
+            }
         }
+
+        return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/01/". $transportation['errorCode'])->with("alert-class", "alert-danger");
     }
 
     /**

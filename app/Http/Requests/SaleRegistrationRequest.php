@@ -62,7 +62,7 @@ class SaleRegistrationRequest extends FormRequest
                                             'max:1000',
                                             'min:0',
                                         ],
-            'sale__total_bill'      =>  [
+            'sale_total_bill'       =>  [
                                             'required',
                                             'numeric',
                                             'max:50000',

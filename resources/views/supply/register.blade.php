@@ -22,7 +22,7 @@
             </div>
         @endif
 
-        {{-- @if (!empty($errors) && count($errors) > 0)
+        @if (!empty($errors) && count($errors) > 0)
             <div class="alert alert-danger">
                 <h4>
                     @foreach($errors->all() as $error)
@@ -30,7 +30,7 @@
                     @endforeach
                 </h4>
             </div>
-        @endif --}}
+        @endif
         <!-- Main row -->
         <div class="row no-print">
             <div class="col-md-12">

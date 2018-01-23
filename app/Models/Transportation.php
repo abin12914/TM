@@ -64,4 +64,20 @@ class Transportation extends Model
     {
         return $this->belongsTo('App\Models\Employee','driver_id');
     }
+
+    /**
+     * Get the purchase record associated with the transportation if it is a supply.
+     */
+    public function purchase()
+    {
+        return $this->hasOne('App\Models\Purchase', 'trip_id');
+    }
+
+    /**
+     * Get the sale record associated with the transportation if it is a supply.
+     */
+    public function sale()
+    {
+        return $this->hasOne('App\Models\Sale', 'trip_id');
+    }
 }
