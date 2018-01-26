@@ -7,7 +7,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="/images/user/default_user.jpg" class="img-circle" alt="User Image">
+                <img src="{{ $currentUser->image }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>Alexander Pierce</p>
@@ -26,6 +26,22 @@
                 </a>
             </li>
             @if(Auth::user()->isAdmin() || Auth::user()->isUser())
+                <li class="treeview {{ Request::is('vouchers/*') || Request::is('vouchers')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-briefcase"></i>
+                        <span>Reports</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="">
+                            <a href="#">
+                                <i class="fa fa-circle-o"></i> Account Statement
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="treeview {{ Request::is('trucks/*') || Request::is('trucks') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-truck"></i>
@@ -91,7 +107,7 @@
                 </li>
                 <li class="treeview {{ Request::is('sites/*') || Request::is('sites')? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-location-arrow"></i>
+                        <i class="fa fa-map-marker"></i>
                         <span>Sites</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -112,7 +128,7 @@
                 </li>
                 <li class="treeview {{ (Request::is('transportations/*') || Request::is('transportations') || Request::is('supply/*') || Request::is('supply') )? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-truck"></i>
+                        <i class="fa fa-road"></i>
                         <span>Trucking</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>

@@ -9,4 +9,13 @@ $(function () {
     $('.nav-tabs-custom a').on('shown.bs.tab', function (e) {
         window.location.hash = e.target.hash;
     });
+
+    //append to main registratin number textbox
+    $('body').on("click", ".transaction_type", function (evt) {
+        if($('#transaction_type_credit').is(':checked')) {
+            $('#account_label').html('Reciever / To : ');
+        } else {
+            $('#account_label').html('Giver / From : ');
+        }
+    });
 });

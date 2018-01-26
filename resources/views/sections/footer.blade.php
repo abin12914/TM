@@ -5,5 +5,5 @@
         Version 1.0
     </div>
     <!-- Default to the left -->
-    <strong><a href="#">J&S Company</a></strong>.
+    <strong><a href="{{ env('COMPANY_WEBSITE', '#') }}">{{ env('COMPANY_NAME', 'Free Version') }}</a></strong>.
 </footer>

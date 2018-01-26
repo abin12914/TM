@@ -1,6 +1,29 @@
 <div class="form-group">
+    <label class="col-sm-2 control-label"><b style="color: red;">* </b> Transaction Type : </label>
+    <div class="col-lg-5 {{ !empty($errors->first('transaction_type')) ? 'has-error' : '' }}">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <input type="radio" name="transaction_type" class="transaction_type" id="transaction_type_debit" value="1" {{ empty(old('transaction_type')) || old('transaction_type') == '1' ? 'checked' : ''}}>
+            </span>
+            <label for="transaction_type_debit" class="form-control" tabindex="9">Debit / Reciept</label>
+        </div>
+        @if(!empty($errors->first('transaction_type')))
+            <p style="color: red;" >{{$errors->first('transaction_type')}}</p>
+        @endif
+    </div>
+    <div class="col-lg-5 {{ !empty($errors->first('transaction_type')) ? 'has-error' : '' }}">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <input type="radio" name="transaction_type" class="transaction_type" id="transaction_type_credit" value="2" {{ old('transaction_type') == '2' ? 'checked' : ''}}>
+            </span>
+            <label for="transaction_type_credit" class="form-control" tabindex="10">Credit / Voucher</label>
+        </div>
+    </div>
+</div>
+<div class="form-group">
     <label class="col-sm-2 control-label">
-        <b style="color: red;">* </b> Account : </b>
+        <b style="color: red;">* </b>
+        <b id="account_label">{{ (empty(old('transaction_type')) || old('transaction_type') == 1) ? "Giver / From : " : "Reciever / To : " }}</b>
     </label>
     <div class="col-sm-5 {{ !empty($errors->first('voucher_reciept_account_id')) ? 'has-error' : '' }}">
         <select class="form-control select2" name="voucher_reciept_account_id" id="voucher_reciept_account_id" style="width: 100%;">

@@ -57,7 +57,7 @@ class ExpenseRepository
         $description        = $request->get('description');
         $billAmount         = $request->get('bill_amount');
 
-        //getting transportation account id
+        //getting service and expense account id
         $expenseAccount = Account::where('account_name','Service And Expenses')->first();
         if(empty($expenseAccount) || empty($expenseAccount->id)) {
             return [

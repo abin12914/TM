@@ -2,95 +2,103 @@
 
 namespace App\Repositories;
 
-use App\Models\Truck;
-use Illuminate\Support\Facades\DB;
-use App\Models\TruckType;
+use App\Models\Voucher;
+use App\Models\Account;
+use App\Models\Transaction;
 use \Carbon\Carbon;
+use Auth;
 
 class VoucherRepository
 {
 
-    protected $truck;
+    protected $voucher;
 
-    public function __construct(Truck $truck)
+    public function __construct(Voucher $voucher)
     {
-        $this->truck = $truck;
-    }
-
-    /**
-     * Return statecodes.
-     */
-    public function getStateCodes()
-    {
-        $stateCodes = [];
-
-        $stateCodes = DB::table('vehicle_registration_state_codes')->orderBy('code')->get();
-
-        return $stateCodes;
-    }
-
-    /**
-     * Return truck types.
-     */
-    public function getTruckTypes()
-    {
-        $truckTypes = [];
-        
-        $truckTypes = TruckType::where('status', 1)->orderBy('name')->get();
-
-        return $truckTypes;
+        $this->voucher = $voucher;
     }
 
     /**
      * Return trucks.
      */
-    public function getTrucks()
+    public function getVouchers()
     {
-        $trucks = [];
+        $vouchers = [];
         
-        $trucks = $this->truck->where('status', 1)->paginate(15);
+        $vouchers = $this->voucher->where('status', 1)->paginate(15);
 
-        return $trucks;
+        return $vouchers;
     }
 
     /**
-     * Return statecodes.
+     * Save voucher.
      */
-    public function saveTruck($request)
+    public function saveVoucher($request)
     {
-        $registrationNumber = $request->get('reg_number');
+        $transactionType    = $request->get('transaction_type');
+        $accountId          = $request->get('voucher_reciept_account_id');
+        $date               = Carbon::createFromFormat('d-m-Y', $request->get('date'))->format('Y-m-d');
         $description        = $request->get('description');
-        $truckType          = $request->get('truck_type');
-        $volume             = $request->get('volume');
-        $bodyType           = $request->get('body_type');
-        $insuranceUpto      = Carbon::createFromFormat('d-m-Y', $request->get("insurance_date"))->format('Y-m-d');
-        $taxUpto            = Carbon::createFromFormat('d-m-Y', $request->get("tax_date"))->format('Y-m-d');
-        $permitUpto         = Carbon::createFromFormat('d-m-Y', $request->get("permit_date"))->format('Y-m-d');
-        //$pollutionUpto      = Carbon::createFromFormat('d-m-Y', $request->get("pollution_date"))->format('Y-m-d');
-        $fitnessUpto        = Carbon::createFromFormat('d-m-Y', $request->get("fitness_date"))->format('Y-m-d');
+        $amount             = $request->get('amount');
 
-        $truck = new Truck;
-        $truck->reg_number      = $registrationNumber;
-        $truck->description     = $description;
-        $truck->truck_type_id   = $truckType;
-        $truck->volume          = $volume;
-        $truck->body_type       = $bodyType;
-        $truck->insurance_upto  = $insuranceUpto;
-        $truck->tax_upto        = $taxUpto;
-        $truck->permit_upto     = $permitUpto;
-        //$truck->polution_upto   = $pollutionUpto;
-        $truck->fitness_upto    = $fitnessUpto;
-        $truck->status          = 1;
-        if($truck->save()) {
+        //getting cash account id
+        $cashAccount = Account::where('account_name','Cash')->first();
+        if(empty($cashAccount) || empty($cashAccount->id)) {
             return [
-                'flag'  => true,
-                'id'    => $truck->id
-            ];
+                    'flag'      => false,
+                    'errorCode' => "01",
+                ];
         }
-        
+        $cashAccountId = $cashAccount->id;
+
+        $account = Account::find($accountId);
+
+        //check transaction type
+        if($transactionType == 1) {
+            //transaction from giver to cash
+            $details = "Cash recieved from : ". $account->account_name;
+            $debitAccountId     = $cashAccountId; //cash account
+            $creditAccountId    = $accountId; // giver account
+        } else {
+            //transaction from cash to reciever
+            $details = "Cash paid to : ". $account->account_name;
+            $debitAccountId     = $accountId;
+            $creditAccountId    = $cashAccountId;
+        }
+
+        $transaction    = new Transaction;
+        $transaction->debit_account_id  = $debitAccountId;
+        $transaction->credit_account_id = $creditAccountId;
+        $transaction->amount            = $amount;
+        $transaction->transaction_date  = $date;
+        $transaction->particulars       = $details. " -[". $description. "]";
+        $transaction->status            = 1;
+        $transaction->created_user_id   = Auth::user()->id;
+        if($transaction->save()) {
+
+            $voucher = new Voucher;
+            $voucher->transaction_id    = $transaction->id;
+            $voucher->date              = $date;
+            $voucher->transaction_type  = $transactionType;
+            $voucher->amount            = $amount;
+            $voucher->status            = 1;
+            if($voucher->save()) {
+                return [
+                        'flag'  => true,
+                        'id'    => $voucher->id,
+                    ];
+            } else {
+                //delete the transaction if voucher saving failed
+                $transaction->delete();
+
+                $saveFlag = 2;
+            }
+        } else {
+            $saveFlag = 2;
+        }
         return [
-            'flag'      => false,
-            'errorCode' => "01"
+            'flag'  => false,
+            'id'    => $saveFlag,
         ];
     }
 }

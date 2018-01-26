@@ -39,12 +39,12 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{ !empty($salesCount) ? $salesCount : 0 }}</h3>
+              <h3>{{ !empty($supplyCount) ? $supplyCount : 0 }}</h3>
 
-              <p>Registered Sales</p>
+              <p>Registered Transportations</p>
             </div>
             <div class="icon">
-              <i class="ion ion-bag"></i>
+              <i class="fa fa-road"></i>
             </div>
             <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -54,12 +54,12 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{ !empty($productsCount) ? $productsCount : 0 }}</h3>
+              <h3>{{ !empty($truckCount) ? $truckCount : 0 }}</h3>
 
-              <p>Registered Products</p>
+              <p>Registered Trucks</p>
             </div>
             <div class="icon">
-              <i class="ion ion-stats-bars"></i>
+              <i class="fa fa-truck"></i>
             </div>
             <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
@@ -69,7 +69,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>{{ !empty($accountsCount) ? $accountsCount : 0 }}</h3>
+              <h3>{{ !empty($accountCount) ? $accountCount : 0 }}</h3>
 
               <p>Registered Accounts</p>
             </div>
@@ -84,12 +84,12 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>{{ !empty($pendingWeighmentsCount) ? $pendingWeighmentsCount : 0 }}</h3>
+              <h3>{{ !empty($expiredCertificateCount) ? $expiredCertificateCount : 0 }}</h3>
 
-              <p>Weighment Registrations Pending</p>
+              <p>Certificates Expired</p>
             </div>
             <div class="icon">
-              <i class="ion ion-pie-graph"></i>
+              <i class="fa  fa-certificate"></i>
             </div>
             <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
