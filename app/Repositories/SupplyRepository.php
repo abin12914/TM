@@ -173,4 +173,17 @@ class SupplyRepository
                 'errorCode' => $saveFlag,
             ];
     }
+
+    /**
+     * Return supply transportation.
+     */
+    public function getSupplyTransportation($id)
+    {
+        $supplyTransportation = [];
+        
+        //transportations that has related purchase and sale [supply]
+        $supplyTransportation = Transportation::where('status', 1)->where('id', $id)->has('purchase')->has('sale')->first();
+
+        return $supplyTransportation;
+    }
 }

@@ -104,7 +104,13 @@ class SupplyController extends Controller
      */
     public function show($id)
     {
-        //
+        $supplyTransportation = $this->supplyRepo->getSupplyTransportation($id);
+        
+        return view('supply.details', [
+                'supplyTransportation'  => $supplyTransportation,
+                'rentTypes'             => $this->transportationRepo->rentTypes,
+                'measureTypes'          => $this->supplyRepo->measureTypes,
+            ]);
     }
 
     /**

@@ -3,14 +3,12 @@ $(function () {
     dismissAlert();
 
     //Initialize Select2 Element for account type select box
-    $(".select2").select2({
-        minimumResultsForSearch: 5,
-    });
+    initializeSelect2();
 
     //Date picker for registrations
     $('.datepicker_reg').datepicker({
         todayHighlight: true,
-        endDate: 'today',
+        endDate: '+1d',
         format: 'dd-mm-yyyy',
         autoclose: true,
     });
@@ -115,8 +113,17 @@ $(function () {
         $(this).parents('form:first').submit();
     });
 });
+
+//method for automatic disappearing of message boxes
 function dismissAlert() {
     $("#alert-message").fadeTo(8000, 500).slideUp(1000, function(){
         $("#alert-message").slideUp(500);
+    });
+}
+
+//method for initializing select2
+function initializeSelect2() {
+    $(".select2").select2({
+        minimumResultsForSearch: 5,
     });
 }

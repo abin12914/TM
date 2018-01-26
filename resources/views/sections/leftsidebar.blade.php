@@ -119,7 +119,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="treeview {{ (Request::is('transportations/*') || Request::is('supply/*'))? 'active' : '' }}">
+                        <li class="treeview {{ (Request::is('transportations/create') || Request::is('supply/create'))? 'active' : '' }}">
                             <a href="#">
                                 <i class="fa fa-circle-o"></i> Registration
                                 <span class="pull-right-container">
@@ -158,6 +158,48 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ Request::is('expenses/*') || Request::is('expenses')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-dollar"></i>
+                        <span>Expences</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('expenses/create')? 'active' : '' }}">
+                            <a href="{{route('expenses.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                        <li class="{{ Request::is('expenses')? 'active' : '' }}">
+                            <a href="{{route('expenses.index') }}">
+                                <i class="fa fa-circle-o"></i> List
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="treeview {{ Request::is('vouchers/*') || Request::is('vouchers')? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-envelope-o"></i>
+                        <span>Vouchers</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{{ Request::is('vouchers/create')? 'active' : '' }}">
+                            <a href="{{route('vouchers.create') }}">
+                                <i class="fa fa-circle-o"></i> Register
+                            </a>
+                        </li>
+                        <li class="{{ Request::is('vouchers')? 'active' : '' }}">
+                            <a href="{{route('vouchers.index') }}">
+                                <i class="fa fa-circle-o"></i> List
+                            </a>
                         </li>
                     </ul>
                 </li>

@@ -99,7 +99,7 @@ class TransportationRegistrationRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($this->checkCalculations()) {
+            if (!$this->checkCalculations()) {
                 $validator->errors()->add('calculations', 'Something went wrong with the calculations!&emsp; Please try again after reloading the page');
             }
         });
@@ -110,7 +110,7 @@ class TransportationRegistrationRequest extends FormRequest
         $rate       = $this->request->get("rent_rate");
         $rentAmount = $this->request->get("total_rent");
 
-        if(($quanty * $rate) != $rentAmount) {
+        if(($quanty * $rate) == $rentAmount) {
             return true;
         }
         return false;

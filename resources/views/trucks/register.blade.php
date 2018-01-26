@@ -94,7 +94,7 @@
                                             <label for="truck_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Truck Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('truck_type')) ? 'has-error' : '' }}">
                                                 <select class="form-control select2" name="truck_type" id="truck_type" tabindex="7" style="width: 100%;">
-                                                    <option value="" {{ empty(old('truck_type')) ? 'selected' : '' }}selected>Select truck type</option>
+                                                    <option value="" {{ empty(old('truck_type')) ? 'selected' : '' }}>Select truck type</option>
                                                     @if(!empty($truckTypes))
                                                         @foreach($truckTypes as $truckType)
                                                             <option value="{{ $truckType->id }}" {{ (old('truck_type') == $truckType->id) ? 'selected' : '' }}>{{ $truckType->name }} - {{ $truckType->generic_quantity }} cubic unit class</option>

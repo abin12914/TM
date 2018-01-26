@@ -36,4 +36,56 @@ class SupplyRegistrationRequest extends FormRequest
             $saleRules
         );
     }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (!$this->checkTransportationCalculations() || !$this->checkPurchaseCalculations() || !$this->checkSaleCalculations()) {
+                $validator->errors()->add('calculations', 'Something went wrong with the calculations!&emsp; Please try again after reloading the page');
+            }
+        });
+    }
+
+    public function checkTransportationCalculations() {
+        $quanty     = $this->request->get("rent_measurement");
+        $rate       = $this->request->get("rent_rate");
+        $rentAmount = $this->request->get("total_rent");
+
+        if(($quanty * $rate) != $rentAmount) {
+            return true;
+        }
+        return false;
+    }
+
+    public function checkPurchaseCalculations() {
+        $quanty     = $this->request->get("purchase_quantity");
+        $rate       = $this->request->get("purchase_rate");
+        $bill       = $this->request->get("purchase_bill");
+        $discount   = $this->request->get("purchase_discount");
+        $totalBill  = $this->request->get("purchase_total_bill");
+
+        if((($quanty * $rate) == $bill) && ($bill - $discount) == $totalBill) {
+            return true;
+        }
+        return false;
+    }
+
+    public function checkSaleCalculations() {
+        $quanty     = $this->request->get("sale_quantity");
+        $rate       = $this->request->get("sale_rate");
+        $bill       = $this->request->get("sale_bill");
+        $discount   = $this->request->get("sale_discount");
+        $totalBill  = $this->request->get("sale_total_bill");
+
+        if((($quanty * $rate) == $bill) && ($bill - $discount) == $totalBill) {
+            return true;
+        }
+        return false;
+    }
 }

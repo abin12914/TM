@@ -102,6 +102,12 @@ Route::group(['middleware' => 'auth.check'], function () {
         //supply
         Route::resource('supply', 'SupplyController');
 
+        //supply
+        Route::resource('expenses', 'ExpenseController');
+
+        //supply
+        Route::resource('vouchers', 'VoucherController');
+
         //sales
         Route::get('/sales/register', 'SalesController@register')->name('sales-register-view');
         Route::post('/sales/credit/register/action', 'SalesController@creditSaleRegisterAction')->name('credit-sales-register-action')->middleware('date.restrict');

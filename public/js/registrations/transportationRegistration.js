@@ -34,6 +34,30 @@ $(function () {
         //calculate total rent
         calculateTotalRent();
     });
+
+    //disabiling same value selection in 2 sites
+    $('body').on("change", "#source_id", function() {
+        var fieldValue = $(this).val();
+
+        $('#destination_id')
+            .children('option[value=' + fieldValue + ']')
+            .prop('disabled', true)
+            .siblings().prop('disabled', false);
+
+        initializeSelect2();
+    });
+
+    //disabiling same value selection in 2 sites
+    $('body').on("change", "#destination_id", function() {
+        var fieldValue = $(this).val();
+
+        $('#source_id')
+            .children('option[value=' + fieldValue + ']')
+            .prop('disabled', true)
+            .siblings().prop('disabled', false);
+
+        initializeSelect2();
+    });
 });
 
 //method for total rent calculation and driver wage calculation

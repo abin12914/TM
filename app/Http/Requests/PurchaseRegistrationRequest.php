@@ -70,4 +70,32 @@ class PurchaseRegistrationRequest extends FormRequest
                                         ],
         ];
     }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (!$this->checkCalculations()) {
+                $validator->errors()->add('calculations', 'Something went wrong with the calculations!&emsp; Please try again after reloading the page');
+            }
+        });
+    }
+
+    public function checkCalculations() {
+        $quanty     = $this->request->get("purchase_quantity");
+        $rate       = $this->request->get("purchase_rate");
+        $bill       = $this->request->get("purchase_bill");
+        $discount   = $this->request->get("purchase_discount");
+        $totalBill  = $this->request->get("purchase_total_bill");
+
+        if((($quanty * $rate) == $bill) && ($bill - $discount) == $totalBill) {
+            return true;
+        }
+        return false;
+    }
 }

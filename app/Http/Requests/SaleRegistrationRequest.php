@@ -70,4 +70,32 @@ class SaleRegistrationRequest extends FormRequest
                                         ],
         ];
     }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (!$this->checkCalculations()) {
+                $validator->errors()->add('calculations', 'Something went wrong with the calculations!&emsp; Please try again after reloading the page');
+            }
+        });
+    }
+
+    public function checkCalculations() {
+        $quanty     = $this->request->get("sale_quantity");
+        $rate       = $this->request->get("sale_rate");
+        $bill       = $this->request->get("sale_bill");
+        $discount   = $this->request->get("sale_discount");
+        $totalBill  = $this->request->get("sale_total_bill");
+
+        if((($quanty * $rate) == $bill) && ($bill - $discount) == $totalBill) {
+            return true;
+        }
+        return false;
+    }
 }
