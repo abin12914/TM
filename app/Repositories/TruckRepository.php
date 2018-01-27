@@ -9,13 +9,13 @@ use \Carbon\Carbon;
 
 class TruckRepository
 {
+    public $bodyTypes = [
+        1   => "Level",
+        2   => "Extendend Body",
+        3   => "Extra Extendend Body",
+    ];
 
-    protected $truck;
-
-    public function __construct(Truck $truck)
-    {
-        $this->truck = $truck;
-    }
+    public  $certificateWarn = 15, $certificatedanger = 1;
 
     /**
      * Return statecodes.
@@ -44,17 +44,28 @@ class TruckRepository
     /**
      * Return trucks.
      */
-    public function getTrucks()
+    public function getTrucks($params=[], $noOfRecords=null)
     {
-        $trucks = [];
+        $trucks         = [];
         
-        $trucks = $this->truck->where('status', 1)->paginate(15);
+        $trucks = Truck::where('status', 1);
+
+        foreach ($params as $key => $value) {
+            if(!empty($value)) {
+                $trucks = $trucks->where($key, $value);
+            }
+        }
+        if(!empty($noOfRecords)) {
+            $trucks = $trucks->paginate($noOfRecords);
+        } else {
+            $trucks= $trucks->get();
+        }
 
         return $trucks;
     }
 
     /**
-     * Return statecodes.
+     * save truck action.
      */
     public function saveTruck($request)
     {
@@ -92,5 +103,82 @@ class TruckRepository
             'flag'      => false,
             'errorCode' => "01"
         ];
+    }
+
+    /**
+     * return truck.
+     */
+    public function getTruck($id)
+    {
+        $truck = Truck::where('status', 1)->where('id', $id)->first();
+
+        return $truck;
+    }
+
+    public function deleteTruck($id)
+    {
+        $truck = Truck::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($truck) && !empty($truck->id)) {
+            return $truck->delete();
+        }
+        return false;
+    }
+
+    public function checkCertificateValidity(Truck $truck)
+    {
+        //flags [1 => valid, 2 => valid but warning, 3 => invalid]
+        $today = Carbon::now();
+        $insuranceFlag  = 1;
+        $taxFlag        = 1;
+        $fitnessFlag    = 1;
+        $permitFlag     = 1;
+
+        if(!empty($truck) && !empty($truck->id)) {
+            $insuranceUpto  = Carbon::createFromFormat('Y-m-d', $truck->insurance_upto);
+            $taxUpto        = Carbon::createFromFormat('Y-m-d', $truck->tax_upto);
+            $fitnessUpto    = Carbon::createFromFormat('Y-m-d', $truck->fitness_upto);
+            $permitUpto     = Carbon::createFromFormat('Y-m-d', $truck->permit_upto);
+
+            if($today->diffInDays($insuranceUpto, false) <= $this->certificateWarn) {
+                $insuranceFlag  = 2;
+                if($today->diffInDays($insuranceUpto, false) <= $this->certificatedanger) {
+                    $insuranceFlag = 3;
+                }
+            }
+
+            if($today->diffInDays($taxUpto, false) <= $this->certificateWarn) {
+                $taxFlag  = 2;
+                if($today->diffInDays($taxUpto, false) <= $this->certificatedanger) {
+                    $taxFlag = 3;
+                }
+            }
+
+            if($today->diffInDays($fitnessUpto, false) <= $this->certificateWarn) {
+                $fitnessFlag  = 2;
+                if($today->diffInDays($fitnessUpto, false) <= $this->certificatedanger) {
+                    $fitnessFlag = 3;
+                }
+            }
+
+            if($today->diffInDays($permitUpto, false) <= $this->certificateWarn) {
+                $permitFlag  = 2;
+                if($today->diffInDays($permitUpto, false) <= $this->certificatedanger) {
+                    $permitFlag = 3;
+                }
+            }
+
+            return [
+                    'flag'          => true,
+                    'insuranceFlag' => $insuranceFlag,
+                    'taxFlag'       => $taxFlag,
+                    'fitnessFlag'   => $fitnessFlag,
+                    'permitFlag'    => $permitFlag,
+                ];
+        } else {
+            return [
+                    'flag'  => false,
+                ];
+        }
     }
 }

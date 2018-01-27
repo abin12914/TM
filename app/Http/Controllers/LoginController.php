@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use \Carbon\Carbon;
+use App\Repositories\TruckRepository;
+use App\Repositories\AccountRepository;
+use App\Repositories\TransportationRepository;
 
 class LoginController extends Controller
 {
@@ -70,9 +73,65 @@ class LoginController extends Controller
     /**
      * Redirect successfully logged users
      */
-    public function dashboard()
+    public function dashboard(TruckRepository $truckRepo, AccountRepository $accountRepo, TransportationRepository $transportationRepo)
     {
-        return view('user.dashboard');
+        $expiredCertificateCount    = 0;
+        $truckCount                 = 0;
+        $accountCount               = 0;
+        $transportationCount        = 0;
+
+        $certificateFlags = [
+                1   => 'insuranceFlag',
+                2   => 'taxFlag',
+                3   => 'fitnessFlag',
+                4   => 'permitFlag',
+            ];
+
+        $transportations    = $transportationRepo->getTransportations();
+        $trucks             = $truckRepo->getTrucks();
+        $accounts           = $accountRepo->getAccounts();
+
+        //transportation count
+        $transportationCount = count($transportations);
+        //truck count
+        $truckCount = count($trucks);
+        //account count
+        $accountCount = count($accounts);
+        //expired certificate count
+        foreach ($trucks as $key => $truck) {
+            
+            $result = $truckRepo->checkCertificateValidity($truck);
+
+            if($result['flag']) {
+
+                foreach ($certificateFlags as $key => $flag) {
+                    
+                    if($result[$flag] == 3) {
+                        $expiredCertificateCount = $expiredCertificateCount + 1;
+                    }
+                }
+            }
+        }
+
+        if($transportationCount < 10) {
+            $transportationCount = "0". $transportationCount;
+        }
+        if($truckCount < 10) {
+            $truckCount = "0". $truckCount;
+        }
+        if($accountCount < 10) {
+            $accountCount = "0". $accountCount;
+        }
+        if($expiredCertificateCount < 10) {
+            $expiredCertificateCount = "0". $expiredCertificateCount;
+        }
+
+        return view('user.dashboard', [
+                'transportationCount'       => $transportationCount,
+                'truckCount'                => $truckCount,
+                'accountCount'              => $accountCount,
+                'expiredCertificateCount'   => $expiredCertificateCount,
+            ]);
     }
 
     /**

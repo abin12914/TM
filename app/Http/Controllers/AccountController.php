@@ -5,25 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\AccountRepository;
 use App\Http\Requests\AccountRegistrationRequest;
+use App\Http\Requests\AccountFilterRequest;
 
 class AccountController extends Controller
 {
     protected $accountRepo;
-    public $errorHead = 2;
-
-    public $relationTypes = [
-            1   => 'Supplier',
-            2   => 'Customer',
-            3   => 'Contractor',
-            4   => 'General/Others',
-            5   => 'Employees',
-        ];
-
-    public $accountTypes = [
-            1   => 'Real',
-            2   => 'Nominal',
-            3   => 'Personal',
-        ];
+    public $errorHead = 2, $noOfRecordsPerPage = 15;
 
     public function __construct(AccountRepository $accountRepo)
     {
@@ -35,14 +22,29 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AccountFilterRequest $request)
     {
-        $accounts = $this->accountRepo->getAccounts(null, null, 15);
+        $accountRelation    = $request->get('relation_type');
+        $accountId          = $request->get('account_id');
+        $financialStatus    = $request->get('financial_status');
+        $noOfRecords        = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+
+        $params = [
+                'financial_status'  => $financialStatus,
+                'relation'          => $accountRelation,
+                'id'                => $accountId,
+            ];
+
+        $accounts       = $this->accountRepo->getAccounts($params, $noOfRecords);
+        $accountsCombo  = $this->accountRepo->getAccounts();
         
         return view('accounts.list', [
+                'accountsCombo' => $accountsCombo,
                 'accounts'      => $accounts,
-                'relationTypes' => $this->relationTypes,
-                'accountTypes'  => $this->accountTypes,
+                'relationTypes' => $this->accountRepo->relationTypes,
+                'accountTypes'  => $this->accountRepo->accountTypes,
+                'params'        => $params,
+                'noOfRecords'   => $noOfRecords,
             ]);
     }
 
@@ -54,10 +56,10 @@ class AccountController extends Controller
     public function create()
     {
         //excluding the relationtype 'employee'[index = 5] for new account registration
-        unset($this->relationTypes[5]);
+        unset($this->accountRepo->relationTypes[5]);
 
         return view('accounts.register', [
-                'relationTypes' => $this->relationTypes,
+                'relationTypes' => $this->accountRepo->relationTypes,
             ]);
     }
 
@@ -86,7 +88,13 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        //
+        $account = $this->accountRepo->getAccount($id);
+
+        return view('accounts.details', [
+                'account'       => $account,
+                'relationTypes' => $this->accountRepo->relationTypes,
+                'accountTypes'  => $this->accountRepo->accountTypes,
+            ]);
     }
 
     /**

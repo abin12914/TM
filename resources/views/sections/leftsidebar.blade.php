@@ -7,12 +7,12 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ $currentUser->image }}" class="img-circle" alt="User Image">
+                <img src="{{ !empty($currentUser->image) ? $currentUser->image : '/images/user/default_user.jpg' }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>{{ $currentUser->name }}</p>
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="{{ route('user.profile') }}"><i class="fa  fa-hand-o-right"></i> View Profile</a>
             </div>
         </div>
 
@@ -20,12 +20,12 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN MENU</li>
             <li class="{{ Request::is('dashboard')? 'active' : '' }}">
-                <a href="{{ route('user-dashboard') }}">
+                <a href="{{ route('user.dashboard') }}">
                     <i class="fa fa-dashboard"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-            @if(Auth::user()->isAdmin() || Auth::user()->isUser())
+            @if($currentUser->isAdmin() || $currentUser->isUser())
                 <li class="treeview {{ Request::is('vouchers/*') || Request::is('vouchers')? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-briefcase"></i>

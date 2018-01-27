@@ -33,7 +33,7 @@
                 <i>Log in to start your session</i>
             </b>
         </p>
-        <a href="{{route('login-view')}}">
+        <a href="{{route('login.view')}}">
             <button class="btn btn-primary btn-block btn-flat">Log In</button>
         </a>
         <br>

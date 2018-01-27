@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Models\TruckType;
+use App\Repositories\TruckRepository;
 
 class TruckRegistrationRequest extends FormRequest
 {
@@ -26,6 +27,8 @@ class TruckRegistrationRequest extends FormRequest
      */
     public function rules()
     {
+        $bodyTypes = (new TruckRepository())->bodyTypes;
+
         return [
             'reg_number'                    =>  [
                                                     'required',
@@ -70,7 +73,7 @@ class TruckRegistrationRequest extends FormRequest
                                                 ],
             'body_type'                     =>  [
                                                     'required',
-                                                    Rule::in([1, 2, 3]),
+                                                    Rule::in(array_keys($bodyTypes)),
                                                 ],
             'insurance_date'                =>  [
                                                     'required',

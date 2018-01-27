@@ -10,3 +10,7 @@
 <script src="/bower_components/bootstrap-datepicker/dist/bootstrap-datepicker.min.js"></script>
 {{-- Custom JS --}}
 <script src="/js/main.js?rndstr={{ rand(1000,9999) }}"></script>
+{{-- default date for form auto filling --}}
+<script type="text/javascript">
+    var defaultDate = '{{ !empty($settings->default_date) ? Carbon\Carbon::parse($settings->default_date)->format('d-m-Y') : "" }}';
+</script>

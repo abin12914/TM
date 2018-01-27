@@ -23,7 +23,7 @@
         @if($errors->has('username_password'))
             <p class="login-box-msg" style="color: red;" >{{$errors->first('username_password')}}</p>
         @endif
-        <form action="{{ route('login-action') }}" method="post">
+        <form action="{{ route('login.action') }}" method="post">
             {{ csrf_field() }}
             <div class="form-group has-feedback {{ ($errors->has('username') || $errors->has('username_password')) ? "has-error" : "" }}">
                 <input type="text" class="form-control" name="username" placeholder="User name" value="{{ old('username') }}">

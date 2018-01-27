@@ -4,15 +4,12 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 use Auth;
+use App\Models\Settings;
+use App\Repositories\SettingsRepository;
 
 class AllViewComposer
 {
-    /**
-     * The user repository implementation.
-     *
-     * @var UserRepository
-     */
-    protected $currentUser;
+    protected $currentUser, $settings;
 
     /**
      * Create a new profile composer.
@@ -20,9 +17,10 @@ class AllViewComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct()
+    public function __construct(SettingsRepository $settingsRepo)
     {
-        $this->currentUser = Auth::user();
+        $this->currentUser  = Auth::user();
+        $this->settings     = $settingsRepo->getSettings();
     }
 
     /**
@@ -33,6 +31,6 @@ class AllViewComposer
      */
     public function compose(View $view)
     {
-        $view->with('currentUser', $this->currentUser);
+        $view->with(['currentUser' => $this->currentUser, 'settings' => $this->settings]);
     }
 }

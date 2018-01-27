@@ -27,6 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public $userRoles = [
+        0   => "Super Admin",
+        1   => "Admin",
+        2   => "User",
+    ];
 
     public function isSuperAdmin() {
         return Auth::user()->role == 0;

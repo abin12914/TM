@@ -39,7 +39,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{ !empty($supplyCount) ? $supplyCount : 0 }}</h3>
+              <h3>{{ !empty($transportationCount) ? $transportationCount : '00' }}</h3>
 
               <p>Registered Transportations</p>
             </div>
@@ -54,7 +54,7 @@
           <!-- small box -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>{{ !empty($truckCount) ? $truckCount : 0 }}</h3>
+              <h3>{{ !empty($truckCount) ? $truckCount : '00' }}</h3>
 
               <p>Registered Trucks</p>
             </div>
@@ -69,7 +69,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>{{ !empty($accountCount) ? $accountCount : 0 }}</h3>
+              <h3>{{ !empty($accountCount) ? $accountCount : '00' }}</h3>
 
               <p>Registered Accounts</p>
             </div>
@@ -84,7 +84,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>{{ !empty($expiredCertificateCount) ? $expiredCertificateCount : 0 }}</h3>
+              <h3>{{ !empty($expiredCertificateCount) ? $expiredCertificateCount : '00' }}</h3>
 
               <p>Certificates Expired</p>
             </div>

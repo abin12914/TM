@@ -7,7 +7,7 @@
         <div class="col-md-10">
             <p class="login-box-msg"></p>
             <div class="box-tools pull-right">
-                <a href="{{ route('login-view') }}">
+                <a href="{{ route('login.view') }}">
                     <button>
                         <i class="text-red">Back to login</i>
                     </button>

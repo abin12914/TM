@@ -8,7 +8,7 @@
             <small>List</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ route('user-dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Truck List</li>
         </ol>
     </section>
@@ -21,6 +21,90 @@
                 </h4>
             </div>
         @endif
+        <!-- Main row -->
+        <div class="row  no-print">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Filter List</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-header">
+                        <form action="{{ route('trucks.index') }}" method="get" class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <div class="col-sm-6 {{ !empty($errors->first('truck_type_id')) ? 'has-error' : '' }}">
+                                            <label for="truck_type_id" class="control-label">Truck Type : </label>
+                                            <select class="form-control select2" name="truck_type_id" id="truck_type_id" style="width: 100%">
+                                                <option value="">Select truck type</option>
+                                                @if(!empty($truckTypes) && (count($truckTypes) > 0))
+                                                    @foreach($truckTypes as $truckType)
+                                                        <option value="{{ $truckType->id }}" {{ (old('truck_type_id') == $truckType->id || $params['truck_type_id'] == $truckType->id) ? 'selected' : '' }}>{{ $truckType->name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if(!empty($errors->first('truck_type_id')))
+                                                <p style="color: red;" >{{$errors->first('truck_type_id')}}</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-sm-6 {{ !empty($errors->first('body_type')) ? 'has-error' : '' }}">
+                                            <label for="body_type" class="control-label">Body Type : </label>
+                                            <select class="form-control select2" name="body_type" id="body_type" tabindex="3" style="width: 100%">
+                                                <option value="">Select body type</option>
+                                                @if(!empty($bodyTypes) && (count($bodyTypes) > 0))
+                                                    @foreach($bodyTypes as $key => $bodyType)
+                                                        <option value="{{ $key }}" {{ (old('body_type') == $key || $params['body_type'] == $key) ? 'selected' : '' }}>{{ $bodyType }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if(!empty($errors->first('body_type')))
+                                                <p style="color: red;" >{{$errors->first('body_type')}}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-6 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
+                                            <label for="truck_id" class="control-label">Truck : </label>
+                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%">
+                                                <option value="">Select truck</option>
+                                                @if(!empty($trucksCombo) && (count($trucksCombo) > 0))
+                                                    @foreach($trucksCombo as $truck)
+                                                        <option value="{{ $truck->id }}" {{ (old('truck_id') == $truck->id || $params['id'] == $truck->id) ? 'selected' : '' }}>{{ $truck->reg_number }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if(!empty($errors->first('truck_id')))
+                                                <p style="color: red;" >{{$errors->first('truck_id')}}</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-sm-6 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                            <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
+                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
+                                            @if(!empty($errors->first('no_of_records')))
+                                                <p style="color: red;" >{{$errors->first('no_of_records')}}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div><br>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="10">Clear</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /.form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
@@ -30,11 +114,12 @@
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Registration Number</th>
-                                            <th>Vehicle Type</th>
-                                            <th>Capacity</th>
-                                            <th>Body</th>
+                                            <th style="width: 5%;">#</th>
+                                            <th style="width: 30%;">Registration Number</th>
+                                            <th style="width: 30%;">Vehicle Type</th>
+                                            <th style="width: 10%;">Capacity</th>
+                                            <th style="width: 10%;">Body</th>
+                                            <th style="width: 15%;">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,15 +130,16 @@
                                                     <td>{{ $truck->reg_number }}</td>
                                                     <td>{{ $truck->truckType->name }}</td>
                                                     <td>{{ $truck->volume }}</td>
-                                                    @if($truck->body_type == 1)
-                                                        <td>Level</td>
-                                                    @elseif($truck->body_type == 2)
-                                                        <td>Extendend Body</td>
-                                                    @elseif($truck->body_type == 3)
-                                                        <td>Extra Extendend Body</td>
+                                                    @if(!empty($bodyTypes))
+                                                        <td>{{ !empty($bodyTypes[$truck->body_type]) ? $bodyTypes[$truck->body_type] : "Error!" }}</td>
                                                     @else
-                                                        <td>Invalid!</td>
+                                                        <td>Error</td>
                                                     @endif
+                                                    <td>
+                                                        <a href="{{ route('trucks.show', ['id' => $truck->id]) }}">
+                                                            <button type="button" class="btn btn-default">Details</button>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @endif

@@ -3,9 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transportation extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['date', 'deleted_at'];
+
     /**
      * The table associated with the model.
      *
@@ -14,8 +24,6 @@ class Transportation extends Model
     protected $table = 'trips';
 
     public $timestamps = false;
-
-    protected $dates = ['date'];
 
     /**
      * Get the transaction details associated with the transportation

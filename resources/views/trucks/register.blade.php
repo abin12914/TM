@@ -8,7 +8,7 @@
             <small>Registartion</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{ route('user-dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
             <li class="active">Truck Registration</li>
         </ol>
     </section>
@@ -120,9 +120,13 @@
                                             <div class="col-sm-10 {{ !empty($errors->first('body_type')) ? 'has-error' : '' }}">
                                                 <select class="form-control select2" name="body_type" id="body_type" tabindex="9" style="width: 100%;">
                                                     <option value="" {{ empty(old('body_type')) ? 'selected' : '' }}>Select body type</option>
-                                                    <option value="1" {{ (old('body_type') == 1) ? 'selected' : '' }}>Level</option>
-                                                    <option value="2" {{ (old('body_type') == 2) ? 'selected' : '' }}>Extended Body</option>
-                                                    <option value="3" {{ (old('body_type') == 3) ? 'selected' : '' }}>Extra Extended Body</option>
+                                                    @if(!empty($bodyTypes))
+                                                        @foreach($bodyTypes as $key => $bodyType)
+                                                            <option value="{{ $key }}" {{ (old('body_type') == $bodyType) ? 'selected' : '' }}>
+                                                                {{ $bodyType }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                                 @if(!empty($errors->first('body_type')))
                                                     <p style="color: red;" >{{$errors->first('body_type')}}</p>

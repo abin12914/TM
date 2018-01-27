@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Repositories\AccountRepository;
 
 class AccountRegistrationRequest extends FormRequest
 {
@@ -24,6 +25,8 @@ class AccountRegistrationRequest extends FormRequest
      */
     public function rules()
     {
+        $relationTypes  = (new AccountRepository())->relationTypes;
+
         return [
             'account_name'          =>  [
                                             'required',
@@ -60,7 +63,7 @@ class AccountRegistrationRequest extends FormRequest
                                         ],
             'relation_type'         =>  [
                                             'required',
-                                            Rule::in([1, 2, 3, 4]),
+                                            Rule::in(array_keys($relationTypes)),
                                         ],
         ];
     }

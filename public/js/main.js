@@ -1,4 +1,10 @@
 $(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     //hide flash messages
     dismissAlert();
 
@@ -13,8 +19,14 @@ $(function () {
         autoclose: true,
     });
 
-    //setting current date as selected
-    $('.datepicker_reg').datepicker('setDate', 'now');
+    if(defaultDate) {
+        //setting user setting date as selected
+        $('.datepicker_reg').datepicker('setDate', defaultDate);
+
+    } else {
+        //setting current date as selected
+        $('.datepicker_reg').datepicker('setDate', 'now');
+    }
 
     //default value setting in account registering
     $('body').on("change", "#financial_status", function () {
@@ -111,6 +123,54 @@ $(function () {
     $('body').on("click", ".submit-button", function () {
         $('.submit-button').prop('disabled', true);
         $(this).parents('form:first').submit();
+    });
+
+    // right sidebar menu track certificate click event
+    $('body').on("change", "#rsb_track_certificate", function () {
+        var value = $(this).is(':checked') ? 1 : 0;
+
+        if(value == 1 || value == 0) {
+            $.ajax({
+                url: "/settings/1",
+                method: "post",
+                data:{
+                    '_method' : 'PATCH',
+                    'track_certificate' : value,
+                    'settings_flag' : 1,
+                },
+                success: function(result) {
+                    if(result && result.flag) {
+                        console.log("settings/track certificate : Success");
+                    }
+                },
+                error: function(error) {
+                    console.log("settings/track certificate : Error");
+                }
+            });
+        }
+    });
+
+    // right sidebar menu track certificate click event
+    $('body').on("change", "#rsb_default_date", function () {
+        var value = $(this).val();
+
+        $.ajax({
+            url: "/settings/1",
+            method: "post",
+            data:{
+                '_method' : 'PATCH',
+                'default_date' : value,
+                'settings_flag' : 2,
+            },
+            success: function(result) {
+                if(result && result.flag) {
+                    console.log("settings/default date : Success");
+                }
+            },
+            error: function(error) {
+                console.log("settings/default date : Error");
+            }
+        });
     });
 });
 

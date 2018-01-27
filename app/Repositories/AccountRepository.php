@@ -10,31 +10,38 @@ use Auth;
 
 class AccountRepository
 {
+    public $relationTypes = [
+            1   => 'Supplier',
+            2   => 'Customer',
+            3   => 'Contractor',
+            4   => 'General/Others',
+            5   => 'Employees',
+        ];
 
-    protected $account;
-
-    public function __construct(Account $account)
-    {
-        $this->account = $account;
-    }
+    public $accountTypes = [
+            1   => 'Real',
+            2   => 'Nominal',
+            3   => 'Personal',
+        ];
 
     /**
      * Return accounts.
      */
-    public function getAccounts($slug = null, $value = null, $noOfRecord = null)
+    public function getAccounts($params=[], $noOfRecords=null)
     {
         $accounts = [];
         
-        //type 3 accounts are personal accounts
-        $accounts = $this->account->where('status', 1)->where('type', 3);
+        $accounts = Account::where('status', 1)->where('type', 3);
 
-        if(!empty($slug) && !empty($value)) {
-            $accounts = $accounts->where($slug,$value);
+        foreach ($params as $key => $value) {
+            if(!empty($value) || $value === '0') {
+                $accounts = $accounts->where($key, $value);
+            }
         }
-        if(!empty($noOfRecord)) {
-            $accounts = $accounts->paginate($noOfRecord);
+        if(!empty($noOfRecords)) {
+            $accounts = $accounts->paginate($noOfRecords);
         } else {
-            $accounts = $accounts->get();
+            $accounts= $accounts->get();
         }
 
         return $accounts;
@@ -137,5 +144,15 @@ class AccountRepository
                 'errorCode' => $saveFlag,
             ];
         }
+    }
+
+    /**
+     * return account.
+     */
+    public function getAccount($id)
+    {
+        $account = Account::where('status', 1)->where('id', $id)->first();
+
+        return $account;
     }
 }
