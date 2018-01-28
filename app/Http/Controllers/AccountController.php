@@ -26,11 +26,9 @@ class AccountController extends Controller
     {
         $accountRelation    = $request->get('relation_type');
         $accountId          = $request->get('account_id');
-        $financialStatus    = $request->get('financial_status');
         $noOfRecords        = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'financial_status'  => $financialStatus,
                 'relation'          => $accountRelation,
                 'id'                => $accountId,
             ];
@@ -128,6 +126,12 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteFlag = $this->accountRepo->deleteAccount($id);
+
+        if($deleteFlag) {
+            return redirect(route('accounts.index'))->with("message", "Account details deleted successfully.")->with("alert-class", "alert-success");
+        }
+
+        return redirect(route('accounts.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
     }
 }

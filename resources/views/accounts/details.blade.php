@@ -32,7 +32,7 @@
                             <!-- Add the bg color to the header using any of the bg-* classes -->
                             <div class="widget-user-header bg-yellow">
                                 <div class="widget-user-image">
-                                    <img class="img-circle" src="/images/user/default_account.png" alt="User Avatar">
+                                    <img class="img-circle" src="{{ $account->accountDetail->image or "/images/accounts/default_account.png" }}" alt="User Avatar">
                                 </div>
                                 <!-- /.widget-user-image -->
                                 <h3 class="widget-user-username">{{ $account->account_name }}</h3>

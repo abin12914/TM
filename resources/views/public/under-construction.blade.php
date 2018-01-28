@@ -21,7 +21,7 @@
         <div class="col-md-2"></div>    
         <div class="col-md-8">
             <div id="image_div">
-                <img style="width: 100%" src="/images/public/underConstruction.jpg" alt="reload">
+                <img style="width: 100%" src="/images/public/underConstruction.png" alt="reload">
             </div>
         </div>
     </div>

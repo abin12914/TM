@@ -35,7 +35,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-6 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
+                                        <div class="col-sm-4 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
                                             <label for="relation_type" class="control-label">Relation : </label>
                                             <select class="form-control select2" name="relation_type" id="relation_type" style="width: 100%">
                                                 <option value="">Select relation type</option>
@@ -49,29 +49,7 @@
                                                 <p style="color: red;" >{{$errors->first('relation_type')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-6 {{ !empty($errors->first('financial_status')) ? 'has-error' : '' }}">
-                                            <label for="financial_status" class="control-label">Financial Status : </label>
-                                            <select class="form-control select2" name="financial_status" id="financial_status" style="width: 100%">
-                                                <option value="">
-                                                    Select financial status
-                                                </option>
-                                                <option value="0" {{ (old('financial_status') == '0' || $params['financial_status'] == '0') ? 'selected' : '' }}>
-                                                    No Pending Transactions On Account Registration
-                                                </option>
-                                                <option value="2" {{ (old('financial_status') == '2' || $params['financial_status'] == '2') ? 'selected' : '' }}>
-                                                    Debitor On Account Registration
-                                                </option>
-                                                <option value="1" {{ (old('financial_status') == '1' || $params['financial_status'] == '1') ? 'selected' : '' }}>
-                                                    Creditor On Account Registartion
-                                                </option>
-                                            </select>
-                                            @if(!empty($errors->first('financial_status')))
-                                                <p style="color: red;" >{{$errors->first('financial_status')}}</p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-6 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
+                                        <div class="col-sm-4 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
                                             <label for="account_id" class="control-label">Account : </label>
                                             <select class="form-control select2" name="account_id" id="account_id" style="width: 100%">
                                                 <option value="">Select account</option>
@@ -85,7 +63,7 @@
                                                 <p style="color: red;" >{{$errors->first('account_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-6 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
                                             @if(!empty($errors->first('no_of_records')))
@@ -114,6 +92,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
+                    {{-- page header for printers --}}
+                    @include('sections.print-head')
+                    <div class="box-header no-print">
+                        @if(!empty($params['relation']) || !empty($params['id']))
+                            <b>Filters applied!</b>
+                        @endif
+                    </div>
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -127,7 +112,7 @@
                                             <th style="width: 20%;">Account Holder/Head</th>
                                             <th style="width: 10%;">Opening Credit</th>
                                             <th style="width: 10%;">Opening Debit</th>
-                                            <th style="width: 10%;">Details</th>
+                                            <th style="width: 10%;" class="no-print">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -161,7 +146,7 @@
                                                         <td>-</td>
                                                         <td>-</td>
                                                     @endif
-                                                    <td>
+                                                    <td class="no-print">
                                                         <a href="{{ route('accounts.show', ['id' => $account->id]) }}">
                                                             <button type="button" class="btn btn-default">Details</button>
                                                         </a>
@@ -173,13 +158,16 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row no-print">
+                        <div class="row">
                             <div class="col-md-12">
-                                <div class="pull-right">
-                                    @if(!empty($accounts))
+                                @if(!empty($accounts))
+                                    <div>
+                                        Page {{ $accounts->currentPage(). " of ". $accounts->lastPage() }}<br>
+                                    </div>
+                                    <div class=" no-print pull-right">
                                         {{ $accounts->appends(Request::all())->links() }}
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

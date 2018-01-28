@@ -10,13 +10,6 @@ class SiteController extends Controller
 {
     protected $siteRepo;
     public $errorHead = 4;
-    public $siteTypes = [
-            1   => 'Quarry',
-            2   => 'Crusher Plant',
-            3   => 'Construction Area',
-            4   => 'Small Mining Area',
-            5   => 'Residential Area'
-        ];
 
     public function __construct(SiteRepository $siteRepo)
     {
@@ -34,7 +27,7 @@ class SiteController extends Controller
         
         return view('sites.list', [
                 'sites'     => $sites,
-                'siteTypes' => $this->siteTypes,
+                'siteTypes' => $this->siteRepo->siteTypes,
             ]);
     }
 
@@ -46,7 +39,7 @@ class SiteController extends Controller
     public function create()
     {
         return view('sites.register', [
-                'siteTypes' => $this->siteTypes,
+                'siteTypes' => $this->siteRepo->siteTypes,
             ]);
     }
 

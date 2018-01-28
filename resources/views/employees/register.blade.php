@@ -33,7 +33,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="{{route('employees.store')}}" method="post" class="form-horizontal" multipart-form-data>
+                        <form action="{{route('employees.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">
@@ -72,7 +72,7 @@
                                     <div class="form-group">
                                         <label for="image_file" class="col-sm-2 control-label">Image : </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('image_file')) ? 'has-error' : '' }}">
-                                            <input type="file" name="image_file" class="form-control" id="image_file" accept="image/*" tabindex="4">
+                                            <input type="file" name="image_file" class="form-control" id="image_file" accept="image/*" tabindex="4" value="{{ old('image_file') }}">
                                             @if(!empty($errors->first('image_file')))
                                                 <p style="color: red;" >{{$errors->first('image_file')}}</p>
                                             @endif

@@ -31,7 +31,7 @@ class AccountRegistrationRequest extends FormRequest
             'account_name'          =>  [
                                             'required',
                                             'max:200',
-                                            'unique:accounts',
+                                            Rule::unique('accounts')->ignore($this->account_id),
                                         ],
             'description'           =>  [
                                             'nullable',
@@ -60,6 +60,11 @@ class AccountRegistrationRequest extends FormRequest
             'address'               =>  [
                                             'nullable',
                                             'max:200',
+                                        ],
+            'image_file'            =>  [
+                                            'nullable',
+                                            'mimetypes:image/jpeg,image/jpg,image/bmp,image/png',
+                                            'max:3000',
                                         ],
             'relation_type'         =>  [
                                             'required',

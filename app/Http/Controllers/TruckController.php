@@ -27,13 +27,11 @@ class TruckController extends Controller
     {
         $truckTypeId    = $request->get('truck_type_id');
         $truckId        = $request->get('truck_id');
-        $bodyTypeId     = $request->get('body_type');
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
                 'truck_type_id' => $truckTypeId,
                 'id'            => $truckId,
-                'body_type'     => $bodyTypeId,
             ];
 
         $trucks         = $this->truckRepo->getTrucks($params, $noOfRecords);
@@ -161,9 +159,9 @@ class TruckController extends Controller
         $deleteFlag = $this->truckRepo->deleteTruck($id);
 
         if($deleteFlag) {
-            return redirect()->back()->with("message", "Truck details deleted successfully.")->with("alert-class", "alert-success");
+            return redirect(route('trucks.index'))->with("message", "Truck details deleted successfully.")->with("alert-class", "alert-success");
         }
 
-        return redirect()->back()->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('trucks.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
     }
 }

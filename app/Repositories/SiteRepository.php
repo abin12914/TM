@@ -6,13 +6,13 @@ use App\Models\Site;
 
 class SiteRepository
 {
-
-    protected $site;
-
-    public function __construct(Site $site)
-    {
-        $this->site = $site;
-    }
+    public $siteTypes = [
+            1   => 'Quarry',
+            2   => 'Crusher Plant',
+            3   => 'Construction Area',
+            4   => 'Small Mining Area',
+            5   => 'Residential Area'
+        ];
 
     /**
      * Return accounts.

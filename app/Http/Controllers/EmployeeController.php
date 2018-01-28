@@ -5,17 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\EmployeeRepository;
 use App\Http\Requests\EmployeeRegistrationRequest;
+use App\Http\Requests\EmployeeFilterRequest;
 
 class EmployeeController extends Controller
 {
     protected $employeeRepo;
-    public $errorHead = 3;
-
-    public $wageTypes = [
-            1   =>  'Monthly Salary',
-            2   =>  'Daily Wage',
-            3   =>  'Trip Bata',
-        ];
+    public $errorHead = 3, $noOfRecordsPerPage = 15;
 
     public function __construct(EmployeeRepository $employeeRepo)
     {
@@ -27,13 +22,26 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(EmployeeFilterRequest $request)
     {
-        $employees = $this->employeeRepo->getEmployees();
+        $wageType       = $request->get('wage_type');
+        $employeeId     = $request->get('employee_id');
+        $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+
+        $params = [
+                'wage_type' => $wageType,
+                'id'        => $employeeId,
+            ];
+
+        $employees      = $this->employeeRepo->getEmployees($params, $noOfRecords);
+        $employeesCombo = $this->employeeRepo->getEmployees();
         
         return view('employees.list', [
-                'employees' => $employees,
-                'wageTypes' => $this->wageTypes,
+                'employeesCombo'    => $employeesCombo,
+                'employees'         => $employees,
+                'wageTypes'         => $this->employeeRepo->wageTypes,
+                'params'            => $params,
+                'noOfRecords'       => $noOfRecords,
             ]);
     }
 
@@ -45,7 +53,7 @@ class EmployeeController extends Controller
     public function create()
     {
         return view('employees.register', [
-                'wageTypes' => $this->wageTypes,
+                'wageTypes' => $this->employeeRepo->wageTypes,
             ]);
     }
 
@@ -74,7 +82,12 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = $this->employeeRepo->getEmployee($id);
+
+        return view('employees.details', [
+                'employee'  => $employee,
+                'wageTypes' => $this->employeeRepo->wageTypes,
+            ]);
     }
 
     /**
@@ -108,6 +121,12 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteFlag = $this->employeeRepo->deleteEmployee($id);
+
+        if($deleteFlag) {
+            return redirect(route('employees.index'))->with("message", "Employee details deleted successfully.")->with("alert-class", "alert-success");
+        }
+
+        return redirect(route('employees.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
     }
 }

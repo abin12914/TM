@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Repositories\EmployeeRepository;
 
 class EmployeeRegistrationRequest extends FormRequest
 {
@@ -24,6 +25,8 @@ class EmployeeRegistrationRequest extends FormRequest
      */
     public function rules()
     {
+        $wageTypes  = (new EmployeeRepository())->wageTypes;
+
         return [
             'name'              =>  [
                                         'required',
@@ -41,12 +44,12 @@ class EmployeeRegistrationRequest extends FormRequest
                                     ],
             'image_file'        =>  [
                                         'nullable',
-                                        'mimes:jpeg,jpg,bmp,png',
+                                        'mimetypes:image/jpeg,image/jpg,image/bmp,image/png',
                                         'max:3000',
                                     ],
             'wage_type'         =>  [
                                         'required',
-                                        Rule::in([1, 2, 3]),
+                                        Rule::in(array_keys($wageTypes)),
                                     ],
             'wage'              =>  [
                                         'required',
@@ -57,7 +60,7 @@ class EmployeeRegistrationRequest extends FormRequest
             'account_name'      =>  [
                                         'required',
                                         'max:200',
-                                        'unique:accounts',
+                                        Rule::unique('accounts')->ignore($this->account_id),
                                     ],
             'financial_status'  =>  [
                                         'required',

@@ -4,11 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Models\TruckType;
-use App\Models\Truck;
-use App\Repositories\TruckRepository;
+use App\Models\Account;
+use App\Repositories\EmployeeRepository;
 
-class TruckFilterRequest extends FormRequest
+class EmployeeFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,16 +26,16 @@ class TruckFilterRequest extends FormRequest
      */
     public function rules()
     {
-        $bodyTypes = (new TruckRepository())->bodyTypes;
+        $wageTypes  = (new EmployeeRepository())->wageTypes;
 
         return [
-            'truck_type_id' =>  [
+            'employee_id'   =>  [
                                     'nullable',
-                                    Rule::in(TruckType::pluck('id')->toArray()),
+                                    Rule::in(Account::pluck('id')->toArray()),
                                 ],
-            'truck_id'      =>  [
+            'wage_type'     =>  [
                                     'nullable',
-                                    Rule::in(Truck::pluck('id')->toArray()),
+                                    Rule::in(array_keys($wageTypes)),
                                 ],
             'page'          =>  [
                                     'nullable',

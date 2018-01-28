@@ -21,20 +21,96 @@
                 </h4>
             </div>
         @endif
+        <!-- Main row -->
+        <div class="row  no-print">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Filter List</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-header">
+                        <form action="{{ route('employees.index') }}" method="get" class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <div class="col-sm-4 {{ !empty($errors->first('wage_type')) ? 'has-error' : '' }}">
+                                            <label for="wage_type" class="control-label">Wage Type : </label>
+                                            <select class="form-control select2" name="wage_type" id="wage_type" style="width: 100%">
+                                                <option value="">Select wage type</option>
+                                                @if(!empty($wageTypes) && (count($wageTypes) > 0))
+                                                    @foreach($wageTypes as $key => $wageType)
+                                                        <option value="{{ $key }}" {{ (old('wage_type') == $key || $params['wage_type'] == $key) ? 'selected' : '' }}>{{ $wageType }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if(!empty($errors->first('wage_type')))
+                                                <p style="color: red;" >{{$errors->first('wage_type')}}</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-sm-4 {{ !empty($errors->first('employee_id')) ? 'has-error' : '' }}">
+                                            <label for="employee_id" class="control-label">Employee Account : </label>
+                                            <select class="form-control select2" name="employee_id" id="employee_id" style="width: 100%">
+                                                <option value="">Select account</option>
+                                                @if(!empty($employeesCombo) && (count($employeesCombo) > 0))
+                                                    @foreach($employeesCombo as $employee)
+                                                        <option value="{{ $employee->id }}" {{ (old('employee_id') == $employee->id || $params['id'] == $employee->id) ? 'selected' : '' }}>{{ $employee->account->account_name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @if(!empty($errors->first('employee_id')))
+                                                <p style="color: red;" >{{$errors->first('employee_id')}}</p>
+                                            @endif
+                                        </div>
+                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                            <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
+                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
+                                            @if(!empty($errors->first('no_of_records')))
+                                                <p style="color: red;" >{{$errors->first('no_of_records')}}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div><br>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="10">Clear</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /.form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
+                    {{-- page header for printers --}}
+                    @include('sections.print-head')
+                    <div class="box-header no-print">
+                        @if(!empty($params['wage_type']) || !empty($params['employee_id']))
+                            <b>Filters applied!</b>
+                        @endif
+                    </div>
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Employee Name</th>
-                                            <th>Wage Type</th>
-                                            <th>Wage</th>
-                                            <th>Account Name</th>
+                                            <th style="width: 5%;">#</th>
+                                            <th style="width: 20%;">Employee Name</th>
+                                            <th style="width: 20%;">Wage Type</th>
+                                            <th style="width: 20%;">Wage</th>
+                                            <th style="width: 20%;">Account Name</th>
+                                            <th style="width: 15%;" class="no-print">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -44,12 +120,23 @@
                                                     <td>{{ $index + $employees->firstItem() }}</td>
                                                     <td>{{ $employee->account->accountDetail->name }}</td>
                                                     @if(!empty($wageTypes))
-                                                        <td>{{ !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Error!" }}</td>
+                                                        <td>
+                                                            {{ !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Error!" }}
+                                                        </td>
                                                     @else
                                                         <td>Error</td>
                                                     @endif
-                                                    <td>{{ $employee->wage }}</td>
+                                                    @if($employee->wage_type == 3)
+                                                        <td>{{ $employee->wage }} <b>%</b></td>
+                                                    @else
+                                                        <td>{{ $employee->wage }}</td>
+                                                    @endif
                                                     <td>{{ $employee->account->account_name }}</td>
+                                                    <td class="no-print">
+                                                        <a href="{{ route('employees.show', ['id' => $employee->id]) }}">
+                                                            <button type="button" class="btn btn-default">Details</button>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @endif
@@ -57,13 +144,16 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row no-print">
+                        <div class="row">
                             <div class="col-md-12">
-                                <div class="pull-right">
-                                    @if(!empty($employees))
+                                @if(!empty($employees))
+                                    <div>
+                                        Page {{ $employees->currentPage(). " of ". $employees->lastPage() }}<br>
+                                    </div>
+                                    <div class=" no-print pull-right">
                                         {{ $employees->appends(Request::all())->links() }}
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

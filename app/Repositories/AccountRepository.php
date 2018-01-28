@@ -34,7 +34,7 @@ class AccountRepository
         $accounts = Account::where('status', 1)->where('type', 3);
 
         foreach ($params as $key => $value) {
-            if(!empty($value) || $value === '0') {
+            if(!empty($value)) {
                 $accounts = $accounts->where($key, $value);
             }
         }
@@ -52,7 +52,9 @@ class AccountRepository
      */
     public function saveAccount($request)
     {
-        $saveFlag = 0;
+        $destination    = '/images/accounts/'; // image file upload path
+        $saveFlag       = 0;
+        $fileName       = "";
         
         $accountName        = $request->get('account_name');
         $description        = $request->get('description');
@@ -63,7 +65,7 @@ class AccountRepository
         $address            = $request->get('address');
         $relation           = $request->get('relation_type');
 
-        $openingBalanceAccount = $this->account->where('account_name','Account Opening Balance')->first();
+        $openingBalanceAccount = Account::where('account_name','Account Opening Balance')->first();
         if(!empty($openingBalanceAccount) && !empty($openingBalanceAccount->id)) {
             $openingBalanceAccountId = $openingBalanceAccount->id;
         } else {
@@ -71,6 +73,15 @@ class AccountRepository
                 'flag'      => false,
                 'errorCode' => "01"
             ];
+        }
+
+        //upload image
+        if ($request->hasFile('image_file')) {
+            $file       = $request->file('image_file');
+            $extension  = $file->getClientOriginalExtension(); // getting image extension
+            $fileName   = $name.'_'.time().'.'.$extension; // renameing image
+            $file->move(public_path().$destination, $fileName); // uploading file to given path
+            $fileName   = $destination.$fileName;//file name for saving to db
         }
 
         $account = new Account;
@@ -87,6 +98,7 @@ class AccountRepository
             $accountDetails->name       = $name;
             $accountDetails->phone      = $phone;
             $accountDetails->address    = $address;
+            $accountDetails->image      = $fileName;
             $accountDetails->status     = 1;
             if($accountDetails->save()) {
                 if($financialStatus == 1) {//incoming [account holder gives cash to company] [Creditor]
@@ -154,5 +166,15 @@ class AccountRepository
         $account = Account::where('status', 1)->where('id', $id)->first();
 
         return $account;
+    }
+
+    public function deleteAccount($id)
+    {
+        $account = Account::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($account) && !empty($account->id)) {
+            return $account->delete();
+        }
+        return false;
     }
 }

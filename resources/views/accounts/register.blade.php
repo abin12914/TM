@@ -33,7 +33,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="{{route('accounts.store')}}" method="post" class="form-horizontal">
+                        <form action="{{route('accounts.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">
@@ -95,7 +95,16 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                        <label for="relation_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Primary Relation : </label>
+                                        <label for="image_file" class="col-sm-2 control-label">Image : </label>
+                                            <div class="col-sm-10 {{ !empty($errors->first('image_file')) ? 'has-error' : '' }}">
+                                                <input type="file" name="image_file" class="form-control" id="image_file" accept="image/*" tabindex="4" value="{{ old('image_file') }}">
+                                                @if(!empty($errors->first('image_file')))
+                                                    <p style="color: red;" >{{$errors->first('image_file')}}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="relation_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Primary Relation : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
                                                 <select class="form-control select2" name="relation_type" id="relation_type" tabindex="8">
                                                     <option value="" {{ empty(old('relation_type')) ? 'selected' : '' }}>Select primary relation type</option>

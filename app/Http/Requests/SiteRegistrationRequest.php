@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Repositories\SiteRepository;
 
 class SiteRegistrationRequest extends FormRequest
 {
@@ -24,11 +25,13 @@ class SiteRegistrationRequest extends FormRequest
      */
     public function rules()
     {
+        $siteTypes  = (new SiteRepository())->siteTypes;
+
         return [
             'site_name'     =>  [
                                     'required',
                                     'max:200',
-                                    'unique:sites,name',
+                                    Rule::unique('sites', 'name')->ignore($this->account_id),
                                 ],
             'place'         =>  [
                                     'required',
@@ -40,7 +43,7 @@ class SiteRegistrationRequest extends FormRequest
                                 ],
             'location_type' =>  [
                                     'required',
-                                    Rule::in([1, 2, 3, 4, 5])
+                                    Rule::in(array_keys($siteTypes))
                                 ],
         ];
     }

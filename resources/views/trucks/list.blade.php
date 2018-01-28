@@ -35,7 +35,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-6 {{ !empty($errors->first('truck_type_id')) ? 'has-error' : '' }}">
+                                        <div class="col-sm-4 {{ !empty($errors->first('truck_type_id')) ? 'has-error' : '' }}">
                                             <label for="truck_type_id" class="control-label">Truck Type : </label>
                                             <select class="form-control select2" name="truck_type_id" id="truck_type_id" style="width: 100%">
                                                 <option value="">Select truck type</option>
@@ -49,23 +49,7 @@
                                                 <p style="color: red;" >{{$errors->first('truck_type_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-6 {{ !empty($errors->first('body_type')) ? 'has-error' : '' }}">
-                                            <label for="body_type" class="control-label">Body Type : </label>
-                                            <select class="form-control select2" name="body_type" id="body_type" tabindex="3" style="width: 100%">
-                                                <option value="">Select body type</option>
-                                                @if(!empty($bodyTypes) && (count($bodyTypes) > 0))
-                                                    @foreach($bodyTypes as $key => $bodyType)
-                                                        <option value="{{ $key }}" {{ (old('body_type') == $key || $params['body_type'] == $key) ? 'selected' : '' }}>{{ $bodyType }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            @if(!empty($errors->first('body_type')))
-                                                <p style="color: red;" >{{$errors->first('body_type')}}</p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-6 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
+                                        <div class="col-sm-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
                                             <label for="truck_id" class="control-label">Truck : </label>
                                             <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%">
                                                 <option value="">Select truck</option>
@@ -79,7 +63,7 @@
                                                 <p style="color: red;" >{{$errors->first('truck_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-6 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
                                             @if(!empty($errors->first('no_of_records')))
@@ -108,6 +92,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
+                    {{-- page header for printers --}}
+                    @include('sections.print-head')
+                    <div class="box-header">
+                        @if(!empty($params['truck_type_id']) || !empty($params['id']))
+                            <b>Filters applied!</b>
+                        @endif
+                    </div>
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -119,7 +110,7 @@
                                             <th style="width: 30%;">Vehicle Type</th>
                                             <th style="width: 10%;">Capacity</th>
                                             <th style="width: 10%;">Body</th>
-                                            <th style="width: 15%;">Details</th>
+                                            <th style="width: 15%;" class="no-print">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,7 +126,7 @@
                                                     @else
                                                         <td>Error</td>
                                                     @endif
-                                                    <td>
+                                                    <td class="no-print">
                                                         <a href="{{ route('trucks.show', ['id' => $truck->id]) }}">
                                                             <button type="button" class="btn btn-default">Details</button>
                                                         </a>
@@ -147,13 +138,16 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row no-print">
+                        <div class="row">
                             <div class="col-md-12">
-                                <div class="pull-right">
-                                    @if(!empty($trucks))
+                                @if(!empty($trucks))
+                                    <div>
+                                        Page {{ $trucks->currentPage(). " of ". $trucks->lastPage() }}<br>
+                                    </div>
+                                    <div class="no-print pull-right">
                                         {{ $trucks->appends(Request::all())->links() }}
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

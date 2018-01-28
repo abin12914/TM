@@ -11,22 +11,31 @@ use Auth;
 
 class EmployeeRepository
 {
-
-    protected $employee;
-
-    public function __construct(Employee $employee)
-    {
-        $this->employee = $employee;
-    }
+    public $wageTypes = [
+            1   =>  'Monthly Salary',
+            2   =>  'Daily Wage',
+            3   =>  'Trip Bata',
+        ];
 
     /**
      * Return accounts.
      */
-    public function getEmployees()
+    public function getEmployees($params=[], $noOfRecords=null)
     {
         $employees = [];
         
-        $employees = $this->employee->where('status', 1)->paginate(15);
+        $employees = Employee::where('status', 1);
+
+        foreach ($params as $key => $value) {
+            if(!empty($value)) {
+                $employees = $employees->where($key, $value);
+            }
+        }
+        if(!empty($noOfRecords)) {
+            $employees = $employees->paginate($noOfRecords);
+        } else {
+            $employees= $employees->get();
+        }
 
         return $employees;
     }
@@ -36,8 +45,9 @@ class EmployeeRepository
      */
     public function saveEmployee($request)
     {
-        $destination        = '/images/employee/'; // image file upload path
-        $saveFlag = 0;
+        $destination    = '/images/accounts/'; // image file upload path
+        $saveFlag       = 0;
+        $fileName       = "";
         
         $name               = $request->get('name');
         $phone              = $request->get('phone');
@@ -60,10 +70,11 @@ class EmployeeRepository
 
         //upload image
         if ($request->hasFile('image_file')) {
-            $file               = $request->file('image_file');
-            $extension          = $file->getClientOriginalExtension(); // getting image extension
-            $fileName           = $name.'_'.time().'.'.$extension; // renameing image
+            $file       = $request->file('image_file');
+            $extension  = $file->getClientOriginalExtension(); // getting image extension
+            $fileName   = "emp_".$name.'_'.time().'.'.$extension; // renameing image
             $file->move(public_path().$destination, $fileName); // uploading file to given path
+            $fileName   = $destination.$fileName;//file name for saving to db
         }
 
         $account = new Account;
@@ -80,6 +91,7 @@ class EmployeeRepository
             $accountDetails->name       = $name;
             $accountDetails->phone      = $phone;
             $accountDetails->address    = $address;
+            $accountDetails->image      = $fileName;
             $accountDetails->status     = 1;
             if($accountDetails->save()) {
                 $employee = new Employee;
@@ -152,5 +164,25 @@ class EmployeeRepository
                 'errorCode' => $saveFlag,
             ];
         }
+    }
+
+    /**
+     * return employee.
+     */
+    public function getEmployee($id)
+    {
+        $employee = Employee::where('status', 1)->where('id', $id)->first();
+
+        return $employee;
+    }
+
+    public function deleteEmployee($id)
+    {
+        $employee = Employee::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($employee) && !empty($employee->id)) {
+            return $employee->delete();
+        }
+        return false;
     }
 }
