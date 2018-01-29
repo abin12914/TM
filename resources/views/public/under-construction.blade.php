@@ -7,9 +7,16 @@
         <div class="col-md-10">
             <p class="login-box-msg"></p>
             <div class="box-tools pull-right">
-                <a href="{{ !empty($currentUser)? route('user.dashboard') : route('login.view') }}">
+                @if(!empty($currentUser))
+                    <a href="{{ route('user.dashboard') }}">
+                        <button>
+                            <i class="fa fa-dashboard text-blue"> Home</i>
+                        </button>
+                    </a>
+                @endif
+                <a href="{{ !empty($currentUser)? url()->previous() : route('login.view') }}">
                     <button>
-                        <i class="text-red">Back to home</i>
+                        <i class="fa fa-level-up text-blue"> Back ..</i>
                     </button>
                 </a>
             </div>
@@ -33,6 +40,11 @@
             <p class="login-box-msg">
                 <i style="color: red;" class="fa fa-hand-o-up"></i>
                 <b style="color: firebrick;">Sorry for the inconvenience. We will be back soon</b>
+                click 
+                <a href="{{ !empty($currentUser)? url()->previous() : route('login.view') }}">
+                    <i class="text-blue"> here </i>
+                </a>
+                to go back to previous page
             </p>
         </div>
     </div>

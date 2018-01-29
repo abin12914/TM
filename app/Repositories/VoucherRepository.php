@@ -10,22 +10,41 @@ use Auth;
 
 class VoucherRepository
 {
-
-    protected $voucher;
-
-    public function __construct(Voucher $voucher)
-    {
-        $this->voucher = $voucher;
-    }
-
     /**
      * Return trucks.
      */
-    public function getVouchers()
+    public function getVouchers($params=[], $relationalOrParams=[], $noOfRecords=null)
     {
         $vouchers = [];
         
-        $vouchers = $this->voucher->where('status', 1)->paginate(15);
+        $vouchers = Voucher::where('status', 1);
+
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $vouchers = $vouchers->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+                if(!empty($param['paramValue1'])) {
+                    $vouchers = $vouchers->orWhere($param['paramName'], $param['paramOperator'], $param['paramValue1']);
+                }
+            } else {
+                if(!empty($param['paramValue1'])) {
+                    $vouchers = $vouchers->Where($param['paramName'], $param['paramOperator'], $param['paramValue1']);
+                }
+            }
+        }
+
+        foreach ($relationalOrParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $vouchers = $vouchers->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName1'], $param['paramValue'])->orWhere($param['paramName2'], $param['paramValue']);
+                });
+            }
+        }
+        
+        if(!empty($noOfRecords)) {
+            $vouchers = $vouchers->paginate($noOfRecords);
+        } else {
+            $vouchers= $vouchers->get();
+        }
 
         return $vouchers;
     }
@@ -100,5 +119,28 @@ class VoucherRepository
             'flag'  => false,
             'id'    => $saveFlag,
         ];
+    }
+
+    /**
+     * Return trucks.
+     */
+    public function getVoucher($id)
+    {   
+        $voucher = Voucher::where('status', 1)->where('id', $id)->first();
+
+        return $voucher;
+    }
+
+    /**
+     * delete voucher.
+     */
+    public function deleteVoucher($id)
+    {   
+        $voucher = Voucher::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($voucher) && !empty($voucher->id)) {
+            return $voucher->delete();
+        }
+        return false;
     }
 }

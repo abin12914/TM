@@ -29,8 +29,8 @@ class AccountController extends Controller
         $noOfRecords        = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'relation'          => $accountRelation,
-                'id'                => $accountId,
+                'relation'  => $accountRelation,
+                'id'        => $accountId,
             ];
 
         $accounts       = $this->accountRepo->getAccounts($params, $noOfRecords);

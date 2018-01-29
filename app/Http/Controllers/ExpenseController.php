@@ -7,14 +7,19 @@ use App\Repositories\ExpenseRepository;
 use App\Repositories\TruckRepository;
 use App\Repositories\AccountRepository;
 use App\Http\Requests\ExpenseRegistrationRequest;
+use App\Http\Requests\ExpenseFilterRequest;
+use \Carbon\Carbon;
 
 class ExpenseController extends Controller
 {
-    protected $expenseRepo;
+    protected $expenseRepo, $truckRepo, $accountRepo;
+    public $errorHead = 6, $noOfRecordsPerPage = 15;
 
-     public function __construct(ExpenseRepository $expenseRepo)
+     public function __construct(ExpenseRepository $expenseRepo, TruckRepository $truckRepo, AccountRepository $accountRepo)
     {
         $this->expenseRepo  = $expenseRepo;
+        $this->truckRepo    = $truckRepo;
+        $this->accountRepo  = $accountRepo;
     }
 
     /**
@@ -22,12 +27,60 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ExpenseFilterRequest $request)
     {
-        $expenses = $this->expenseRepo->getExpences();
+        $fromDate           = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
+        $toDate             = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
+        $supplierAccountId  = $request->get('supplier_account_id');
+        $truckId            = $request->get('truck_id');
+        $serviceId          = $request->get('service_id');
+        $noOfRecords        = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+
+        $params = [
+                [
+                    'paramName'     => 'date',
+                    'paramOperator' => '>=',
+                    'paramValue'    => $fromDate,
+                ],
+                [
+                    'paramName'     => 'date',
+                    'paramOperator' => '<=',
+                    'paramValue'    => $toDate,
+                ],
+                [
+                    'paramName'     => 'truck_id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $truckId,
+                ],
+                [
+                    'paramName'     => 'service_id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $serviceId,
+                ],
+            ];
+
+        $relationalParams = [
+                [
+                    'relation'      => 'transaction',
+                    'paramName'     => 'credit_account_id',
+                    'paramValue'    => $supplierAccountId,
+                ]
+            ];
+
+        $expenses = $this->expenseRepo->getExpenses($params, $relationalParams, $noOfRecords);
+
+        //params passing for auto selection
+        $params[0]['paramValue'] = $request->get('from_date');
+        $params[1]['paramValue'] = $request->get('to_date');
+        array_push($params, $relationalParams[0]);
         
         return view('expenses.list', [
-                'expenses' => $expenses,
+                'accounts'      => $this->accountRepo->getAccounts(),
+                'trucks'        => $this->truckRepo->getTrucks(),
+                'services'      => $this->expenseRepo->getServices(),
+                'expenses'      => $expenses,
+                'params'        => $params,
+                'noOfRecords'   => $noOfRecords,
             ]);
     }
 
@@ -36,10 +89,10 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(TruckRepository $truckRepo, AccountRepository $accountRepo)
+    public function create()
     {
-        $trucks     = $truckRepo->getTrucks();
-        $accounts   = $accountRepo->getAccounts();
+        $trucks     = $this->truckRepo->getTrucks();
+        $accounts   = $this->accountRepo->getAccounts();
         $services   = $this->expenseRepo->getServices();
 
         return view('expenses.register', [
@@ -74,7 +127,11 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        //
+        $expense = $this->expenseRepo->getExpense($id);
+
+        return view('expenses.details', [
+                'expense'    => $expense,
+            ]);
     }
 
     /**
@@ -108,6 +165,12 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteFlag = $this->expenseRepo->deleteExpense($id);
+
+        if($deleteFlag) {
+            return redirect(route('expenses.index'))->with("message", "Expense details deleted successfully.")->with("alert-class", "alert-success");
+        }
+
+        return redirect(route('expenses.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
     }
 }

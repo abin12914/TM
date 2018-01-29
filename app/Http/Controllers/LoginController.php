@@ -60,10 +60,10 @@ class LoginController extends Controller
                         return redirect(route('user-expired'))->with("expired-user", $user->user_name);
                     }
                     //user expiring soon
-                    return redirect(route('user-dashboard'))->with("message",("Welcome " . $user->name . ". Your trial pack ends on " . $user->valid_till . ". Please contact developer team for more info."))->with("alert-class","alert-warning");
+                    return redirect(route('user.dashboard'))->with("message",("Welcome " . $user->name . ". Your trial pack ends on " . $user->valid_till . ". Please contact developer team for more info."))->with("alert-class","alert-warning");
                 }
             }
-            return redirect(route('user-dashboard'))->with("message","Welcome " . $user->name . ". You are successfully logged in to the Trucking Manager.")->with("alert-class","alert-success");
+            return redirect(route('user.dashboard'))->with("message","Welcome " . $user->name . ". You are successfully logged in to the Trucking Manager.")->with("alert-class","alert-success");
         }
         // Authentication fails...
         $validator->errors()->add("username_password", "Invalid Username Or Password");

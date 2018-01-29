@@ -15,28 +15,41 @@ use Auth;
 
 class TransportationRepository
 {
-
-    protected $transportation;
-
     public $rentTypes = [
             1   => 'KM Based Rent',
             2   => 'Weighment Based Rent',
             3   => 'Fixed Rent',
         ];
 
-    public function __construct(Transportation $transportation)
-    {
-        $this->transportation = $transportation;
-    }
-
     /**
      * Return transportations.
      */
-    public function getTransportations()
+    public function getTransportations($params=[], $relationalParams=[], $noOfRecords=null)
     {
         $transportations = [];
         
-        $transportations = $this->transportation->where('status', 1)->paginate(15);
+        $transportations = Transportation::where('status', 1);
+
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $transportations = $transportations->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+            }
+        }
+
+
+        foreach ($relationalParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $transportations = $transportations->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName'], $param['paramValue']);
+                });
+            }
+        }
+        
+        if(!empty($noOfRecords)) {
+            $transportations = $transportations->paginate($noOfRecords);
+        } else {
+            $transportations= $transportations->get();
+        }
 
         return $transportations;
     }
@@ -179,5 +192,25 @@ class TransportationRepository
                 'flag'      => false,
                 'errorCode' => $saveFlag,
             ];
+    }
+
+    /**
+     * return transportation.
+     */
+    public function getTransportation($id)
+    {
+        $transportation = Transportation::where('status', 1)->where('id', $id)->first();
+
+        return $transportation;
+    }
+
+    public function deleteTransportation($id)
+    {
+        $transportation = Transportation::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($transportation) && !empty($transportation->id)) {
+            return $transportation->delete();
+        }
+        return false;
     }
 }

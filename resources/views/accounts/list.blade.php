@@ -162,7 +162,7 @@
                             <div class="col-md-12">
                                 @if(!empty($accounts))
                                     <div>
-                                        Page {{ $accounts->currentPage(). " of ". $accounts->lastPage() }}<br>
+                                        Showing {{ $accounts->firstItem(). " - ". $accounts->lastItem(). " of ". $accounts->total() }}
                                     </div>
                                     <div class=" no-print pull-right">
                                         {{ $accounts->appends(Request::all())->links() }}

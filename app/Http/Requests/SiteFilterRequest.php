@@ -4,9 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Site;
 use App\Repositories\SiteRepository;
 
-class SiteRegistrationRequest extends FormRequest
+class SiteFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,22 +29,21 @@ class SiteRegistrationRequest extends FormRequest
         $siteTypes  = (new SiteRepository())->siteTypes;
 
         return [
-            'site_name'     =>  [
-                                    'required',
-                                    'max:200',
-                                    Rule::unique('sites', 'name')->ignore($this->id),
-                                ],
-            'place'         =>  [
-                                    'required',
-                                    'max:200',
-                                ],
-            'address'       =>  [
+            'site_id'       =>  [
                                     'nullable',
-                                    'max:200',
+                                    Rule::in(Site::pluck('id')->toArray()),
                                 ],
-            'location_type' =>  [
-                                    'required',
-                                    Rule::in(array_keys($siteTypes))
+            'site_type'     =>  [
+                                    'nullable',
+                                    Rule::in(array_keys($siteTypes)),
+                                ],
+            'page'          =>  [
+                                    'nullable',
+                                    'integer',
+                                ],
+            'no_of_records' =>  [
+                                    'nullable',
+                                    'integer',
                                 ],
         ];
     }

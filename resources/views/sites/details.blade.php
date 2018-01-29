@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Employee Details')
+@section('title', 'Site Details')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Employee
+            Site
             <small>Details</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Employee Details</li>
+            <li class="active">Site Details</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -28,88 +28,70 @@
                 <div class="col-md-8">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user-2">
-                        @if(!empty($employee))
+                        @if(!empty($site))
                             <!-- Add the bg color to the header using any of the bg-* classes -->
                             <div class="widget-user-header bg-yellow">
                                 <div class="widget-user-image">
-                                    <img class="img-circle" src="{{ $employee->account->accountDetail->image or "/images/accounts/default_account.png" }}" alt="User Avatar">
+                                    <img class="img-circle" src="/images/public/location.png" alt="Location Avatar">
                                 </div>
                                 <!-- /.widget-user-image -->
-                                <h3 class="widget-user-username">{{ $employee->account->accountDetail->name }}</h3>
-                                <h5 class="widget-user-desc">Employee</h5>
+                                <h3 class="widget-user-username">{{ $site->name }}</h3>
+                                <h5 class="widget-user-desc">{{ $site->place }}</h5>
                             </div>
                             <div class="box-footer no-padding">
                                 <ul class="nav nav-stacked">
                                     <li>
-                                        <a href="#">Name 
+                                        <a href="#">Site Name 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $employee->account->accountDetail->name }}</div>
+                                                <div class="external-event bg-blue text-center">{{ $site->name }}</div>
                                             </div>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">Account Name
+                                        <a href="#">Place 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $employee->account->account_name }}</div>
+                                                <div class="external-event bg-aqua text-center">{{ $site->place }}</div>
                                             </div>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">Address
+                                        <a href="#">Address 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $employee->account->accountDetail->address or "-" }}
-                                                </div>
+                                                <div class="external-event bg-blue text-center">{{ $site->address or "-" }}</div>
                                             </div>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">Phone
+                                        <a href="#">Site Type 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $employee->account->accountDetail->phone or "-" }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wage Type 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($wageTypes) && !empty($wageTypes[$employee->wage_type]))
-                                                    <div class="external-event bg-blue text-center">
-                                                        {{ $wageTypes[$employee->wage_type] }}
-                                                    </div>
+                                                @if(!empty($siteTypes))
+                                                    @if(!empty($siteTypes[$site->site_type]))
+                                                        <div class="external-event bg-aqua text-center">
+                                                            {{ $siteTypes[$site->site_type] }}
+                                                        </div>
+                                                    @else
+                                                        <div class="external-event bg-red text-center">Error!</div>
+                                                    @endif
                                                 @else
-                                                    <div class="external-event bg-red text-center">
-                                                        Error!
-                                                    </div>
+                                                    <div class="external-event bg-red text-center">Error</div>
                                                 @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wage / Monthly Salary / Trip Bata
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $employee->wage }} {{ $employee->wage_type == 3 ? "%" : "" }}
-                                                </div>
                                             </div>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="widget-user-header no-print">
+                            <div class="widget-user-header">
                                 <div class="clearfix"> </div><br>
                                 <div class="row">
                                     <div class="col-xs-3"></div>
                                     <div class="col-xs-3">
                                         <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('trucks.edit', ['id' => $employee->id]) --}}
+                                            {{-- route('sites.edit', ['id' => $site->id]) --}}
                                             <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
                                         </form>
                                     </div>
                                     <div class="col-xs-3">
-                                        <form action="{{route('employees.destroy', ['id' => $employee->id])}}" method="post" class="form-horizontal">
+                                        <form action="{{route('sites.destroy', ['id' => $site->id])}}" method="post" class="form-horizontal">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
                                             <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>

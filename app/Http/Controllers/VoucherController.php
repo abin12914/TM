@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use App\Repositories\VoucherRepository;
 use App\Repositories\AccountRepository;
 use App\Http\Requests\VoucherRegistrationRequest;
+use App\Http\Requests\VoucherFilterRequest;
+use \Carbon\Carbon;
 
 class VoucherController extends Controller
 {
-    protected $voucherRepo;
+    protected $voucherRepo, $accountRepo;
+    public $errorHead = 7, $noOfRecordsPerPage = 15;
 
-     public function __construct(VoucherRepository $voucherRepo)
+     public function __construct(VoucherRepository $voucherRepo, AccountRepository $accountRepo)
     {
         $this->voucherRepo  = $voucherRepo;
+        $this->accountRepo  = $accountRepo;
     }
 
     /**
@@ -21,12 +25,55 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(VoucherFilterRequest $request)
     {
-        $vouchers = $this->voucherRepo->getVouchers();
-        
+        $fromDate       = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
+        $toDate         = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
+        $accountId      = $request->get('account_id');
+        $debitReciept   = $request->get('transaction_type_debit');
+        $creditVoucher  = $request->get('transaction_type_credit');
+        $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+
+        $params = [
+                [
+                    'paramName'     => 'date',
+                    'paramOperator' => '>=',
+                    'paramValue'    => $fromDate,
+                ],
+                [
+                    'paramName'     => 'date',
+                    'paramOperator' => '<=',
+                    'paramValue'    => $toDate,
+                ],
+                [
+                    'paramName'     => 'transaction_type',
+                    'paramOperator' => '=',
+                    'paramValue'    => $debitReciept,
+                    'paramValue1'   => $creditVoucher,
+                ],
+            ];
+
+        $relationalOrParams = [
+                [
+                    'relation'      => 'transaction',
+                    'paramName1'    => 'debit_account_id',
+                    'paramName2'    => 'credit_account_id',
+                    'paramValue'    => $accountId,
+                ],
+            ];
+
+        $vouchers = $this->voucherRepo->getVouchers($params, $relationalOrParams, $noOfRecords);
+
+        //params passing for auto selection
+        $params[0]['paramValue'] = $request->get('from_date');
+        $params[1]['paramValue'] = $request->get('to_date');
+        $params = array_merge($params, $relationalOrParams);
+
         return view('vouchers.list', [
-                'vouchers' => $vouchers,
+                'accounts'      => $this->accountRepo->getAccounts(),
+                'vouchers'      => $vouchers,
+                'params'        => $params,
+                'noOfRecords'   => $noOfRecords,
             ]);
     }
 
@@ -35,9 +82,9 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(AccountRepository $accountRepo)
+    public function create()
     {
-        $accounts   = $accountRepo->getAccounts();
+        $accounts   = $this->accountRepo->getAccounts();
 
         return view('vouchers.register', [
                 'accounts'  => $accounts,
@@ -69,7 +116,11 @@ class VoucherController extends Controller
      */
     public function show($id)
     {
-        //
+        $voucher = $this->voucherRepo->getVoucher($id);
+
+        return view('vouchers.details', [
+                'voucher' => $voucher,
+            ]);
     }
 
     /**
@@ -103,6 +154,12 @@ class VoucherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteFlag = $this->voucherRepo->deleteVoucher($id);
+
+        if($deleteFlag) {
+            return redirect(route('vouchers.index'))->with("message", "Voucher details deleted successfully.")->with("alert-class", "alert-success");
+        }
+
+        return redirect(route('vouchers.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
     }
 }

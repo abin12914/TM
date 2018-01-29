@@ -38,7 +38,7 @@
                                 <h3 class="widget-user-username">{{ $account->account_name }}</h3>
                                 @if(!empty($relationTypes))
                                     <h5 class="widget-user-desc">
-                                        {{ !empty($relationTypes[$account->relation]) ? $relationTypes[$account->relation] : "Error!" }}
+                                        {{ $relationTypes[$account->relation] or "Error!" }}
                                     </h5>
                                 @else
                                     <h5 class="widget-user-desc">Error</h5>
@@ -63,14 +63,14 @@
                                     <li>
                                         <a href="#">Phone
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $account->accountDetail->phone }}</div>
+                                                <div class="external-event bg-blue text-center">{{ $account->accountDetail->phone or "-" }}</div>
                                             </div>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#">Address 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $account->accountDetail->address }}</div>
+                                                <div class="external-event bg-aqua text-center">{{ $account->accountDetail->address or "-" }}</div>
                                             </div>
                                         </a>
                                     </li>

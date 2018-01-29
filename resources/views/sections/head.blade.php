@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="/css/dist/fonts/googleapifont.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="/bower_components/select2/dist/select2.min.css">
+    <!-- daterange picker -->
+    {{-- <link rel="stylesheet" href="/bower_components/bootstrap-daterangepicker/daterangepicker.css"> --}}
     <!-- bootstrap-datepicker -->
     <link rel="stylesheet" href="/bower_components/bootstrap-datepicker/dist/bootstrap-datepicker.min.css">
     {{-- custom css --}}

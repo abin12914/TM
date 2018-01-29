@@ -11,6 +11,12 @@ $(function () {
     //Initialize Select2 Element for account type select box
     initializeSelect2();
 
+    //datepicker for general datepickers
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+    });
+
     //Date picker for registrations
     $('.datepicker_reg').datepicker({
         todayHighlight: true,

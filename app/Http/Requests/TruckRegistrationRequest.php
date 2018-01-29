@@ -34,7 +34,7 @@ class TruckRegistrationRequest extends FormRequest
                                                     'required',
                                                     'max:13',
                                                     'regex:(([A-Z]){2}(-)(?:[0-9]){2}( )(((?:[A-Z]){1,2}(-)([0-9]){1,4})|(([0-9]){1,4})))',
-                                                    'unique:trucks,reg_number',
+                                                    Rule::unique('trucks', 'reg_number')->ignore($this->id),
                                                 ],
             'reg_number_state_code'         =>  [
                                                     'required',

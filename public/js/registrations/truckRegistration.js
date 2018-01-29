@@ -1,10 +1,10 @@
 $(function () {
 
-    //datepicker for general datepickers
+    /*//datepicker for general datepickers
     $('.datepicker').datepicker({
         format: 'dd-mm-yyyy',
         autoclose: true,
-    });
+    });*/
 
     //convert to uppper case
     $('body').on("change", "#reg_number_state_code", function (evt) {

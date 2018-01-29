@@ -148,7 +148,7 @@
                             <div class="col-md-12">
                                 @if(!empty($employees))
                                     <div>
-                                        Page {{ $employees->currentPage(). " of ". $employees->lastPage() }}<br>
+                                        Showing {{ $employees->firstItem(). " - ". $employees->lastItem(). " of ". $employees->total() }}
                                     </div>
                                     <div class=" no-print pull-right">
                                         {{ $employees->appends(Request::all())->links() }}

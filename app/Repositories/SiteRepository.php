@@ -17,11 +17,22 @@ class SiteRepository
     /**
      * Return accounts.
      */
-    public function getSites()
+    public function getSites($params=[], $noOfRecords=null)
     {
         $sites = [];
         
-        $sites = $this->site->where('status', 1)->paginate(15);
+        $sites = Site::where('status', 1);
+
+        foreach ($params as $key => $value) {
+            if(!empty($value)) {
+                $sites = $sites->where($key, $value);
+            }
+        }
+        if(!empty($noOfRecords)) {
+            $sites = $sites->paginate($noOfRecords);
+        } else {
+            $sites = $sites->get();
+        }
 
         return $sites;
     }
@@ -53,5 +64,25 @@ class SiteRepository
             'flag'      => false,
             'errorCode' => "01"
         ];
+    }
+
+    /**
+     * return account.
+     */
+    public function getSite($id)
+    {
+        $site = Site::where('status', 1)->where('id', $id)->first();
+
+        return $site;
+    }
+
+    public function deleteSite($id)
+    {
+        $site = Site::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($site) && !empty($site->id)) {
+            return $site->delete();
+        }
+        return false;
     }
 }

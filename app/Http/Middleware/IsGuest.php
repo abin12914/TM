@@ -17,7 +17,7 @@ class IsGuest
     public function handle($request, Closure $next)
     {
         if(Auth::check()) {
-            return redirect(route('user-dashboard'))->with("message","Unauthorized action!. You are not authorized to access the page you requested")
+            return redirect(route('user.dashboard'))->with("message","Unauthorized action!. You are not authorized to access the page you requested")
                                                     ->with("alert-class","alert-danger");
         }
         return $next($request);

@@ -35,11 +35,32 @@ class ExpenseRepository
     /**
      * Return expenses.
      */
-    public function getExpences()
+    public function getExpenses($params=[], $relationalParams=[], $noOfRecords=null)
     {
         $expenses = [];
         
-        $expenses = Expense::where('status', 1)->paginate(15);
+        $expenses = Expense::where('status', 1);
+
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $expenses = $expenses->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+            }
+        }
+
+
+        foreach ($relationalParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $expenses = $expenses->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName'], $param['paramValue']);
+                });
+            }
+        }
+        
+        if(!empty($noOfRecords)) {
+            $expenses = $expenses->paginate($noOfRecords);
+        } else {
+            $expenses= $expenses->get();
+        }
 
         return $expenses;
     }
@@ -117,5 +138,25 @@ class ExpenseRepository
             'flag'  => false,
             'id'    => $saveFlag,
         ];
+    }
+
+    /**
+     * return expense.
+     */
+    public function getExpense($id)
+    {
+        $expense = Expense::where('status', 1)->where('id', $id)->first();
+
+        return $expense;
+    }
+
+    public function deleteExpense($id)
+    {
+        $expense = Expense::where('status', 1)->where('id', $id)->first();
+
+        if(!empty($expense) && !empty($expense->id)) {
+            return $expense->delete();
+        }
+        return false;
     }
 }

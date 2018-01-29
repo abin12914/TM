@@ -142,7 +142,7 @@
                             <div class="col-md-12">
                                 @if(!empty($trucks))
                                     <div>
-                                        Page {{ $trucks->currentPage(). " of ". $trucks->lastPage() }}<br>
+                                        Showing {{ $trucks->firstItem(). " - ". $trucks->lastItem(). " of ". $trucks->total() }}
                                     </div>
                                     <div class="no-print pull-right">
                                         {{ $trucks->appends(Request::all())->links() }}

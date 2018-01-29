@@ -9,6 +9,7 @@ use App\Models\Site;
 use App\Models\Account;
 use App\Models\Material;
 use App\Models\Employee;
+use App\Repositories\TransportationRepository;
 
 class TransportationRegistrationRequest extends FormRequest
 {
@@ -29,6 +30,8 @@ class TransportationRegistrationRequest extends FormRequest
      */
     public function rules()
     {
+        $rentTypes  = (new TransportationRepository())->rentTypes;
+        
         return [
             'truck_id'              =>  [
                                             'required',
@@ -53,7 +56,7 @@ class TransportationRegistrationRequest extends FormRequest
                                         ],
             'rent_type'             =>  [
                                             'required',
-                                            Rule::in([1, 2, 3]),
+                                            Rule::in(array_keys($rentTypes)),
                                         ],
             'rent_measurement'      =>  [
                                             'required',
