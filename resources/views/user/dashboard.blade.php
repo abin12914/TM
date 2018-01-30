@@ -67,11 +67,11 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{ !empty($accountCount) ? $accountCount : '00' }}</h3>
-                        <p>Registered Accounts</p>
+                        <h3>{{ !empty($warnCertificateCount) ? $warnCertificateCount : '00' }}</h3>
+                        <p>Certificates Expiring Soon</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-person-add"></i>
+                        <i class="fa fa-certificate"></i>
                     </div>
                     <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>

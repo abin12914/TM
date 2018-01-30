@@ -181,7 +181,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>

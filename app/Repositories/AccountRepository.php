@@ -27,11 +27,14 @@ class AccountRepository
     /**
      * Return accounts.
      */
-    public function getAccounts($params=[], $noOfRecords=null)
+    public function getAccounts($params=[], $noOfRecords=null, $typeFlag=true)
     {
         $accounts = [];
         
-        $accounts = Account::where('status', 1)->where('type', 3);
+        $accounts = Account::where('status', 1);
+        if($typeFlag) {
+            $accounts = $accounts->where('type', 3);
+        }
 
         foreach ($params as $key => $value) {
             if(!empty($value)) {
@@ -39,7 +42,11 @@ class AccountRepository
             }
         }
         if(!empty($noOfRecords)) {
-            $accounts = $accounts->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $accounts = $accounts->first();
+            } else {
+                $accounts = $accounts->paginate($noOfRecords);
+            }
         } else {
             $accounts= $accounts->get();
         }

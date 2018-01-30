@@ -215,6 +215,28 @@
                 <!-- /.col-md-12 -->
             </div>
             <!-- /.row (main row) -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="clearfix"> </div><br>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2">
+                                <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
+                                    {{-- route('accounts.edit', ['id' => $account->id]) --}}
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <form action="{{route('supply.destroy', ['id' => $supplyTransportation->id])}}" method="post" class="form-horizontal">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
+                                </form>
+                            </div>
+                            <!-- /.col -->
+                        </div><br>
+                </div>
+            </div>
         @endif
     </section>
     <!-- /.content -->

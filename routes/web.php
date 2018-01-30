@@ -58,5 +58,8 @@ Route::group(['middleware' => 'auth.check'], function () {
 
         //settings
         Route::resource('settings', 'SettingsController');
+
+        //reports
+        Route::get('reports/account-statement', 'ReportController@accountStatement')->name('report.account-statement');
     });
 });

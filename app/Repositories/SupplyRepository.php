@@ -21,12 +21,33 @@ class SupplyRepository
     /**
      * Return supply transportation.
      */
-    public function getSupplyTransportations()
+    public function getSupplyTransportations($params=[], $relationalParams=[], $noOfRecords=null)
     {
         $supplyTransportations = [];
-        
+
         //transportations that has related purchase and sale [supply]
-        $supplyTransportations = Transportation::where('status', 1)->has('purchase')->has('sale')->paginate(15);
+        $supplyTransportations = Transportation::where('status', 1)->has('purchase')->has('sale');
+
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $supplyTransportations = $supplyTransportations->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+            }
+        }
+
+
+        foreach ($relationalParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $supplyTransportations = $supplyTransportations->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName'], $param['paramValue']);
+                });
+            }
+        }
+        
+        if(!empty($noOfRecords)) {
+            $supplyTransportations = $supplyTransportations->paginate($noOfRecords);
+        } else {
+            $supplyTransportations= $supplyTransportations->get();
+        }
 
         return $supplyTransportations;
     }
@@ -185,5 +206,15 @@ class SupplyRepository
         $supplyTransportation = Transportation::where('status', 1)->where('id', $id)->has('purchase')->has('sale')->first();
 
         return $supplyTransportation;
+    }
+
+    public function deleteSupply($id)
+    {
+        $transportation = Transportation::where('status', 1)->where('id', $id)->has('purchase')->has('sale')->first();
+
+        if(!empty($transportation) && !empty($transportation->id)) {
+            return $transportation->delete();
+        }
+        return false;
     }
 }

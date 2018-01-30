@@ -10,16 +10,22 @@ use App\Repositories\AccountRepository;
 use App\Repositories\SiteRepository;
 use App\Repositories\EmployeeRepository;
 use App\Http\Requests\SupplyRegistrationRequest;
+use App\Http\Requests\TransportationFilterRequest;
+use \Carbon\Carbon;
 
 class SupplyController extends Controller
 {
-    protected $supplyRepo, $transportationRepo;
-    public $errorHead = 6;
+    protected $supplyRepo, $transportationRepo, $truckRepo, $accountRepo, $siteRpepo, $employeeRepo;
+    public $errorHead = 6, $noOfRecordsPerPage = 15;
     
-    public function __construct(SupplyRepository $supplyRepo, TransportationRepository $transportationRepo)
+    public function __construct(SupplyRepository $supplyRepo, TransportationRepository $transportationRepo, TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
     {
         $this->supplyRepo           = $supplyRepo;
         $this->transportationRepo   = $transportationRepo;
+        $this->truckRepo            = $truckRepo;
+        $this->accountRepo          = $accountRepo;
+        $this->siteRpepo            = $siteRpepo;
+        $this->employeeRepo         = $employeeRepo;
     }
 
     /**
@@ -27,12 +33,75 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(TransportationFilterRequest $request)
     {
-        $supplyTransportations = $this->supplyRepo->getSupplyTransportations();
+        $fromDate            = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
+        $toDate              = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
+        $contractorAccountId = $request->get('contractor_account_id');
+        $truckId             = $request->get('truck_id');
+        $sourceId            = $request->get('source_id');
+        $destinationId       = $request->get('destination_id');
+        $materialId          = $request->get('material_id');
+        $noOfRecords         = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+
+        $params = [
+                [
+                    'paramName'     => 'date',
+                    'paramOperator' => '>=',
+                    'paramValue'    => $fromDate,
+                ],
+                [
+                    'paramName'     => 'date',
+                    'paramOperator' => '<=',
+                    'paramValue'    => $toDate,
+                ],
+                [
+                    'paramName'     => 'truck_id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $truckId,
+                ],
+                [
+                    'paramName'     => 'source_id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $sourceId,
+                ],
+                [
+                    'paramName'     => 'destination_id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $destinationId,
+                ],
+                [
+                    'paramName'     => 'material_id',
+                    'paramOperator' => '=', 
+                    'paramValue'    => $materialId,
+                ],
+            ];
+
+        $relationalParams = [
+                [
+                    'relation'      => 'transaction',
+                    'paramName'     => 'debit_account_id',
+                    'paramValue'    => $contractorAccountId,
+                ]
+            ];
+
+        $supplyTransportations = $this->supplyRepo->getSupplyTransportations($params, $relationalParams, $noOfRecords);
+
+        //params passing for auto selection
+        $params[0]['paramValue'] = $request->get('from_date');
+        $params[1]['paramValue'] = $request->get('to_date');
+        $params = array_merge($params, $relationalParams);
+        /*array_push($params, $relationalParams[0]);*/
         
         return view('supply.list', [
+                'accounts'              => $this->accountRepo->getAccounts(),
+                'sites'                 => $this->siteRpepo->getSites(),
+                'trucks'                => $this->truckRepo->getTrucks(),
+                'materials'             => $this->transportationRepo->getMaterials(),
                 'supplyTransportations' => $supplyTransportations,
+                'rentTypes'             => $this->transportationRepo->rentTypes,
+                'params'                => $params,
+                'noOfRecords'           => $noOfRecords,
             ]);
     }
 
@@ -41,12 +110,12 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
+    public function create()
     {
-        $trucks     = $truckRepo->getTrucks();
-        $accounts   = $accountRepo->getAccounts();
-        $sites      = $siteRpepo->getSites();
-        $employees  = $employeeRepo->getEmployees();
+        $trucks     = $this->truckRepo->getTrucks();
+        $accounts   = $this->accountRepo->getAccounts();
+        $sites      = $this->siteRpepo->getSites();
+        $employees  = $this->employeeRepo->getEmployees();
         $materials  = $this->transportationRepo->getMaterials();
 
         return view('supply.register', [
@@ -144,6 +213,12 @@ class SupplyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deleteFlag = $this->supplyRepo->deleteSupply($id);
+
+        if($deleteFlag) {
+            return redirect(route('supply.index'))->with("message", "Supply details deleted successfully.")->with("alert-class", "alert-success");
+        }
+
+        return redirect(route('supply.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
     }
 }

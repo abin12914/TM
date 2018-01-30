@@ -77,7 +77,7 @@ class LoginController extends Controller
     {
         $expiredCertificateCount    = 0;
         $truckCount                 = 0;
-        $accountCount               = 0;
+        $warnCertificateCount       = 0;
         $transportationCount        = 0;
 
         $certificateFlags = [
@@ -89,15 +89,12 @@ class LoginController extends Controller
 
         $transportations    = $transportationRepo->getTransportations();
         $trucks             = $truckRepo->getTrucks();
-        $accounts           = $accountRepo->getAccounts();
 
         //transportation count
         $transportationCount = count($transportations);
         //truck count
         $truckCount = count($trucks);
-        //account count
-        $accountCount = count($accounts);
-        //expired certificate count
+        //expired and soon expiring certificate count
         foreach ($trucks as $key => $truck) {
             
             $result = $truckRepo->checkCertificateValidity($truck);
@@ -109,6 +106,9 @@ class LoginController extends Controller
                     if($result[$flag] == 3) {
                         $expiredCertificateCount = $expiredCertificateCount + 1;
                     }
+                    if($result[$flag] == 2) {
+                        $warnCertificateCount = $warnCertificateCount + 1;
+                    }
                 }
             }
         }
@@ -119,8 +119,8 @@ class LoginController extends Controller
         if($truckCount < 10) {
             $truckCount = "0". $truckCount;
         }
-        if($accountCount < 10) {
-            $accountCount = "0". $accountCount;
+        if($warnCertificateCount < 10) {
+            $warnCertificateCount = "0". $warnCertificateCount;
         }
         if($expiredCertificateCount < 10) {
             $expiredCertificateCount = "0". $expiredCertificateCount;
@@ -129,7 +129,7 @@ class LoginController extends Controller
         return view('user.dashboard', [
                 'transportationCount'       => $transportationCount,
                 'truckCount'                => $truckCount,
-                'accountCount'              => $accountCount,
+                'warnCertificateCount'      => $warnCertificateCount,
                 'expiredCertificateCount'   => $expiredCertificateCount,
             ]);
     }

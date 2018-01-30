@@ -26,7 +26,7 @@
                 </a>
             </li>
             @if($currentUser->isAdmin() || $currentUser->isUser())
-                <li class="treeview {{ Request::is('vouchers/*') || Request::is('vouchers')? 'active' : '' }}">
+                <li class="treeview {{ Request::is('reports/*')? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-briefcase"></i>
                         <span>Reports</span>
@@ -35,8 +35,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="">
-                            <a href="#">
+                        <li class="{{ Request::is('reports/account-statement')? 'active' : '' }}">
+                            <a href="{{ route('report.account-statement') }}">
                                 <i class="fa fa-circle-o"></i> Account Statement
                             </a>
                         </li>

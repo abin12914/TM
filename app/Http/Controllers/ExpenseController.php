@@ -72,7 +72,8 @@ class ExpenseController extends Controller
         //params passing for auto selection
         $params[0]['paramValue'] = $request->get('from_date');
         $params[1]['paramValue'] = $request->get('to_date');
-        array_push($params, $relationalParams[0]);
+        $params = array_merge($params, $relationalParams);
+        /*array_push($params, $relationalParams[0]);*/
         
         return view('expenses.list', [
                 'accounts'      => $this->accountRepo->getAccounts(),
