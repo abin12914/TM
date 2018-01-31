@@ -22,9 +22,11 @@ class TruckRepository
      */
     public function getStateCodes()
     {
-        $stateCodes = [];
-
         $stateCodes = DB::table('vehicle_registration_state_codes')->orderBy('code')->get();
+
+        if(empty($statecodes) || $statecodes->count < 1) {
+            $stateCodes = [];
+        }
 
         return $stateCodes;
     }
@@ -34,9 +36,11 @@ class TruckRepository
      */
     public function getTruckTypes()
     {
-        $truckTypes = [];
-        
         $truckTypes = TruckType::where('status', 1)->orderBy('name')->get();
+
+        if(empty($truckTypes) || $truckTypes->count() < 1) {
+            $truckTypes = [];
+        }
 
         return $truckTypes;
     }
@@ -46,8 +50,6 @@ class TruckRepository
      */
     public function getTrucks($params=[], $noOfRecords=null)
     {
-        $trucks         = [];
-        
         $trucks = Truck::where('status', 1);
 
         foreach ($params as $key => $value) {
@@ -56,9 +58,17 @@ class TruckRepository
             }
         }
         if(!empty($noOfRecords)) {
-            $trucks = $trucks->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $trucks = $trucks->first();
+            } else {
+                $trucks = $trucks->paginate($noOfRecords);
+            }
         } else {
             $trucks= $trucks->get();
+        }
+
+        if(empty($trucks) || $trucks->count() < 1) {
+            $trucks = [];
         }
 
         return $trucks;
@@ -112,17 +122,44 @@ class TruckRepository
     {
         $truck = Truck::where('status', 1)->where('id', $id)->first();
 
+        if(empty($truck) || empty($truck->id)) {
+            $truck = [];
+        }
+
         return $truck;
     }
 
-    public function deleteTruck($id)
+    public function deleteTruck($id, $forceFlag=false)
     {
         $truck = Truck::where('status', 1)->where('id', $id)->first();
 
         if(!empty($truck) && !empty($truck->id)) {
-            return $truck->delete();
+            if($forceFlag) {
+                if($truck->forceDelete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => true,
+                    ];
+                } else {
+                    $errorCode = '02';
+                }
+            } else {
+                if($truck->delete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => false,
+                    ];
+                } else {
+                    $errorCode = '03';
+                }
+            }
+        } else {
+            $errorCode = '03';
         }
-        return false;
+        return [
+            'flag'      => false,
+            'errorCode' => $errorCode,
+        ];
     }
 
     public function checkCertificateValidity(Truck $truck)

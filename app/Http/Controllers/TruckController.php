@@ -25,23 +25,17 @@ class TruckController extends Controller
      */
     public function index(TruckFilterRequest $request)
     {
-        $truckTypeId    = $request->get('truck_type_id');
-        $truckId        = $request->get('truck_id');
-        $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+        $noOfRecords = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'truck_type_id' => $truckTypeId,
-                'id'            => $truckId,
-            ];
-
-        $trucks         = $this->truckRepo->getTrucks($params, $noOfRecords);
-        $trucksCombo    = $this->truckRepo->getTrucks();
-        $truckTypes     = $this->truckRepo->getTruckTypes();
+            'truck_type_id' => $request->get('truck_type_id'),
+            'id'            => $request->get('truck_id'),
+        ];
         
         return view('trucks.list', [
-                'trucksCombo'   => $trucksCombo,
-                'trucks'        => $trucks,
-                'truckTypes'    => $truckTypes,
+                'trucksCombo'   => $this->truckRepo->getTrucks(),
+                'trucks'        => $this->truckRepo->getTrucks($params, $noOfRecords),
+                'truckTypes'    => $this->truckRepo->getTruckTypes(),
                 'bodyTypes'     => $this->truckRepo->bodyTypes,
                 'params'        => $params,
                 'noOfRecords'   => $noOfRecords,
@@ -55,12 +49,9 @@ class TruckController extends Controller
      */
     public function create()
     {
-        $stateCodes = $this->truckRepo->getStateCodes();
-        $truckTypes = $this->truckRepo->getTruckTypes();
-
         return view('trucks.register',[
-                'truckTypes'    => $truckTypes,
-                'stateCodes'    => $stateCodes,
+                'truckTypes'    => $this->truckRepo->getTruckTypes(),
+                'stateCodes'    => $this->truckRepo->getStateCodes(),
                 'bodyTypes'     => $this->truckRepo->bodyTypes,
             ]);
     }
@@ -103,9 +94,6 @@ class TruckController extends Controller
 
         $truck = $this->truckRepo->getTruck($id);
 
-        if(empty($truck) && empty($truck->id)) {
-            return redirect(route('trucks.index'))->with("message", "Record Not found!")->with("alert-class", "alert-danger");
-        }
         $validity = $this->truckRepo->checkCertificateValidity($truck);
 
         if($validity['flag']) {
@@ -158,10 +146,10 @@ class TruckController extends Controller
     {
         $deleteFlag = $this->truckRepo->deleteTruck($id);
 
-        if($deleteFlag) {
+        if($deleteFlag['flag']) {
             return redirect(route('trucks.index'))->with("message", "Truck details deleted successfully.")->with("alert-class", "alert-success");
         }
 
-        return redirect(route('trucks.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('trucks.index'))->with("message", "Deletion failed. Error Code :". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
 }

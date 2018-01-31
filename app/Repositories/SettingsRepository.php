@@ -22,9 +22,10 @@ class SettingsRepository
      */
     public function getSettings()
     {
-        $settings = [];
-        
         $settings = $this->settings->find(1);
+        if(empty($settings) || empty($settings->id)) {
+            $settings = [];
+        }
 
         return $settings;
     }

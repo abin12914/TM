@@ -26,8 +26,6 @@ class TransportationRepository
      */
     public function getTransportations($params=[], $relationalParams=[], $noOfRecords=null)
     {
-        $transportations = [];
-        
         $transportations = Transportation::where('status', 1);
 
         foreach ($params as $param) {
@@ -46,9 +44,17 @@ class TransportationRepository
         }
         
         if(!empty($noOfRecords)) {
-            $transportations = $transportations->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $transportations = $transportations->first();
+            } else {
+                $transportations = $transportations->paginate($noOfRecords);
+            }
         } else {
             $transportations= $transportations->get();
+        }
+
+        if(empty($transportations) || $transportations->count() < 1) {
+            $transportations = [];
         }
 
         return $transportations;
@@ -59,9 +65,11 @@ class TransportationRepository
      */
     public function getMaterials()
     {
-        $materials = [];
-        
         $materials = Material::where('status', 1)->get();
+
+        if(empty($materials) || $materials->count() < 1) {
+            $materials = [];
+        }
 
         return $materials;
     }
@@ -97,20 +105,9 @@ class TransportationRepository
         }
         $transportationRentAccountId = $transportationRentAccount->id;
 
-        //getting employee wage account id
-        $employeeWageAccount = Account::where('account_name','Employee Wage')->first();
-        if(empty($employeeWageAccount) || empty($employeeWageAccount->id)) {
-            return [
-                    'flag'      => false,
-                    'errorCode' => "02"
-                ];
-        }
-        $employeeWageAccountId = $employeeWageAccount->id;
-
         $truck              = Truck::find($truckId)->reg_number;
         $source             = Site::find($sourceId)->name;
         $destination        = Site::find($destinationId)->name;
-        $employeeAccountId  = Employee::find($employeeId)->account_id;
 
         $tripDetails        = ( $truck. ", ". $source. " - ". $destination);
         $rentDetails        = (" [". $rentMeasurement. "*". $rentRate. " = ". $totalRent. "]");
@@ -140,53 +137,18 @@ class TransportationRepository
             $transportation->driver_wage    = $employeeWage;
             $transportation->status         = 1;
             if($transportation->save()) {
-
-                $wageTransaction    = new Transaction;
-                $wageTransaction->debit_account_id  = $employeeAccountId; //employee account
-                $wageTransaction->credit_account_id = $employeeWageAccountId; //employee wage account id
-                $wageTransaction->amount            = $employeeWage;
-                $wageTransaction->transaction_date  = $transportationDate;
-                $wageTransaction->particulars       = ("Employee wage [Trip Bata] : ". $tripDetails);
-                $wageTransaction->status            = 1;
-                $wageTransaction->created_user_id   = $createdUserId;
-                if($wageTransaction->save()) {
-
-                    $wage   = new EmployeeWage;
-                    $wage->transaction_id   = $wageTransaction->id;
-                    $wage->date             = $transportationDate;
-                    $wage->wage_type        = 3;
-                    $wage->trip_id          = $transportation->id;
-                    $wage->wage             = $employeeWage;
-                    $wage->status           = 1;
-                    if($wage->save()) {
-
-                        return [
-                                'flag'  => true,
-                                'id'    => $transportation->id,
-                            ];
-                    } else {
-                        //delete the wageTransaction, transportation , transaction if wage saving failed
-                        $wageTransaction->delete();
-                        $transportation->delete();
-                        $transaction->delete();
-
-                        $saveFlag = 3;
-                    }
-                } else {
-                    //delete the transportation , transaction if wageTransaction saving failed
-                    $transportation->delete();
-                    $transaction->delete();
-
-                    $saveFlag = 4;
-                }
+                return [
+                    'flag'  => true,
+                    'id'    => $transportation->id,
+                ];
             } else {
                 //delete the transaction if transporatation saving failed
-                $transaction->delete();
+                $transaction->forceDelete();
 
-                $saveFlag = 5;
+                $saveFlag = '02';
             }
         } else {
-            $saveFlag = 6;
+            $saveFlag = '03';
         }
         return [
                 'flag'      => false,
@@ -200,17 +162,47 @@ class TransportationRepository
     public function getTransportation($id)
     {
         $transportation = Transportation::where('status', 1)->where('id', $id)->first();
+        if(empty($transportation) || empty($transportation->id)) {
+            $transportation = [];
+        }
 
         return $transportation;
     }
 
-    public function deleteTransportation($id)
+    public function deleteTransportation($id, $forceFlag=false)
     {
         $transportation = Transportation::where('status', 1)->where('id', $id)->first();
 
         if(!empty($transportation) && !empty($transportation->id)) {
-            return $transportation->delete();
+            if($forceFlag) {
+                if($transportation->transaction->forceDelete() && $transportation->forceDelete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => false,
+                    ];
+                } else {
+                    $errorCode = '04';
+                }
+            } else {
+                if($transportation->transaction->delete()) {
+                    if($transportation->delete()) {
+                        return [
+                            'flag'  => true,
+                            'force' => false,
+                        ];
+                    } else {
+                        $errorCode = '05';
+                    }
+                } else {
+                    $errorCode = '06';
+                }
+            }
+        } else {
+            $errorCode = '07';
         }
-        return false;
+        return [
+            'flag'      => false,
+            'errorCode' => $errorCode,
+        ];
     }
 }

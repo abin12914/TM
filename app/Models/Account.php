@@ -17,10 +17,10 @@ class Account extends Model
     protected $dates = ['deleted_at'];
     
     /**
-     * Get the personal record associated with the account
+     * Get the purchase record associated with the transaction.
      */
-    public function accountDetail()
+    public function employee()
     {
-        return $this->hasone('App\Models\AccountDetail', 'account_id');
+        return $this->hasOne('App\Models\Employee', 'account_id');
     }
 }

@@ -24,21 +24,16 @@ class EmployeeController extends Controller
      */
     public function index(EmployeeFilterRequest $request)
     {
-        $wageType       = $request->get('wage_type');
-        $employeeId     = $request->get('employee_id');
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'wage_type' => $wageType,
-                'id'        => $employeeId,
+                'wage_type' => $request->get('wage_type'),
+                'id'        => $request->get('employee_id'),
             ];
-
-        $employees      = $this->employeeRepo->getEmployees($params, $noOfRecords);
-        $employeesCombo = $this->employeeRepo->getEmployees();
         
         return view('employees.list', [
-                'employeesCombo'    => $employeesCombo,
-                'employees'         => $employees,
+                'employeesCombo'    => $this->employeeRepo->getEmployees(),
+                'employees'         => $this->employeeRepo->getEmployees($params, $noOfRecords),
                 'wageTypes'         => $this->employeeRepo->wageTypes,
                 'params'            => $params,
                 'noOfRecords'       => $noOfRecords,
@@ -82,10 +77,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        $employee = $this->employeeRepo->getEmployee($id);
-
         return view('employees.details', [
-                'employee'  => $employee,
+                'employee'  => $this->employeeRepo->getEmployee($id),
                 'wageTypes' => $this->employeeRepo->wageTypes,
             ]);
     }
@@ -123,10 +116,10 @@ class EmployeeController extends Controller
     {
         $deleteFlag = $this->employeeRepo->deleteEmployee($id);
 
-        if($deleteFlag) {
+        if($deleteFlag['flag']) {
             return redirect(route('employees.index'))->with("message", "Employee details deleted successfully.")->with("alert-class", "alert-success");
         }
 
-        return redirect(route('employees.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('employees.index'))->with("message", "Deletion failed. Error Code : ". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
 }

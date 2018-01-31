@@ -23,7 +23,6 @@ class ReportRepository
      */
     public function getAccountStatement($params=[], $noOfRecords=null)
     {
-        $transactions   = [];
         $overviewDebit  = 0;
         $overviewCredit = 0;
         $obDebit        = 0;
@@ -58,6 +57,14 @@ class ReportRepository
             $query = $query->where(function ($qry) use($params) {
                 $qry->where('debit_account_id', $params['account_id'])->orWhere('credit_account_id', $params['account_id']);
             });
+        } elseif ($params['transaction_type'] == 1) {
+            $query = $query->where(function ($qry) use($params) {
+                $qry->where('debit_account_id', $params['account_id']);
+            });
+        } else {
+            $query = $query->where(function ($qry) use($params) {
+                $qry->where('credit_account_id', $params['account_id']);
+            });
         }
 
         if(!empty($params['from_date'])) {
@@ -85,9 +92,17 @@ class ReportRepository
         $transactions = $query->orderBy('transaction_date','asc')->orderBy('id','asc');
 
         if(!empty($noOfRecords)) {
-            $transactions   = $transactions->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $transactions   = $transactions->first();
+            } else {
+                $transactions   = $transactions->paginate($noOfRecords);
+            }
         } else {
             $transactions   = $transactions->get();
+        }
+
+        if(empty($transactions) || $transactions->count() < 1) {
+            $transactions = [];
         }
 
         return [

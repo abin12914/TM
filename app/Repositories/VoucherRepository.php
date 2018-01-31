@@ -15,8 +15,6 @@ class VoucherRepository
      */
     public function getVouchers($params=[], $relationalOrParams=[], $noOfRecords=null)
     {
-        $vouchers = [];
-        
         $vouchers = Voucher::where('status', 1);
 
         foreach ($params as $param) {
@@ -41,9 +39,17 @@ class VoucherRepository
         }
         
         if(!empty($noOfRecords)) {
-            $vouchers = $vouchers->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $vouchers = $vouchers->first();
+            } else {
+                $vouchers = $vouchers->paginate($noOfRecords);
+            }
         } else {
             $vouchers= $vouchers->get();
+        }
+
+        if(empty($vouchers) || $vouchers->count() < 1) {
+            $vouchers = [];
         }
 
         return $vouchers;
@@ -108,12 +114,12 @@ class VoucherRepository
                     ];
             } else {
                 //delete the transaction if voucher saving failed
-                $transaction->delete();
+                $transaction->forceDelete();
 
-                $saveFlag = 2;
+                $saveFlag = '02';
             }
         } else {
-            $saveFlag = 2;
+            $saveFlag = '03';
         }
         return [
             'flag'  => false,
@@ -128,19 +134,48 @@ class VoucherRepository
     {   
         $voucher = Voucher::where('status', 1)->where('id', $id)->first();
 
+        if(empty($voucher) || empty($voucher->id)) {
+            $voucher = [];
+        }
+
         return $voucher;
     }
 
     /**
      * delete voucher.
      */
-    public function deleteVoucher($id)
+    public function deleteVoucher($id, $forceFlag=false)
     {   
         $voucher = Voucher::where('status', 1)->where('id', $id)->first();
 
         if(!empty($voucher) && !empty($voucher->id)) {
-            return $voucher->delete();
+            if($forceFlag) {
+                if($voucher->transaction->forceDelete() && $voucher->forceDelete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => true,
+                    ];
+                } else {
+                    $errorCode = "04";
+                }
+            } else {
+                if($voucher->transaction->delete()) {
+                    if($voucher->delete()) {
+                        return [
+                            'flag'  => true,
+                            'force' => false,
+                        ];
+                    }
+                } else {
+                    $errorCode = "05";
+                }
+            }
+        } else {
+            $errorCode = "06";
         }
-        return false;
+        return [
+            'flag'      => false,
+            'errorCode' => $errorCode,
+        ];
     }
 }

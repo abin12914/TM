@@ -43,6 +43,7 @@ class AccountFilterRequest extends FormRequest
                                 ],
             'no_of_records' =>  [
                                     'nullable',
+                                    'min:2',
                                     'integer',
                                 ],
         ];

@@ -36,19 +36,17 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 5%;">Ref. No.</th>
-                                                <th style="width: 10%;">Date</th>
                                                 <th style="width: 10%;">Truck</th>
                                                 <th style="width: 20%;">Source</th>
                                                 <th style="width: 20%;">Destination</th>
                                                 <th style="width: 10%;">Material</th>
-                                                <th style="width: 15%;">Driver</th>
+                                                <th style="width: 10%;">Driver</th>
                                                 <th style="width: 10%;">Driver Wage</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>{{ $supplyTransportation->id }}</td>
-                                                <td>{{ Carbon\Carbon::parse($supplyTransportation->date)->format('d-m-Y') }}</td>
                                                 <td>{{ $supplyTransportation->truck->reg_number }}</td>
                                                 <td>{{ $supplyTransportation->source->name }}</td>
                                                 <td>{{ $supplyTransportation->destination->name }}</td>
@@ -82,16 +80,19 @@
                                         <thead>
                                             <tr>
                                                 <th style="width: 5%;">Ref. No.</th>
+                                                <th style="width: 10%;">Date</th>
                                                 <th style="width: 30%;">Contractor</th>
-                                                <th style="width: 15%;">Rent type</th>
-                                                <th style="width: 15%;">Measurement</th>
-                                                <th style="width: 15%;">Rent rate</th>
-                                                <th style="width: 20%;">Total Rent</th>
+                                                <th style="width: 10%;">Rent type</th>
+                                                <th style="width: 10%;">Measurement</th>
+                                                <th style="width: 10%;">Rent rate</th>
+                                                <th style="width: 10%;">Discount</th>
+                                                <th style="width: 15%;">Total Rent</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>{{ $supplyTransportation->id }}</td>
+                                                <td>{{ Carbon\Carbon::parse($supplyTransportation->date)->format('d-m-Y') }}</td>
                                                 <td class="text-red">{{ $supplyTransportation->transaction->debitAccount->account_name }}</td>
                                                 @if(!empty($rentTypes))
                                                     <td>{{ !empty($rentTypes[$supplyTransportation->rent_type]) ? $rentTypes[$supplyTransportation->rent_type] : "Error!" }}</td>
@@ -100,6 +101,7 @@
                                                 @endif
                                                 <td>{{ $supplyTransportation->measurement }}</td>
                                                 <td>{{ $supplyTransportation->rent_rate }}</td>
+                                                <td>0</td>
                                                 <td>{{ $supplyTransportation->total_rent }}</td>
                                             </tr>
                                         </tbody>

@@ -8,22 +8,19 @@ use App\Repositories\TruckRepository;
 use App\Repositories\AccountRepository;
 use App\Repositories\SiteRepository;
 use App\Repositories\EmployeeRepository;
+use App\Repositories\EmployeeWageRepository;
 use App\Http\Requests\TransportationRegistrationRequest;
 use App\Http\Requests\TransportationFilterRequest;
 use \Carbon\Carbon;
 
 class TransportationController extends Controller
 {
-    protected $transportationRepo, $truckRepo, $accountRepo, $siteRpepo, $employeeRepo;
+    protected $transportationRepo;
     public $errorHead = 5, $noOfRecordsPerPage = 15;
 
-    public function __construct(TransportationRepository $transportationRepo, TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
+    public function __construct(TransportationRepository $transportationRepo)
     {
-        $this->transportationRepo   = $transportationRepo;
-        $this->truckRepo            = $truckRepo;
-        $this->accountRepo          = $accountRepo;
-        $this->siteRpepo            = $siteRpepo;
-        $this->employeeRepo         = $employeeRepo;
+        $this->transportationRepo = $transportationRepo;
     }
 
     /**
@@ -31,16 +28,10 @@ class TransportationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TransportationFilterRequest $request)
+    public function index(TransportationFilterRequest $request, TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
     {
         $fromDate            = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
         $toDate              = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
-        $contractorAccountId = $request->get('contractor_account_id');
-        $truckId             = $request->get('truck_id');
-        $sourceId            = $request->get('source_id');
-        $destinationId       = $request->get('destination_id');
-        $driverId            = $request->get('driver_id');
-        $materialId          = $request->get('material_id');
         $noOfRecords         = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
@@ -57,27 +48,27 @@ class TransportationController extends Controller
                 [
                     'paramName'     => 'truck_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $truckId,
+                    'paramValue'    => $request->get('truck_id'),
                 ],
                 [
                     'paramName'     => 'source_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $sourceId,
+                    'paramValue'    => $request->get('source_id'),
                 ],
                 [
                     'paramName'     => 'destination_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $destinationId,
+                    'paramValue'    => $request->get('destination_id'),
                 ],
                 [
                     'paramName'     => 'driver_id',
                     'paramOperator' => '=', 
-                    'paramValue'    => $driverId,
+                    'paramValue'    => $request->get('driver_id'),
                 ],
                 [
                     'paramName'     => 'material_id',
                     'paramOperator' => '=', 
-                    'paramValue'    => $materialId,
+                    'paramValue'    => $request->get('material_id'),
                 ],
             ];
 
@@ -85,7 +76,7 @@ class TransportationController extends Controller
                 [
                     'relation'      => 'transaction',
                     'paramName'     => 'debit_account_id',
-                    'paramValue'    => $contractorAccountId,
+                    'paramValue'    => $request->get('contractor_account_id'),
                 ]
             ];
 
@@ -95,13 +86,12 @@ class TransportationController extends Controller
         $params[0]['paramValue'] = $request->get('from_date');
         $params[1]['paramValue'] = $request->get('to_date');
         $params = array_merge($params, $relationalParams);
-        /*array_push($params, $relationalParams[0]);*/
         
         return view('transportations.list', [
-                'accounts'          => $this->accountRepo->getAccounts(),
-                'sites'             => $this->siteRpepo->getSites(),
-                'trucks'            => $this->truckRepo->getTrucks(),
-                'drivers'           => $this->employeeRepo->getEmployees(),
+                'accounts'          => $accountRepo->getAccounts(),
+                'sites'             => $siteRpepo->getSites(),
+                'trucks'            => $truckRepo->getTrucks(),
+                'drivers'           => $employeeRepo->getEmployees(),
                 'materials'         => $this->transportationRepo->getMaterials(),
                 'transportations'   => $transportations,
                 'rentTypes'         => $this->transportationRepo->rentTypes,
@@ -115,20 +105,14 @@ class TransportationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
     {
-        $trucks     = $this->truckRepo->getTrucks();
-        $accounts   = $this->accountRepo->getAccounts();
-        $sites      = $this->siteRpepo->getSites();
-        $employees  = $this->employeeRepo->getEmployees();
-        $materials  = $this->transportationRepo->getMaterials();
-
         return view('transportations.register', [
-                'trucks'    => $trucks,
-                'accounts'  => $accounts,
-                'sites'     => $sites,
-                'employees' => $employees,
-                'materials' => $materials,
+                'trucks'    => $truckRepo->getTrucks(),
+                'accounts'  => $accountRepo->getAccounts(),
+                'sites'     => $siteRpepo->getSites(),
+                'employees' => $employeeRepo->getEmployees(),
+                'materials' => $this->transportationRepo->getMaterials(),
                 'rentTypes' => $this->transportationRepo->rentTypes,
             ]);
     }
@@ -139,15 +123,25 @@ class TransportationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TransportationRegistrationRequest $request)
+    public function store(TransportationRegistrationRequest $request, EmployeeWageRepository $employeeWageRepo)
     {
-        $response   = $this->transportationRepo->saveTransportation($request);
+        $transportation = $this->transportationRepo->saveTransportation($request);
 
-        if($response['flag']) {
-            return redirect()->back()->with("message","Transportation details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "alert-success");
+        if($transportation['flag']) {
+
+            $employeeWage = $employeeWageRepo->saveEmployeeWage($request, $transportation['id']);
+            if($employeeWage['flag']) {
+                return redirect()->back()->with("message","Transportation details saved successfully. Reference Number : ". $employeeWage['id'])->with("alert-class", "alert-success");
+            } else {
+
+                $this->transportationRepo->deleteTransportation($transportation['id'], true);
+                $errorCode = '/02/'.$employeeWage['errorCode'];
+            }
+        } else {
+            $errorCode = '/01/'.$transportation['errorCode'];
         }
         
-        return redirect()->back()->with("message","Failed to save the transportation details. Error Code : ". $response['errorCode'])->with("alert-class", "alert-danger");
+        return redirect()->back()->with("message","Failed to save the transportation details. Error Code : ". $errorHead.$errorCode)->with("alert-class", "alert-danger");
     }
 
     /**
@@ -158,10 +152,8 @@ class TransportationController extends Controller
      */
     public function show($id)
     {
-        $transportation = $this->transportationRepo->getTransportation($id);
-
         return view('transportations.details', [
-                'transportation'    => $transportation,
+                'transportation'    => $this->transportationRepo->getTransportation($id),
                 'rentTypes'         => $this->transportationRepo->rentTypes,
             ]);
     }
@@ -195,14 +187,28 @@ class TransportationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, EmployeeWageRepository $employeeWageRepo)
     {
-        $deleteFlag = $this->transportationRepo->deleteTransportation($id);
+        $transportation = $this->transportationRepo->getTransportation($id);
 
-        if($deleteFlag) {
-            return redirect(route('transportations.index'))->with("message", "Transportation details deleted successfully.")->with("alert-class", "alert-success");
+        if(!empty($transportation) && !empty($transportation->id)) {
+            $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation->employeeWage->id);
+
+            if($deleteEmployeeWage['flag']) {
+                $deleteTransportationFlag = $this->transportationRepo->deleteTransportation($id);
+
+                if($deleteTransportationFlag['flag']) {
+                    return redirect(route('transportations.index'))->with("message", "Transportation details deleted successfully.")->with("alert-class", "alert-success");
+                } else {
+                    $errorCode = '03/'. $deleteTransportationFlag['errorCode'];
+                }
+            } else {
+                $errorCode = '04/'. $deleteEmployeeWage['errorCode'];
+            }
+        } else {
+            $errorCode = '05';
         }
 
-        return redirect(route('transportations.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('transportations.index'))->with("message", "Deletion failed. Error Code : ". $errorHead. " / ". $errorCode)->with("alert-class", "alert-danger");
     }
 }

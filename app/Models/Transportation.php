@@ -88,4 +88,12 @@ class Transportation extends Model
     {
         return $this->hasOne('App\Models\Sale', 'trip_id');
     }
+
+    /**
+     * Get the purchase record associated with the transportation if it is a supply.
+     */
+    public function employeeWage()
+    {
+        return $this->hasOne('App\Models\EmployeeWage', 'trip_id');
+    }
 }

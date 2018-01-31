@@ -12,24 +12,16 @@ use Auth;
 
 class ExpenseRepository
 {
-
-    protected $expense;
-
-    public function __construct(Expense $expense)
-    {
-        $this->expense = $expense;
-    }
-
     /**
-     * Return statecodes.
+     * Return services.
      */
     public function getServices()
     {
-        $stateCodes = [];
+        $services = [];
 
-        $stateCodes = Service::orderBy('name')->get();
+        $services = Service::orderBy('name')->get();
 
-        return $stateCodes;
+        return $services;
     }
 
     /**
@@ -37,8 +29,6 @@ class ExpenseRepository
      */
     public function getExpenses($params=[], $relationalParams=[], $noOfRecords=null)
     {
-        $expenses = [];
-        
         $expenses = Expense::where('status', 1);
 
         foreach ($params as $param) {
@@ -57,9 +47,16 @@ class ExpenseRepository
         }
         
         if(!empty($noOfRecords)) {
-            $expenses = $expenses->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $expenses = $expenses->first();
+            } else {
+                $expenses = $expenses->paginate($noOfRecords);
+            }
         } else {
             $expenses= $expenses->get();
+        }
+        if(empty($expenses) || $expenses->count() < 1) {
+            $expenses = [];
         }
 
         return $expenses;
@@ -82,9 +79,9 @@ class ExpenseRepository
         $expenseAccount = Account::where('account_name','Service And Expenses')->first();
         if(empty($expenseAccount) || empty($expenseAccount->id)) {
             return [
-                    'flag'      => false,
-                    'errorCode' => "01"
-                ];
+                'flag'      => false,
+                'errorCode' => "01"
+            ];
         }
         $expenseAccountId = $expenseAccount->id;
 
@@ -95,9 +92,9 @@ class ExpenseRepository
 
             if(empty($supplierAccount) || empty($supplierAccount->id)) {
                 return [
-                        'flag'      => false,
-                        'errorCode' => "02"
-                    ];
+                    'flag'      => false,
+                    'errorCode' => "02"
+                ];
             }
         }
         $truck = Truck::find($truckId);
@@ -127,12 +124,12 @@ class ExpenseRepository
                     ];
             } else {
                 //delete the transaction if expense saving failed
-                $transaction->delete();
+                $transaction->forceDelete();
 
-                $saveFlag = 3;
+                $saveFlag = '03';
             }
         } else {
-            $saveFlag = 4;
+            $saveFlag = '04';
         }
         return [
             'flag'  => false,
@@ -146,17 +143,46 @@ class ExpenseRepository
     public function getExpense($id)
     {
         $expense = Expense::where('status', 1)->where('id', $id)->first();
+        if(empty($expense) || empty($expense->id)) {
+            $expense = [];
+        }
 
         return $expense;
     }
 
-    public function deleteExpense($id)
+    public function deleteExpense($id, $forceFlag=false)
     {
+        $errorCode = 'Unknown';
         $expense = Expense::where('status', 1)->where('id', $id)->first();
 
         if(!empty($expense) && !empty($expense->id)) {
-            return $expense->delete();
+            if($forceFlag) {
+                if($expense->transaction->forceDelete() && $expense->forceDelete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => true,
+                    ];
+                } else {
+                    $errorCode = '05';
+                }
+            } else {
+                if($expense->transaction->delete()) {
+                    if($expense->delete()) {
+                        return [
+                            'flag'  => true,
+                            'force' => false,
+                        ];
+                    } else {
+                        $errorCode = '06';
+                    }
+                } else {
+                    $errorCode = '07';
+                }
+            }
         }
-        return false;
+        return [
+            'flag'          => false,
+            'error_code'    => $errorCode,
+        ];
     }
 }

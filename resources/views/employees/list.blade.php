@@ -118,7 +118,7 @@
                                             @foreach($employees as $index => $employee)
                                                 <tr>
                                                     <td>{{ $index + $employees->firstItem() }}</td>
-                                                    <td>{{ $employee->account->accountDetail->name }}</td>
+                                                    <td>{{ $employee->account->name }}</td>
                                                     @if(!empty($wageTypes))
                                                         <td>
                                                             {{ !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Error!" }}

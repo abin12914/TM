@@ -62,9 +62,20 @@ class ReportController extends Controller
         }
 
         return view('reports.account-statement', [
-                'transactions'      => $transactions,
-                'params'        => $params,
-                'noOfRecords'   => $noOfRecords,
+                'transactions'      => [],
+                'overviewDebit'     => 0,
+                'overviewCredit'    => 0,
+                'obDebit'           => 0,
+                'obCredit'          => 0,
+                'subtotalDebit'     => 0,
+                'subtotalCredit'    => 0,
+                'totalDebit'        => 0,
+                'totalCredit'       => 0,
+                'relations'         => $this->reportRepo->transactionRelations,
+                'accounts'          => $accounts,
+                'params'            => $params,
+                'params'            => $params,
+                'noOfRecords'       => $noOfRecords,
             ]);
     }
 }

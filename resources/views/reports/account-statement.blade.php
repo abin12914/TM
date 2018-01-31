@@ -114,7 +114,7 @@
                         <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
-                                @if(!empty($accounts->firstWhere('id', $params['account_id'])->account_name))
+                                @if(!empty($accounts->firstWhere('id', $params['account_id'])) && !empty($accounts->firstWhere('id', $params['account_id'])->account_name))
                                     <div class="box-header">
                                         <div class="pad margin no-print">
                                             <div class="callout callout-default">
@@ -128,7 +128,11 @@
                                                             </th>
                                                             <td>
                                                                 <span class="badge bg-light-blue" style="width:100%; font-size: 15px;">
-                                                                    {{ $accounts->firstWhere('id', $params['account_id'])->account_name }}
+                                                                    @if(!empty($accounts->firstWhere('id', $params['account_id'])))
+                                                                        {{ $accounts->firstWhere('id', $params['account_id'])->account_name }}
+                                                                    @else
+                                                                        Error
+                                                                    @endif
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -198,8 +202,12 @@
                             @endif
                         @endforeach
                         <h4>
-                            Ledger of <b>{{ $accounts->firstWhere('id', $params['account_id'])->account_name }}</b>
-                            - [ {{ $params['from_date'] or 'starting' }} - {{ $params['to_date'] or 'end' }} ]
+                            @if($accounts->firstWhere('id', $params['account_id']))
+                                Ledger of <b>{{ $accounts->firstWhere('id', $params['account_id'])->account_name }}</b>
+                                - [ {{ $params['from_date'] or 'starting' }} - {{ $params['to_date'] or 'end' }} ]
+                            @else
+                                Error
+                            @endif
                         </h4>
                     </div>
                     <div class="box-body">

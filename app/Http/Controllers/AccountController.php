@@ -24,21 +24,16 @@ class AccountController extends Controller
      */
     public function index(AccountFilterRequest $request)
     {
-        $accountRelation    = $request->get('relation_type');
-        $accountId          = $request->get('account_id');
-        $noOfRecords        = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+        $noOfRecords = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'relation'  => $accountRelation,
-                'id'        => $accountId,
+                'relation'  => $request->get('relation_type'),
+                'id'        => $request->get('account_id'),
             ];
 
-        $accounts       = $this->accountRepo->getAccounts($params, $noOfRecords);
-        $accountsCombo  = $this->accountRepo->getAccounts();
-        
         return view('accounts.list', [
-                'accountsCombo' => $accountsCombo,
-                'accounts'      => $accounts,
+                'accountsCombo' => $this->accountRepo->getAccounts(),
+                'accounts'      => $this->accountRepo->getAccounts($params, $noOfRecords),
                 'relationTypes' => $this->accountRepo->relationTypes,
                 'accountTypes'  => $this->accountRepo->accountTypes,
                 'params'        => $params,
@@ -86,10 +81,8 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        $account = $this->accountRepo->getAccount($id);
-
         return view('accounts.details', [
-                'account'       => $account,
+                'account'       => $this->accountRepo->getAccount($id),
                 'relationTypes' => $this->accountRepo->relationTypes,
                 'accountTypes'  => $this->accountRepo->accountTypes,
             ]);
@@ -126,12 +119,19 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        $deleteFlag = $this->accountRepo->deleteAccount($id);
+        $account = $this->accountRepo->getAccount($id);
 
-        if($deleteFlag) {
-            return redirect(route('accounts.index'))->with("message", "Account details deleted successfully.")->with("alert-class", "alert-success");
+        if(!empty($account) && !empty($account->id)) {
+            if($account->relation != 5) {
+                $deleteFlag = $this->accountRepo->deleteAccount($id);
+                if($deleteFlag['flag']) {
+                    return redirect(route('accounts.index'))->with("message", "Account details deleted successfully.")->with("alert-class", "alert-success");
+                }
+            } else {
+                return redirect(route('accounts.index'))->with("message", "Deletion failed. Employee account should be deleted from employee records.")->with("alert-class", "alert-danger");
+            }
         }
 
-        return redirect(route('accounts.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('accounts.index'))->with("message", "Deletion failed. Error Code : ". $errorHead. " / ". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
 }

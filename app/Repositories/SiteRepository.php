@@ -19,8 +19,6 @@ class SiteRepository
      */
     public function getSites($params=[], $noOfRecords=null)
     {
-        $sites = [];
-        
         $sites = Site::where('status', 1);
 
         foreach ($params as $key => $value) {
@@ -29,9 +27,17 @@ class SiteRepository
             }
         }
         if(!empty($noOfRecords)) {
-            $sites = $sites->paginate($noOfRecords);
+            if($noOfRecords == 1) {
+                $sites = $sites->first();
+            } else {
+                $sites = $sites->paginate($noOfRecords);   
+            }
         } else {
             $sites = $sites->get();
+        }
+
+        if(empty($sites) || $sites->count() < 1) {
+            $sites = [];
         }
 
         return $sites;
@@ -73,16 +79,42 @@ class SiteRepository
     {
         $site = Site::where('status', 1)->where('id', $id)->first();
 
+        if(empty($site) || empty($site->id)) {
+            $site = [];
+        }
+
         return $site;
     }
 
-    public function deleteSite($id)
+    public function deleteSite($id, $forceFlag=false)
     {
         $site = Site::where('status', 1)->where('id', $id)->first();
 
         if(!empty($site) && !empty($site->id)) {
-            return $site->delete();
+            if($forceFlag) {
+                if($site->forceDelete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => true,
+                    ];
+                } else {
+                    $errorCode = '02';
+                }
+            } else {
+                if($site->delete()) {
+                    return [
+                        'flag'  => true,
+                        'force' => false,
+                    ];
+                } else {
+                    $errorCode = '03';
+                }
+            }
+        } else {
+            $errorCode = '04';
         }
-        return false;
+        return ['flag'      => false,
+            'error_code'    => $errorCode,
+        ];
     }
 }

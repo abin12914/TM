@@ -24,21 +24,16 @@ class SiteController extends Controller
      */
     public function index(SiteFilterRequest $request)
     {
-        $siteType       = $request->get('site_type');
-        $siteId         = $request->get('site_id');
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'site_type' => $siteType,
-                'id'        => $siteId,
-            ];
+            'site_type' => $request->get('site_type'),
+            'id'        => $request->get('site_id'),
+        ];
 
-        $sites      = $this->siteRepo->getSites($params, $noOfRecords);
-        $sitesCombo = $this->siteRepo->getSites();
-        
         return view('sites.list', [
-                'sitesCombo'    => $sitesCombo,
-                'sites'         => $sites,
+                'sitesCombo'    => $this->siteRepo->getSites(),
+                'sites'         => $this->siteRepo->getSites($params, $noOfRecords),
                 'siteTypes'     => $this->siteRepo->siteTypes,
                 'params'        => $params,
                 'noOfRecords'   => $noOfRecords,
@@ -82,10 +77,8 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        $site = $this->siteRepo->getSite($id);
-
         return view('sites.details', [
-                'site'      => $site,
+                'site'      => $this->siteRepo->getSite($id),
                 'siteTypes' => $this->siteRepo->siteTypes,
             ]);
     }
@@ -123,10 +116,10 @@ class SiteController extends Controller
     {
         $deleteFlag = $this->siteRepo->deleteSite($id);
 
-        if($deleteFlag) {
+        if($deleteFlag['flag']) {
             return redirect(route('sites.index'))->with("message", "Site details deleted successfully.")->with("alert-class", "alert-success");
         }
 
-        return redirect(route('sites.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('sites.index'))->with("message", "Deletion failed. Error Code : ". $errorHead. " / ". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
 }

@@ -31,9 +31,6 @@ class ExpenseController extends Controller
     {
         $fromDate           = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
         $toDate             = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
-        $supplierAccountId  = $request->get('supplier_account_id');
-        $truckId            = $request->get('truck_id');
-        $serviceId          = $request->get('service_id');
         $noOfRecords        = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
@@ -50,12 +47,12 @@ class ExpenseController extends Controller
                 [
                     'paramName'     => 'truck_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $truckId,
+                    'paramValue'    => $request->get('truck_id'),
                 ],
                 [
                     'paramName'     => 'service_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $serviceId,
+                    'paramValue'    => $request->get('service_id'),
                 ],
             ];
 
@@ -63,7 +60,7 @@ class ExpenseController extends Controller
                 [
                     'relation'      => 'transaction',
                     'paramName'     => 'credit_account_id',
-                    'paramValue'    => $supplierAccountId,
+                    'paramValue'    => $request->get('supplier_account_id'),
                 ]
             ];
 
@@ -73,7 +70,6 @@ class ExpenseController extends Controller
         $params[0]['paramValue'] = $request->get('from_date');
         $params[1]['paramValue'] = $request->get('to_date');
         $params = array_merge($params, $relationalParams);
-        /*array_push($params, $relationalParams[0]);*/
         
         return view('expenses.list', [
                 'accounts'      => $this->accountRepo->getAccounts(),
@@ -92,14 +88,10 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        $trucks     = $this->truckRepo->getTrucks();
-        $accounts   = $this->accountRepo->getAccounts();
-        $services   = $this->expenseRepo->getServices();
-
         return view('expenses.register', [
-                'trucks'    => $trucks,
-                'accounts'  => $accounts,
-                'services'  => $services,
+                'trucks'    => $this->truckRepo->getTrucks(),
+                'accounts'  => $this->accountRepo->getAccounts(),
+                'services'  => $this->expenseRepo->getServices(),
             ]);
     }
 
@@ -128,10 +120,8 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        $expense = $this->expenseRepo->getExpense($id);
-
         return view('expenses.details', [
-                'expense'    => $expense,
+                'expense' => $this->expenseRepo->getExpense($id),
             ]);
     }
 
@@ -168,10 +158,10 @@ class ExpenseController extends Controller
     {
         $deleteFlag = $this->expenseRepo->deleteExpense($id);
 
-        if($deleteFlag) {
+        if($deleteFlag['flag']) {
             return redirect(route('expenses.index'))->with("message", "Expense details deleted successfully.")->with("alert-class", "alert-success");
         }
 
-        return redirect(route('expenses.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('expenses.index'))->with("message", "Deletion failed. Error Code : ". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
 }

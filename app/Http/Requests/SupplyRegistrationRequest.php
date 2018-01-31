@@ -57,7 +57,7 @@ class SupplyRegistrationRequest extends FormRequest
         $rate       = $this->request->get("rent_rate");
         $rentAmount = $this->request->get("total_rent");
 
-        if(($quanty * $rate) != $rentAmount) {
+        if(($quanty * $rate) == $rentAmount) {
             return true;
         }
         return false;

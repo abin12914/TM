@@ -17,7 +17,7 @@ class AuthCheck
     public function handle($request, Closure $next)
     {
         if(!Auth::check()) {
-            return redirect(route('login-view'))->with("message","Login to continue.")
+            return redirect(route('login.view'))->with("message","Login to continue.")
                                                 ->with("alert-class","alert-danger");
         }
         return $next($request);

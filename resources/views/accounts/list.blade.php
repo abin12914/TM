@@ -135,7 +135,7 @@
                                                     @else
                                                         <td>Error</td>
                                                     @endif
-                                                    <td>{{ $account->accountDetail->name }}</td>
+                                                    <td>{{ $account->name }}</td>
                                                     @if($account->financial_status == 1)
                                                         <td>{{ $account->opening_balance }}</td>
                                                         <td></td>

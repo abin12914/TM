@@ -9,23 +9,22 @@ use App\Repositories\TruckRepository;
 use App\Repositories\AccountRepository;
 use App\Repositories\SiteRepository;
 use App\Repositories\EmployeeRepository;
+use App\Repositories\PurchaseRepository;
+use App\Repositories\SaleRepository;
+use App\Repositories\EmployeeWageRepository;
 use App\Http\Requests\SupplyRegistrationRequest;
 use App\Http\Requests\TransportationFilterRequest;
 use \Carbon\Carbon;
 
 class SupplyController extends Controller
 {
-    protected $supplyRepo, $transportationRepo, $truckRepo, $accountRepo, $siteRpepo, $employeeRepo;
+    protected $supplyRepo, $transportationRepo;
     public $errorHead = 6, $noOfRecordsPerPage = 15;
     
-    public function __construct(SupplyRepository $supplyRepo, TransportationRepository $transportationRepo, TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
+    public function __construct(SupplyRepository $supplyRepo, TransportationRepository $transportationRepo)
     {
         $this->supplyRepo           = $supplyRepo;
         $this->transportationRepo   = $transportationRepo;
-        $this->truckRepo            = $truckRepo;
-        $this->accountRepo          = $accountRepo;
-        $this->siteRpepo            = $siteRpepo;
-        $this->employeeRepo         = $employeeRepo;
     }
 
     /**
@@ -33,15 +32,10 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TransportationFilterRequest $request)
+    public function index(TransportationFilterRequest $request, TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
     {
         $fromDate            = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
         $toDate              = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
-        $contractorAccountId = $request->get('contractor_account_id');
-        $truckId             = $request->get('truck_id');
-        $sourceId            = $request->get('source_id');
-        $destinationId       = $request->get('destination_id');
-        $materialId          = $request->get('material_id');
         $noOfRecords         = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
@@ -58,22 +52,22 @@ class SupplyController extends Controller
                 [
                     'paramName'     => 'truck_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $truckId,
+                    'paramValue'    => $request->get('truck_id'),
                 ],
                 [
                     'paramName'     => 'source_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $sourceId,
+                    'paramValue'    => $request->get('source_id'),
                 ],
                 [
                     'paramName'     => 'destination_id',
                     'paramOperator' => '=',
-                    'paramValue'    => $destinationId,
+                    'paramValue'    => $request->get('destination_id'),
                 ],
                 [
                     'paramName'     => 'material_id',
                     'paramOperator' => '=', 
-                    'paramValue'    => $materialId,
+                    'paramValue'    => $request->get('material_id'),
                 ],
             ];
 
@@ -81,7 +75,7 @@ class SupplyController extends Controller
                 [
                     'relation'      => 'transaction',
                     'paramName'     => 'debit_account_id',
-                    'paramValue'    => $contractorAccountId,
+                    'paramValue'    => $request->get('contractor_account_id'),
                 ]
             ];
 
@@ -91,12 +85,11 @@ class SupplyController extends Controller
         $params[0]['paramValue'] = $request->get('from_date');
         $params[1]['paramValue'] = $request->get('to_date');
         $params = array_merge($params, $relationalParams);
-        /*array_push($params, $relationalParams[0]);*/
         
         return view('supply.list', [
-                'accounts'              => $this->accountRepo->getAccounts(),
-                'sites'                 => $this->siteRpepo->getSites(),
-                'trucks'                => $this->truckRepo->getTrucks(),
+                'accounts'              => $accountRepo->getAccounts(),
+                'sites'                 => $siteRpepo->getSites(),
+                'trucks'                => $truckRepo->getTrucks(),
                 'materials'             => $this->transportationRepo->getMaterials(),
                 'supplyTransportations' => $supplyTransportations,
                 'rentTypes'             => $this->transportationRepo->rentTypes,
@@ -110,20 +103,14 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
     {
-        $trucks     = $this->truckRepo->getTrucks();
-        $accounts   = $this->accountRepo->getAccounts();
-        $sites      = $this->siteRpepo->getSites();
-        $employees  = $this->employeeRepo->getEmployees();
-        $materials  = $this->transportationRepo->getMaterials();
-
         return view('supply.register', [
-                'trucks'        => $trucks,
-                'accounts'      => $accounts,
-                'sites'         => $sites,
-                'employees'     => $employees,
-                'materials'     => $materials,
+                'trucks'        => $truckRepo->getTrucks(),
+                'accounts'      => $accountRepo->getAccounts(),
+                'sites'         => $siteRpepo->getSites(),
+                'employees'     => $employeeRepo->getEmployees(),
+                'materials'     => $this->transportationRepo->getMaterials(),
                 'rentTypes'     => $this->transportationRepo->rentTypes,
                 'measureTypes'  => $this->supplyRepo->measureTypes,
             ]);
@@ -135,30 +122,48 @@ class SupplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SupplyRegistrationRequest $request)
+    public function store(SupplyRegistrationRequest $request, PurchaseRepository $purchaseRepo, SaleRepository $saleRepo, EmployeeWageRepository $employeeWageRepo)
     {
         $transportation = $this->transportationRepo->saveTransportation($request);
 
         if($transportation['flag']) {
 
-            $purchase = $this->supplyRepo->savePurchase($request, $transportation['id']);
+            $employeeWage = $employeeWageRepo->saveEmployeeWage($request, $transportation['id']);
+            
+            if($employeeWage['flag']) {
 
-            if($purchase['flag']) {
+                $purchase = $purchaseRepo->savePurchase($request, $transportation['id']);
 
-                $sale = $this->supplyRepo->saveSale($request, $transportation['id']);
+                if($purchase['flag']) {
 
-                if($sale['flag']) {
-                    return redirect()->back()->with("message","Supply details saved successfully. Reference Number : ". $transportation['id'])->with("alert-class", "alert-success");
+                    $sale = $saleRepo->saveSale($request, $transportation['id']);
+
+                    if($sale['flag']) {
+                        
+                        return redirect()->back()->with("message","Supply details saved successfully. Reference Number : ". $transportation['id'])->with("alert-class", "alert-success");
+                    } else {
+                        //delete purchase
+                        $purchaseRepo->deletePurchase($purchase['id'], true);
+                        //delete employee wage
+                        $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation['id'], true);
+                        //delete transportation
+                        $this->transportationRepo->deleteTransportation($transportation['id'], true);
+
+                        return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/04/". $sale['errorCode'])->with("alert-class", "alert-danger");
+                    }
                 } else {
-                    //delete purchase
+                    //delete employee wage
+                    $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation['id'], true);
                     //delete transportation
+                    $this->transportationRepo->deleteTransportation($transportation['id'], true);
 
-                    return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/03/". $sale['errorCode'])->with("alert-class", "alert-danger");
+                    return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/03/". $purchase['errorCode'])->with("alert-class", "alert-danger");
                 }
             } else {
-                //delete transportation
+                //delete transportation if employee wage saving failed
+                $this->transportationRepo->deleteTransportation($transportation['id'], true);
 
-                return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/02/". $purchase['errorCode'])->with("alert-class", "alert-danger");
+                return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/02/". $employeeWage['errorCode'])->with("alert-class", "alert-danger");
             }
         }
 
@@ -174,6 +179,9 @@ class SupplyController extends Controller
     public function show($id)
     {
         $supplyTransportation = $this->supplyRepo->getSupplyTransportation($id);
+        if(empty($supplyTransportation) || empty($supplyTransportation->id)) {
+            $supplyTransportation = [];
+        }
         
         return view('supply.details', [
                 'supplyTransportation'  => $supplyTransportation,
@@ -211,14 +219,46 @@ class SupplyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, PurchaseRepository $purchaseRepo, SaleRepository $saleRepo, EmployeeWageRepository $employeeWageRepo)
     {
-        $deleteFlag = $this->supplyRepo->deleteSupply($id);
+        $supplyTransportation = $this->supplyRepo->getSupplyTransportation($id);
 
-        if($deleteFlag) {
-            return redirect(route('supply.index'))->with("message", "Supply details deleted successfully.")->with("alert-class", "alert-success");
+        if(!empty($supplyTransportation) && !empty($supplyTransportation->id)) {
+            
+            $purchaseDelete = $purchaseRepo->deletePurchase($supplyTransportation->purchase->id);
+            if($purchaseDelete['flag']) {
+                
+                $saleDelete = $saleRepo->deleteSale($supplyTransportation->sale->id);
+                if($saleDelete['flag']) {
+
+                    $employeeWageDelete = $employeeWageRepo->saveEmployeeWage($transportation['id']);
+            
+                    if($employeeWageDelete['flag']) {
+                    
+                        $transportationDelete = $this->transportationRepo->deleteTransportation($supplyTransportation->id);
+                        if($transportationDelete['flag']) {
+                            
+                            return redirect(route('supply.index'))->with("message", "Supply details deleted successfully.")->with("alert-class", "alert-success");
+                        } else {
+                            
+                            $deleteFlag = "04 / ". $transportationDelete['errorCode'];
+                        }
+                    } else {
+                        $deleteFlag = "03 / ". $employeeWageDelete['errorCode'];
+                    }
+                } else {
+
+                    $deleteFlag = "02 / ". $saleDelete['errorCode'];
+                }
+            } else {
+
+                $deleteFlag = "01 / ". $purchaseDelete['errorCode'];
+            }
+        } else {
+
+            $deleteFlag = "05";
         }
 
-        return redirect(route('supply.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('supply.index'))->with("message", "Deletion failed. Error Code : ". $this->errorHead. " / ". $deleteFlag)->with("alert-class", "alert-danger");
     }
 }

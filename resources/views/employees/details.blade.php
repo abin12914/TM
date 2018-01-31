@@ -32,10 +32,10 @@
                             <!-- Add the bg color to the header using any of the bg-* classes -->
                             <div class="widget-user-header bg-yellow">
                                 <div class="widget-user-image">
-                                    <img class="img-circle" src="{{ $employee->account->accountDetail->image or "/images/accounts/default_account.png" }}" alt="User Avatar">
+                                    <img class="img-circle" src="{{ $employee->account->image or "/images/accounts/default_account.png" }}" alt="User Avatar">
                                 </div>
                                 <!-- /.widget-user-image -->
-                                <h3 class="widget-user-username">{{ $employee->account->accountDetail->name }}</h3>
+                                <h3 class="widget-user-username">{{ $employee->account->name }}</h3>
                                 <h5 class="widget-user-desc">Employee</h5>
                             </div>
                             <div class="box-footer no-padding">
@@ -43,7 +43,7 @@
                                     <li>
                                         <a href="#">Name 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $employee->account->accountDetail->name }}</div>
+                                                <div class="external-event bg-blue text-center">{{ $employee->account->name }}</div>
                                             </div>
                                         </a>
                                     </li>
@@ -58,7 +58,7 @@
                                         <a href="#">Address
                                             <div style="width: 30%;" class="pull-right">
                                                 <div class="external-event bg-blue text-center">
-                                                    {{ $employee->account->accountDetail->address or "-" }}
+                                                    {{ $employee->account->address or "-" }}
                                                 </div>
                                             </div>
                                         </a>
@@ -67,7 +67,7 @@
                                         <a href="#">Phone
                                             <div style="width: 30%;" class="pull-right">
                                                 <div class="external-event bg-aqua text-center">
-                                                    {{ $employee->account->accountDetail->phone or "-" }}
+                                                    {{ $employee->account->phone or "-" }}
                                                 </div>
                                             </div>
                                         </a>

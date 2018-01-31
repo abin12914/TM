@@ -23,7 +23,7 @@
         <div class="col-md-10">
             <div class="login-logo">
                 <br>
-                <img src="/images/user/account_expired.png">
+                <img src="/images/public/account_expired.png">
                 <div>
                     <b style="color: firebrick;">
                         Your trial period has been expired!

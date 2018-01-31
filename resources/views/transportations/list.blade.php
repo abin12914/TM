@@ -117,7 +117,7 @@
                                                 <option value="">Select driver</option>
                                                 @if(!empty($drivers) && (count($drivers) > 0))
                                                     @foreach($drivers as $driver)
-                                                        <option value="{{ $driver->id }}" {{ (old('driver_id') == $driver->id || $params[5]['paramValue'] == $driver->id) ? 'selected' : '' }}>{{ $driver->account->accountDetail->name }}</option>
+                                                        <option value="{{ $driver->id }}" {{ (old('driver_id') == $driver->id || $params[5]['paramValue'] == $driver->id) ? 'selected' : '' }}>{{ $driver->account->name }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -209,7 +209,7 @@
                                                     <td>{{ $transportation->destination->name }}</td>
                                                     <td class="no-print">{{ $transportation->material->name }}</td>
                                                     <td>{{ $transportation->total_rent }}</td>
-                                                    <td class="no-print">{{ $transportation->employee->account->accountDetail->name }}</td>
+                                                    <td class="no-print">{{ $transportation->employee->account->name }}</td>
                                                     <td class="no-print">{{ $transportation->driver_wage }}</td>
                                                     <td class="no-print">
                                                         <a href="{{ route('transportations.show', ['id' => $transportation->id]) }}">

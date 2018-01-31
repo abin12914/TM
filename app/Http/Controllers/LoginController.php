@@ -43,7 +43,7 @@ class LoginController extends Controller
             ]);
          if($validator->fails()) {
             //validation failed
-            return redirect(route('login-view'))->withErrors($validator)->withInput();
+            return redirect(route('login.view'))->withErrors($validator)->withInput();
          }
 
          if(Auth::attempt(['user_name' => $userName, 'password' => $password, 'status' => '1'], $rememberUser)) {
@@ -57,10 +57,10 @@ class LoginController extends Controller
                     //user expired or expiring soon
                     if($today->diffInDays($userValidDate, false) < 0) {
                         //user expired
-                        return redirect(route('user-expired'))->with("expired-user", $user->user_name);
+                        return redirect(route('user.expired'))->with("expired-user", $user->user_name);
                     }
                     //user expiring soon
-                    return redirect(route('user.dashboard'))->with("message",("Welcome " . $user->name . ". Your trial pack ends on " . $user->valid_till . ". Please contact developer team for more info."))->with("alert-class","alert-warning");
+                    return redirect(route('user.dashboard'))->with("message",("Welcome " . $user->name . ". Your trial pack ends on " . $userValidDate . ". Please contact developer team for more info."))->with("alert-class","alert-warning");
                 }
             }
             return redirect(route('user.dashboard'))->with("message","Welcome " . $user->name . ". You are successfully logged in to the Trucking Manager.")->with("alert-class","alert-success");
@@ -140,7 +140,7 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect(route('login-view'));
+        return redirect(route('login.view'));
     }
 
     /**
@@ -161,7 +161,7 @@ class LoginController extends Controller
             Auth::logout();
             return view('public.user-expired');
         } else {
-            return redirect(route('login-view'));
+            return redirect(route('login.view'));
         }
     }
 }

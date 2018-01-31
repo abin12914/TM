@@ -11,13 +11,12 @@ use \Carbon\Carbon;
 
 class VoucherController extends Controller
 {
-    protected $voucherRepo, $accountRepo;
+    protected $voucherRepo;
     public $errorHead = 7, $noOfRecordsPerPage = 15;
 
-     public function __construct(VoucherRepository $voucherRepo, AccountRepository $accountRepo)
+     public function __construct(VoucherRepository $voucherRepo)
     {
         $this->voucherRepo  = $voucherRepo;
-        $this->accountRepo  = $accountRepo;
     }
 
     /**
@@ -25,13 +24,10 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(VoucherFilterRequest $request)
+    public function index(VoucherFilterRequest $request, AccountRepository $accountRepo)
     {
         $fromDate       = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
         $toDate         = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
-        $accountId      = $request->get('account_id');
-        $debitReciept   = $request->get('transaction_type_debit');
-        $creditVoucher  = $request->get('transaction_type_credit');
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
@@ -48,8 +44,8 @@ class VoucherController extends Controller
                 [
                     'paramName'     => 'transaction_type',
                     'paramOperator' => '=',
-                    'paramValue'    => $debitReciept,
-                    'paramValue1'   => $creditVoucher,
+                    'paramValue'    => $request->get('transaction_type_debit'),
+                    'paramValue1'   => $request->get('transaction_type_credit'),
                 ],
             ];
 
@@ -58,7 +54,7 @@ class VoucherController extends Controller
                     'relation'      => 'transaction',
                     'paramName1'    => 'debit_account_id',
                     'paramName2'    => 'credit_account_id',
-                    'paramValue'    => $accountId,
+                    'paramValue'    => $request->get('account_id'),
                 ],
             ];
 
@@ -70,7 +66,7 @@ class VoucherController extends Controller
         $params = array_merge($params, $relationalOrParams);
 
         return view('vouchers.list', [
-                'accounts'      => $this->accountRepo->getAccounts(),
+                'accounts'      => $accountRepo->getAccounts(),
                 'vouchers'      => $vouchers,
                 'params'        => $params,
                 'noOfRecords'   => $noOfRecords,
@@ -82,12 +78,10 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(AccountRepository $accountRepo)
     {
-        $accounts   = $this->accountRepo->getAccounts();
-
         return view('vouchers.register', [
-                'accounts'  => $accounts,
+                'accounts'  => $accountRepo->getAccounts(),
             ]);
     }
 
@@ -116,10 +110,8 @@ class VoucherController extends Controller
      */
     public function show($id)
     {
-        $voucher = $this->voucherRepo->getVoucher($id);
-
         return view('vouchers.details', [
-                'voucher' => $voucher,
+                'voucher' => $this->voucherRepo->getVoucher($id),
             ]);
     }
 
@@ -156,10 +148,10 @@ class VoucherController extends Controller
     {
         $deleteFlag = $this->voucherRepo->deleteVoucher($id);
 
-        if($deleteFlag) {
+        if($deleteFlag['flag']) {
             return redirect(route('vouchers.index'))->with("message", "Voucher details deleted successfully.")->with("alert-class", "alert-success");
         }
 
-        return redirect(route('vouchers.index'))->with("message", "Deletion failed.")->with("alert-class", "alert-danger");
+        return redirect(route('vouchers.index'))->with("message", "Deletion failed. Error Code : ". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
 }
