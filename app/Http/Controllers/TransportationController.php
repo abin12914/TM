@@ -125,23 +125,35 @@ class TransportationController extends Controller
      */
     public function store(TransportationRegistrationRequest $request, EmployeeWageRepository $employeeWageRepo)
     {
-        $transportation = $this->transportationRepo->saveTransportation($request);
+        $saveFlag  = 0;
+        $errorCode = 0;
+        $noOfTrip  = !empty($request->get('no_of_trip')) ? $request->get('no_of_trip') : 1;
 
-        if($transportation['flag']) {
+        for($i = 1; $i <= $noOfTrip; $i++) {
+            $transportation = $this->transportationRepo->saveTransportation($request);
 
-            $employeeWage = $employeeWageRepo->saveEmployeeWage($request, $transportation['id']);
-            if($employeeWage['flag']) {
-                return redirect()->back()->with("message","Transportation details saved successfully. Reference Number : ". $employeeWage['id'])->with("alert-class", "alert-success");
+            if($transportation['flag']) {
+
+                $employeeWage = $employeeWageRepo->saveEmployeeWage($request, $transportation['id']);
+                if($employeeWage['flag']) {
+                    $saveFlag = $saveFlag + 1;
+                } else {
+
+                    $this->transportationRepo->deleteTransportation($transportation['id'], true);
+                    $errorCode = '/02/'.$employeeWage['errorCode'];
+                    break;
+                }
             } else {
-
-                $this->transportationRepo->deleteTransportation($transportation['id'], true);
-                $errorCode = '/02/'.$employeeWage['errorCode'];
+                $errorCode = '/01/'.$transportation['errorCode'];
+                break;
             }
-        } else {
-            $errorCode = '/01/'.$transportation['errorCode'];
         }
         
-        return redirect()->back()->with("message","Failed to save the transportation details. Error Code : ". $errorHead.$errorCode)->with("alert-class", "alert-danger");
+        if ($saveFlag == $noOfTrip) {
+            return redirect()->back()->with("message", $saveFlag. " - Transportation details saved successfully. Reference Number : ". $transportation['id'])->with("alert-class", "alert-success");
+        } else {
+            return redirect()->back()->with("message",$saveFlag. " - Records saved.". ($noOfTrip - $saveFlag)." - Records failed. Error Code : XXX/". $this->errorHead.$errorCode)->with("alert-class", "alert-danger");
+        }
     }
 
     /**
@@ -209,6 +221,6 @@ class TransportationController extends Controller
             $errorCode = '05';
         }
 
-        return redirect(route('transportations.index'))->with("message", "Deletion failed. Error Code : ". $errorHead. " / ". $errorCode)->with("alert-class", "alert-danger");
+        return redirect(route('transportations.index'))->with("message", "Deletion failed. Error Code : ". $this->errorHead. " / ". $errorCode)->with("alert-class", "alert-danger");
     }
 }

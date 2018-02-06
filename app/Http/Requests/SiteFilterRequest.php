@@ -44,6 +44,7 @@ class SiteFilterRequest extends FormRequest
             'no_of_records' =>  [
                                     'nullable',
                                     'min:2',
+                                    'max:100',
                                     'integer',
                                 ],
         ];

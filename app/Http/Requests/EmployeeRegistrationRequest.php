@@ -36,7 +36,7 @@ class EmployeeRegistrationRequest extends FormRequest
                                         'required',
                                         'numeric',
                                         'digits_between:10,13',
-                                        Rule::unique('account_details')->ignore($this->id),
+                                        Rule::unique('accounts')->ignore($this->id),
                                     ],
             'address'           =>  [
                                         'nullable',

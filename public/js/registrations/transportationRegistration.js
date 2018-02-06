@@ -58,6 +58,15 @@ $(function () {
 
         initializeSelect2();
     });
+
+    //submit transportation form
+    $('body').on("click", "#save_button", function (e) {
+        e.preventDefault();
+        $("#save_button").prop("disabled", true);
+        $(this).parents('form:first').submit();
+        $("#wait_modal").modal("show");
+        changeMessage();
+    });
 });
 
 //method for total rent calculation and driver wage calculation
@@ -85,4 +94,27 @@ function calculateTotalRent() {
         $('#total_rent').val(0);
         $('#employee_wage').val(0);
     }
+}
+
+//function to show messages one by one in modal
+function changeMessage() {
+    var countFlag = 1;
+    setInterval(function() {
+        if(countFlag == 1) {
+            $("#wait_modal_message_1").hide();
+            $("#wait_modal_message_2").show();
+            $("#wait_modal_message_3").hide();
+            countFlag = 2;
+        } else if(countFlag == 2) {
+            $("#wait_modal_message_1").hide();
+            $("#wait_modal_message_2").hide();
+            $("#wait_modal_message_3").show();
+            countFlag = 3;
+        } else {
+            $("#wait_modal_message_1").show();
+            $("#wait_modal_message_2").hide();
+            $("#wait_modal_message_3").hide();
+            countFlag = 1;
+        }
+    }, 4000 );
 }

@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <label for="name" class="col-sm-2 control-label"><b style="color: red;">* </b> Name : </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('name')) ? 'has-error' : '' }}">
-                                            <input type="text" name="name" class="form-control" id="name" placeholder="Name" value="{{ old('name') }}" tabindex="1">
+                                            <input type="text" name="name" class="form-control" id="name" placeholder="Name" value="{{ old('name') }}" tabindex="1" maxlength="100">
                                             @if(!empty($errors->first('name')))
                                                 <p style="color: red;" >{{$errors->first('name')}}</p>
                                             @endif
@@ -50,7 +50,7 @@
                                     <div class="form-group">
                                         <label for="phone" class="col-sm-2 control-label"><b style="color: red;">* </b> Phone : </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('phone')) ? 'has-error' : '' }}">
-                                            <input type="text" name="phone" class="form-control number_only" id="phone" placeholder="Phone number" value="{{ old('phone') }}" tabindex="2">
+                                            <input type="text" name="phone" class="form-control number_only" id="phone" placeholder="Phone number" value="{{ old('phone') }}" tabindex="2" maxlength="13">
                                             @if(!empty($errors->first('phone')))
                                                 <p style="color: red;" >{{$errors->first('phone')}}</p>
                                             @endif
@@ -60,9 +60,9 @@
                                         <label for="address" class="col-sm-2 control-label">Address : </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('address')) ? 'has-error' : '' }}">
                                             @if(!empty(old('address')))
-                                                <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="3">{{ old('address') }}</textarea>
+                                                <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="3" maxlength="200">{{ old('address') }}</textarea>
                                             @else
-                                                <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="3"></textarea>
+                                                <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" tabindex="3" maxlength="200"></textarea>
                                             @endif
                                             @if(!empty($errors->first('address')))
                                                 <p style="color: red;" >{{$errors->first('address')}}</p>
@@ -106,7 +106,7 @@
                                     <div class="form-group">
                                         <label for="account_name" class="col-sm-2 control-label"><b style="color: red;">* </b> Account Name : </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('account_name')) ? 'has-error' : '' }}">
-                                            <input type="text" name="account_name" class="form-control" id="account_name" placeholder="Account Name" value="{{ old('account_name') }}"  tabindex="7">
+                                            <input type="text" name="account_name" class="form-control" id="account_name" placeholder="Account Name" value="{{ old('account_name') }}"  tabindex="7" maxlength="100">
                                             @if(!empty($errors->first('account_name')))
                                                 <p style="color: red;" >{{$errors->first('account_name')}}</p>
                                             @endif
@@ -129,7 +129,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label"><b style="color: red;">* </b> Opening Balance: </label>
                                         <div class="col-sm-10 {{ !empty($errors->first('opening_balance')) ? 'has-error' : '' }}">
-                                            <input type="text" class="form-control decimal_number_only" name="opening_balance" id="opening_balance" placeholder="Opening balance" value="{{ old('opening_balance') }}" tabindex="9" {{ old('financial_status') == '0' ? 'readonly' : '' }}>
+                                            <input type="text" class="form-control decimal_number_only" name="opening_balance" id="opening_balance" placeholder="Opening balance" value="{{ old('opening_balance') }}" tabindex="9" {{ old('financial_status') == '0' ? 'readonly' : '' }} maxlength="8">
                                             @if(!empty($errors->first('opening_balance')))
                                                 <p style="color: red;" >{{$errors->first('opening_balance')}}</p>
                                             @endif
@@ -141,11 +141,11 @@
                                 <div class="row">
                                     <div class="col-xs-3"></div>
                                     <div class="col-xs-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="11">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="10">Clear</button>
                                     </div>
                                     {{-- <div class="col-sm-1"></div> --}}
                                     <div class="col-xs-3">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="10">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="11">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>

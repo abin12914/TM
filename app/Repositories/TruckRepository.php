@@ -24,7 +24,7 @@ class TruckRepository
     {
         $stateCodes = DB::table('vehicle_registration_state_codes')->orderBy('code')->get();
 
-        if(empty($statecodes) || $statecodes->count < 1) {
+        if(empty($stateCodes) || $stateCodes->count() < 1) {
             $stateCodes = [];
         }
 

@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('truck_type_id')) ? 'has-error' : '' }}">
                                             <label for="truck_type_id" class="control-label">Truck Type : </label>
-                                            <select class="form-control select2" name="truck_type_id" id="truck_type_id" style="width: 100%">
+                                            <select class="form-control select2" name="truck_type_id" id="truck_type_id" style="width: 100%" tabindex="1">
                                                 <option value="">Select truck type</option>
                                                 @if(!empty($truckTypes) && (count($truckTypes) > 0))
                                                     @foreach($truckTypes as $truckType)
@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
                                             <label for="truck_id" class="control-label">Truck : </label>
-                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%">
+                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%" tabindex="2">
                                                 <option value="">Select truck</option>
                                                 @if(!empty($trucksCombo) && (count($trucksCombo) > 0))
                                                     @foreach($trucksCombo as $truck)
@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
-                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
+                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="3">
                                             @if(!empty($errors->first('no_of_records')))
                                                 <p style="color: red;" >{{$errors->first('no_of_records')}}</p>
                                             @endif
@@ -77,10 +77,10 @@
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="10">Clear</button>
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="4">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="5"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>

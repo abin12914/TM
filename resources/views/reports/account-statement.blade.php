@@ -32,7 +32,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
                                             <label for="account_id" class="control-label">Account : </label>
-                                            <select class="form-control select2" name="account_id" id="account_id" tabindex="3" style="width: 100%">
+                                            <select class="form-control select2" name="account_id" id="account_id" tabindex="1" style="width: 100%">
                                                 @if(!empty($accounts) && (count($accounts) > 0))
                                                     <option value="">Select account</option>
                                                     @foreach($accounts as $account)
@@ -46,14 +46,14 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
                                             <label for="from_date" class="control-label">Start Date : </label>
-                                            <input type="text" class="form-control decimal_number_only datepicker" name="from_date" id="from_date" placeholder="Date" value="{{ $params['from_date'] or old('from_date') }}" tabindex="1">
+                                            <input type="text" class="form-control decimal_number_only datepicker" name="from_date" id="from_date" placeholder="Date" value="{{ $params['from_date'] or old('from_date') }}" tabindex="2">
                                             @if(!empty($errors->first('from_date')))
                                                 <p style="color: red;" >{{$errors->first('from_date')}}</p>
                                             @endif
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
                                             <label for="to_date" class="control-label">End Date : </label>
-                                            <input type="text" class="form-control decimal_number_only datepicker" name="to_date" id="to_date" placeholder="Date" value="{{ $params['to_date'] or old('to_date') }}" tabindex="1">
+                                            <input type="text" class="form-control decimal_number_only datepicker" name="to_date" id="to_date" placeholder="Date" value="{{ $params['to_date'] or old('to_date') }}" tabindex="3">
                                             @if(!empty($errors->first('to_date')))
                                                 <p style="color: red;" >{{$errors->first('to_date')}}</p>
                                             @endif
@@ -62,7 +62,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
                                             <label for="relation_type" class="control-label">Transaction Relation : </label>
-                                            <select class="form-control select2" name="relation_type" id="relation_type" style="width: 100%">
+                                            <select class="form-control select2" name="relation_type" id="relation_type" style="width: 100%" tabindex="4">
                                                 @if(!empty($relations) && (count($relations) > 0))
                                                     <option value="">Select relation</option>
                                                     @foreach($relations as $key => $relation)
@@ -78,7 +78,7 @@
                                             <label for="transaction_type" class="control-label">
                                                 Transaction Type : 
                                             </label>
-                                            <select class="form-control select2" name="transaction_type" id="transaction_type" style="width: 100%">
+                                            <select class="form-control select2" name="transaction_type" id="transaction_type" style="width: 100%" tabindex="5">
                                                 <option value="">All type</option>
                                                 <option value="1" {{ ((old('transaction_type') == 1 ) || $params['transaction_type'] == 1) ? 'selected' : '' }}>Debit</option>
                                                 <option value="2" {{ ((old('transaction_type') == 2 ) || $params['transaction_type'] == 2) ? 'selected' : '' }}>Credit</option>
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
-                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
+                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="6">
                                             @if(!empty($errors->first('no_of_records')))
                                                 <p style="color: red;" >{{$errors->first('no_of_records')}}</p>
                                             @endif
@@ -101,10 +101,10 @@
                             <div class="row no-print">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="10">Clear</button>
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="7">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Get</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="8"><i class="fa fa-search"></i> Get</button>
                                 </div>
                             </div>
                         </form>

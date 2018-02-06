@@ -96,7 +96,7 @@ class TransportationRepository
         $employeeWage           = $request->get('employee_wage');
 
         //getting transportation account id
-        $transportationRentAccount = Account::where('account_name','Transportation Rent')->first();
+        $transportationRentAccount = Account::where('account_name','Trip Rent')->first();
         if(empty($transportationRentAccount) || empty($transportationRentAccount->id)) {
             return [
                     'flag'      => false,

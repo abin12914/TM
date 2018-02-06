@@ -114,28 +114,14 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">Financial Status On Account Registration 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if($account->financial_status == 0)
-                                                    <div class="external-event bg-aqua text-center">
-                                                        None
-                                                    </div>
-                                                @elseif($account->financial_status == 1)
-                                                    <div class="external-event bg-aqua text-center">
-                                                        Creditor (Company owe to the account holder)
-                                                    </div>
-                                                @else
-                                                    <div class="external-event bg-aqua text-center">
-                                                        Debitor (Account holder owe to the company)
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="#">Opening Balance 
                                             <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
+                                                <div class="external-event bg-aqua text-center">
+                                                    @if($account->financial_status == 1)
+                                                        Creditor - 
+                                                    @elseif($account->financial_status == 2)
+                                                        Debitor - 
+                                                    @endif
                                                     {{ $account->opening_balance }}
                                                 </div>
                                             </div>
@@ -153,20 +139,22 @@
                                             <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
                                         </form>
                                     </div>
-                                    <div class="col-xs-3">
-                                        @if($account->relation != 5)
-                                            <form action="{{route('accounts.destroy', ['id' => $account->id])}}" method="post" class="form-horizontal">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                            </form>
-                                        @else
-                                            <a href="{{ route('employees.show', ['id' => $account->employee->id]) }}">
-                                                <button type="button" class="btn btn-info btn-block btn-flat">Employee Details</button>
-                                            </a>
-                                        @endif
-                                    </div>
-                                    <!-- /.col -->
+                                    @if($currentUser->isSuperAdmin())
+                                        <div class="col-xs-3">
+                                            @if($account->relation != 5)
+                                                <form action="{{route('accounts.destroy', ['id' => $account->id])}}" method="post" class="form-horizontal">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
+                                                </form>
+                                            @else
+                                                <a href="{{ route('employees.show', ['id' => $account->employee->id]) }}">
+                                                    <button type="button" class="btn btn-info btn-block btn-flat">Employee Details</button>
+                                                </a>
+                                            @endif
+                                        </div>
+                                        <!-- /.col -->
+                                    @endif
                                 </div><br>
                             </div>
                         @endif

@@ -37,21 +37,21 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
                                             <label for="from_date" class="control-label">From Date : </label>
-                                            <input type="text" class="form-control datepicker" name="from_date" id="from_date" value="{{ !empty(old('from_date')) ? old('from_date') : $params[0]['paramValue'] }}">
+                                            <input type="text" class="form-control datepicker" name="from_date" id="from_date" value="{{ !empty(old('from_date')) ? old('from_date') : $params[0]['paramValue'] }}" tabindex="1">
                                             @if(!empty($errors->first('from_date')))
                                                 <p style="color: red;" >{{$errors->first('from_date')}}</p>
                                             @endif
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
                                             <label for="to_date" class="control-label">To Date : </label>
-                                            <input type="text" class="form-control datepicker" name="to_date" id="to_date" value="{{ !empty(old('to_date')) ? old('to_date') : $params[1]['paramValue'] }}">
+                                            <input type="text" class="form-control datepicker" name="to_date" id="to_date" value="{{ !empty(old('to_date')) ? old('to_date') : $params[1]['paramValue'] }}" tabindex="2">
                                             @if(!empty($errors->first('to_date')))
                                                 <p style="color: red;" >{{$errors->first('to_date')}}</p>
                                             @endif
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('supplier_account_id')) ? 'has-error' : '' }}">
                                             <label for="supplier_account_id" class="control-label">Supplier : </label>
-                                            <select class="form-control select2" name="supplier_account_id" id="supplier_account_id" style="width: 100%">
+                                            <select class="form-control select2" name="supplier_account_id" id="supplier_account_id" style="width: 100%" tabindex="3">
                                                 <option value="">Select account</option>
                                                 @if(!empty($accounts) && (count($accounts) > 0))
                                                     @foreach($accounts as $account)
@@ -69,7 +69,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
                                             <label for="truck_id" class="control-label">Truck : </label>
-                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%">
+                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%" tabindex="4">
                                                 <option value="">Select truck</option>
                                                 @if(!empty($trucks) && (count($trucks) > 0))
                                                     @foreach($trucks as $truck)
@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('service_id')) ? 'has-error' : '' }}">
                                             <label for="service_id" class="control-label">Service/Expense : </label>
-                                            <select class="form-control select2" name="service_id" id="service_id" style="width: 100%">
+                                            <select class="form-control select2" name="service_id" id="service_id" style="width: 100%" tabindex="5">
                                                 <option value="">Select service</option>
                                                 @if(!empty($services) && (count($services) > 0))
                                                     @foreach($services as $service)
@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
-                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
+                                            <input type="text" class="form-control" name="no_of_records number_only" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="6">
                                             @if(!empty($errors->first('no_of_records')))
                                                 <p style="color: red;" >{{$errors->first('no_of_records')}}</p>
                                             @endif
@@ -109,10 +109,10 @@
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="10">Clear</button>
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="7">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="8"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>

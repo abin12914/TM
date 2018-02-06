@@ -81,8 +81,8 @@ class EmployeeWageRepository
         $tripDetails        = ( $truck. ", ". $source. " - ". $destination);
 
         $transaction    = new Transaction;
-        $transaction->debit_account_id  = $employeeAccountId; //employee account
-        $transaction->credit_account_id = $employeeWageAccountId; //employee wage account id
+        $transaction->debit_account_id  = $employeeWageAccountId; //employee wage account id
+        $transaction->credit_account_id = $employeeAccountId; //employee account
         $transaction->amount            = $employeeWage;
         $transaction->transaction_date  = $transportationDate;
         $transaction->particulars       = ("Employee wage [Trip Bata] : ". $tripDetails);

@@ -124,48 +124,69 @@ class SupplyController extends Controller
      */
     public function store(SupplyRegistrationRequest $request, PurchaseRepository $purchaseRepo, SaleRepository $saleRepo, EmployeeWageRepository $employeeWageRepo)
     {
-        $transportation = $this->transportationRepo->saveTransportation($request);
+        $saveFlag  = 0;
+        $errorCode = 0;
+        $noOfTrip  = !empty($request->get('no_of_trip')) ? $request->get('no_of_trip') : 1;
 
-        if($transportation['flag']) {
+        for($i = 1; $i <= $noOfTrip; $i++) {
 
-            $employeeWage = $employeeWageRepo->saveEmployeeWage($request, $transportation['id']);
-            
-            if($employeeWage['flag']) {
+            $transportation = $this->transportationRepo->saveTransportation($request);
 
-                $purchase = $purchaseRepo->savePurchase($request, $transportation['id']);
+            if($transportation['flag']) {
 
-                if($purchase['flag']) {
+                $employeeWage = $employeeWageRepo->saveEmployeeWage($request, $transportation['id']);
+                
+                if($employeeWage['flag']) {
 
-                    $sale = $saleRepo->saveSale($request, $transportation['id']);
+                    $purchase = $purchaseRepo->savePurchase($request, $transportation['id']);
 
-                    if($sale['flag']) {
-                        
-                        return redirect()->back()->with("message","Supply details saved successfully. Reference Number : ". $transportation['id'])->with("alert-class", "alert-success");
+                    if($purchase['flag']) {
+
+                        $sale = $saleRepo->saveSale($request, $transportation['id']);
+
+                        if($sale['flag']) {
+
+                            $saveFlag = $saveFlag + 1;
+                        } else {
+                            //delete purchase
+                            $purchaseRepo->deletePurchase($purchase['id'], true);
+                            //delete employee wage
+                            $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation['id'], true);
+                            //delete transportation
+                            $this->transportationRepo->deleteTransportation($transportation['id'], true);
+
+                            $errorCode = '/04/'.$sale['errorCode'];
+                            break;
+                        }
                     } else {
-                        //delete purchase
-                        $purchaseRepo->deletePurchase($purchase['id'], true);
                         //delete employee wage
                         $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation['id'], true);
                         //delete transportation
                         $this->transportationRepo->deleteTransportation($transportation['id'], true);
 
-                        return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/04/". $sale['errorCode'])->with("alert-class", "alert-danger");
+                        $errorCode = '/03/'.$purchase['errorCode'];
+                        break;
                     }
                 } else {
-                    //delete employee wage
-                    $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation['id'], true);
-                    //delete transportation
+                    //delete transportation if employee wage saving failed
                     $this->transportationRepo->deleteTransportation($transportation['id'], true);
 
-                    return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/03/". $purchase['errorCode'])->with("alert-class", "alert-danger");
+                    $errorCode = '/02/'.$employeeWage['errorCode'];
+                    break;
                 }
             } else {
-                //delete transportation if employee wage saving failed
-                $this->transportationRepo->deleteTransportation($transportation['id'], true);
-
-                return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/02/". $employeeWage['errorCode'])->with("alert-class", "alert-danger");
+                $errorCode = '/01/'.$employeeWage['errorCode'];
+                break;
             }
         }
+
+        if ($saveFlag == $noOfTrip) {
+            return redirect()->back()->with("message", $saveFlag. " - Supply details saved successfully. Reference Number : ". $transportation['id'])->with("alert-class", "alert-success");
+        } else {
+            return redirect()->back()->with("message",$saveFlag. " - Records saved.". ($noOfTrip - $saveFlag)." - Records failed. Error Code : XXX/". $this->errorHead.$errorCode)->with("alert-class", "alert-danger");
+        }
+
+        
 
         return redirect()->back()->withInput()->with("message","Failed to save the supply details. Error Code : ". $this->errorHead. "/01/". $transportation['errorCode'])->with("alert-class", "alert-danger");
     }

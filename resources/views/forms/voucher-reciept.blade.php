@@ -3,7 +3,7 @@
     <div class="col-lg-5 {{ !empty($errors->first('transaction_type')) ? 'has-error' : '' }}">
         <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="transaction_type" class="transaction_type" id="transaction_type_debit" value="1" {{ empty(old('transaction_type')) || old('transaction_type') == '1' ? 'checked' : ''}}>
+                <input type="radio" name="transaction_type" class="transaction_type" id="transaction_type_debit" value="1" {{ empty(old('transaction_type')) || old('transaction_type') == '1' ? 'checked' : ''}} tabindex="1">
             </span>
             <label for="transaction_type_debit" class="form-control" tabindex="9">Debit / Reciept</label>
         </div>
@@ -14,9 +14,9 @@
     <div class="col-lg-5 {{ !empty($errors->first('transaction_type')) ? 'has-error' : '' }}">
         <div class="input-group">
             <span class="input-group-addon">
-                <input type="radio" name="transaction_type" class="transaction_type" id="transaction_type_credit" value="2" {{ old('transaction_type') == '2' ? 'checked' : ''}}>
+                <input type="radio" name="transaction_type" class="transaction_type" id="transaction_type_credit" value="2" {{ old('transaction_type') == '2' ? 'checked' : ''}} tabindex="2">
             </span>
-            <label for="transaction_type_credit" class="form-control" tabindex="10">Credit / Voucher</label>
+            <label for="transaction_type_credit" class="form-control">Credit / Voucher</label>
         </div>
     </div>
 </div>
@@ -26,7 +26,7 @@
         <b id="account_label">{{ (empty(old('transaction_type')) || old('transaction_type') == 1) ? "Giver / From : " : "Reciever / To : " }}</b>
     </label>
     <div class="col-sm-5 {{ !empty($errors->first('voucher_reciept_account_id')) ? 'has-error' : '' }}">
-        <select class="form-control select2" name="voucher_reciept_account_id" id="voucher_reciept_account_id" style="width: 100%;">
+        <select class="form-control select2" name="voucher_reciept_account_id" id="voucher_reciept_account_id" style="width: 100%;" tabindex="3">
             <option value="" {{ empty(old('voucher_reciept_account_id')) ? 'selected' : '' }}>Select account</option>
             @if(!empty($accounts))
                 @foreach($accounts as $account)
@@ -39,7 +39,7 @@
         @endif
     </div>
     <div class="col-sm-5">
-        <input type="text" class="form-control decimal_number_only datepicker_reg" name="date" id="date" placeholder="Transaction date" value="{{ old('date') }}">
+        <input type="text" class="form-control decimal_number_only datepicker_reg" name="date" id="date" placeholder="Transaction date" value="{{ old('date') }}" tabindex="4">
         @if(!empty($errors->first('date')))
             <p style="color: red;" >{{$errors->first('date')}}</p>
         @endif
@@ -61,7 +61,7 @@
 <div class="form-group">
     <label class="col-sm-2 control-label"><b style="color: red;">* </b> Amount : </label>
     <div class="col-sm-10 {{ !empty($errors->first('amount')) ? 'has-error' : '' }}">
-        <input type="text" class="form-control decimal_number_only" name="amount" id="amount" placeholder="Transaction amount" value="{{ old('amount') }}" maxlength="9">
+        <input type="text" class="form-control decimal_number_only" name="amount" id="amount" placeholder="Transaction amount" value="{{ old('amount') }}" maxlength="6" tabindex="6">
         @if(!empty($errors->first('amount')))
             <p style="color: red;" >{{$errors->first('amount')}}</p>
         @endif

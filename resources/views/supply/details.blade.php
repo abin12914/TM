@@ -194,7 +194,7 @@
                                             <tr>
                                                 <td>{{ $supplyTransportation->sale->id }}</td>
                                                 <td>{{ Carbon\Carbon::parse($supplyTransportation->sale->date)->format('d-m-Y') }}</td>
-                                                <td class="text-red">{{ $supplyTransportation->sale->transaction->creditAccount->account_name }}</td>
+                                                <td class="text-red">{{ $supplyTransportation->sale->transaction->debitAccount->account_name }}</td>
                                                 @if(!empty($measureTypes))
                                                     <td>{{ !empty($measureTypes[$supplyTransportation->sale->measure_type]) ? $measureTypes[$supplyTransportation->sale->measure_type] : "Error!" }}</td>
                                                 @else

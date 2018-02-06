@@ -93,7 +93,7 @@
                                         <div class="form-group">
                                             <label for="truck_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Truck Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('truck_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control select2" name="truck_type" id="truck_type" tabindex="7" style="width: 100%;">
+                                                <select class="form-control select2" name="truck_type" id="truck_type" tabindex="6" style="width: 100%;">
                                                     <option value="" {{ empty(old('truck_type')) ? 'selected' : '' }}>Select truck type</option>
                                                     @if(!empty($truckTypes))
                                                         @foreach($truckTypes as $truckType)
@@ -109,7 +109,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label"><b style="color: red;">* </b> Volume In Feet : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('volume')) ? 'has-error' : '' }}">
-                                                <input type="text" class="form-control number_only" name="volume" id="volume" placeholder="Volume in cubic feet" value="{{ old('volume') }}" tabindex="8" maxlength="9">
+                                                <input type="text" class="form-control number_only" name="volume" id="volume" placeholder="Volume in cubic feet" value="{{ old('volume') }}" tabindex="7" maxlength="9">
                                                 @if(!empty($errors->first('volume')))
                                                     <p style="color: red;" >{{$errors->first('volume')}}</p>
                                                 @endif
@@ -118,7 +118,7 @@
                                         <div class="form-group">
                                             <label for="body_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Body Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('body_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control select2" name="body_type" id="body_type" tabindex="9" style="width: 100%;">
+                                                <select class="form-control select2" name="body_type" id="body_type" tabindex="8" style="width: 100%;">
                                                     <option value="" {{ empty(old('body_type')) ? 'selected' : '' }}>Select body type</option>
                                                     @if(!empty($bodyTypes))
                                                         @foreach($bodyTypes as $key => $bodyType)
@@ -146,14 +146,14 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6 {{ !empty($errors->first('insurance_date')) ? 'has-error' : '' }}">
                                                     <label for="insurance_date" class="control-label"><b style="color: red;">* </b> Insurance Expires : </label>
-                                                    <input type="text" class="form-control decimal_number_only datepicker" name="insurance_date" id="insurance_date" placeholder="Insurance expires" value="{{ old('insurance_date') }}">
+                                                    <input type="text" class="form-control decimal_number_only datepicker" name="insurance_date" id="insurance_date" placeholder="Insurance expires" value="{{ old('insurance_date') }}" tabindex="9">
                                                     @if(!empty($errors->first('insurance_date')))
                                                         <p style="color: red;" >{{$errors->first('insurance_date')}}</p>
                                                     @endif
                                                 </div>
                                                 <div class="col-sm-6 {{ !empty($errors->first('tax_date')) ? 'has-error' : '' }}">
                                                     <label for="tax_date" class="control-label"><b style="color: red;">* </b> Road Tax Expires : </label>
-                                                    <input type="text" class="form-control decimal_number_only datepicker" name="tax_date" id="tax_date" placeholder="Road tax expires" value="{{ old('tax_date') }}">
+                                                    <input type="text" class="form-control decimal_number_only datepicker" name="tax_date" id="tax_date" placeholder="Road tax expires" value="{{ old('tax_date') }}" tabindex="10">
                                                     @if(!empty($errors->first('tax_date')))
                                                         <p style="color: red;" >{{$errors->first('tax_date')}}</p>
                                                     @endif
@@ -162,14 +162,14 @@
                                             <div class="form-group">
                                                 <div class="col-sm-6 {{ !empty($errors->first('fitness_date')) ? 'has-error' : '' }}">
                                                     <label for="fitness_date" class="control-label"><b style="color: red;">* </b> Certificate of Fitness Expires : </label>
-                                                    <input type="text" class="form-control decimal_number_only datepicker" name="fitness_date" id="fitness_date" placeholder="Certificate of fitness expires" value="{{ old('fitness_date') }}">
+                                                    <input type="text" class="form-control decimal_number_only datepicker" name="fitness_date" id="fitness_date" placeholder="Certificate of fitness expires" value="{{ old('fitness_date') }}" tabindex="11">
                                                     @if(!empty($errors->first('fitness_date')))
                                                         <p style="color: red;" >{{$errors->first('fitness_date')}}</p>
                                                     @endif
                                                 </div>
                                                 <div class="col-sm-6 {{ !empty($errors->first('permit_date')) ? 'has-error' : '' }}">
                                                     <label for="permit_date" class="control-label"><b style="color: red;">* </b> Permit Expires : </label>
-                                                    <input type="text" class="form-control decimal_number_only datepicker" name="permit_date" id="permit_date" placeholder="Permit expires" value="{{ old('permit_date') }}">
+                                                    <input type="text" class="form-control decimal_number_only datepicker" name="permit_date" id="permit_date" placeholder="Permit expires" value="{{ old('permit_date') }}" tabindex="12">
                                                     @if(!empty($errors->first('permit_date')))
                                                         <p style="color: red;" >{{$errors->first('permit_date')}}</p>
                                                     @endif
@@ -191,10 +191,10 @@
                                 <div class="row">
                                     <div class="col-xs-3"></div>
                                     <div class="col-xs-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="11">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="13">Clear</button>
                                     </div>
                                     <div class="col-xs-3">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="10">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="14">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>

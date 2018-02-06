@@ -37,21 +37,21 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
                                             <label for="from_date" class="control-label">From Date : </label>
-                                            <input type="text" class="form-control datepicker" name="from_date" id="from_date" value="{{ !empty(old('from_date')) ? old('from_date') : $params[0]['paramValue'] }}">
+                                            <input type="text" class="form-control datepicker" name="from_date" id="from_date" value="{{ !empty(old('from_date')) ? old('from_date') : $params[0]['paramValue'] }}" tabindex="1">
                                             @if(!empty($errors->first('from_date')))
                                                 <p style="color: red;" >{{$errors->first('from_date')}}</p>
                                             @endif
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
                                             <label for="to_date" class="control-label">To Date : </label>
-                                            <input type="text" class="form-control datepicker" name="to_date" id="to_date" value="{{ !empty(old('to_date')) ? old('to_date') : $params[1]['paramValue'] }}">
+                                            <input type="text" class="form-control datepicker" name="to_date" id="to_date" value="{{ !empty(old('to_date')) ? old('to_date') : $params[1]['paramValue'] }}" tabindex="2">
                                             @if(!empty($errors->first('to_date')))
                                                 <p style="color: red;" >{{$errors->first('to_date')}}</p>
                                             @endif
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('contractor_account_id')) ? 'has-error' : '' }}">
                                             <label for="contractor_account_id" class="control-label">Contractor : </label>
-                                            <select class="form-control select2" name="contractor_account_id" id="contractor_account_id" style="width: 100%">
+                                            <select class="form-control select2" name="contractor_account_id" id="contractor_account_id" style="width: 100%" tabindex="3">
                                                 <option value="">Select account</option>
                                                 @if(!empty($accounts) && (count($accounts) > 0))
                                                     @foreach($accounts as $account)
@@ -69,7 +69,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
                                             <label for="truck_id" class="control-label">Truck : </label>
-                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%">
+                                            <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%" tabindex="4">
                                                 <option value="">Select truck</option>
                                                 @if(!empty($trucks) && (count($trucks) > 0))
                                                     @foreach($trucks as $truck)
@@ -83,7 +83,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('source_id')) ? 'has-error' : '' }}">
                                             <label for="source_id" class="control-label">Source : </label>
-                                            <select class="form-control select2" name="source_id" id="source_id" style="width: 100%">
+                                            <select class="form-control select2" name="source_id" id="source_id" style="width: 100%" tabindex="5">
                                                 <option value="">Select source</option>
                                                 @if(!empty($sites) && (count($sites) > 0))
                                                     @foreach($sites as $site)
@@ -97,7 +97,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('destination_id')) ? 'has-error' : '' }}">
                                             <label for="destination_id" class="control-label">Destination : </label>
-                                            <select class="form-control select2" name="destination_id" id="destination_id" style="width: 100%">
+                                            <select class="form-control select2" name="destination_id" id="destination_id" style="width: 100%" tabindex="6">
                                                 <option value="">Select source</option>
                                                 @if(!empty($sites) && (count($sites) > 0))
                                                     @foreach($sites as $site)
@@ -113,7 +113,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-4 {{ !empty($errors->first('driver_id')) ? 'has-error' : '' }}">
                                             <label for="driver_id" class="control-label">Driver : </label>
-                                            <select class="form-control select2" name="driver_id" id="driver_id" style="width: 100%">
+                                            <select class="form-control select2" name="driver_id" id="driver_id" style="width: 100%" tabindex="7">
                                                 <option value="">Select driver</option>
                                                 @if(!empty($drivers) && (count($drivers) > 0))
                                                     @foreach($drivers as $driver)
@@ -127,7 +127,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('material_id')) ? 'has-error' : '' }}">
                                             <label for="material_id" class="control-label">Material : </label>
-                                            <select class="form-control select2" name="material_id" id="material_id" style="width: 100%">
+                                            <select class="form-control select2" name="material_id" id="material_id" style="width: 100%" tabindex="8">
                                                 <option value="">Select material</option>
                                                 @if(!empty($materials) && (count($materials) > 0))
                                                     @foreach($materials as $material)
@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
-                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}">
+                                            <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="9">
                                             @if(!empty($errors->first('no_of_records')))
                                                 <p style="color: red;" >{{$errors->first('no_of_records')}}</p>
                                             @endif
@@ -156,7 +156,7 @@
                                     <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="10">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex=11><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>

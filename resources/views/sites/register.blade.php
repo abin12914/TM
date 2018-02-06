@@ -41,7 +41,7 @@
                                         <div class="form-group">
                                             <label for="site_name" class="col-sm-2 control-label"><b style="color: red;">* </b> Site Name : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('site_name')) ? 'has-error' : '' }}">
-                                                <input type="text" name="site_name" class="form-control" id="site_name" placeholder="Site Name" value="{{ old('site_name') }}"  tabindex="1" maxlength="200">
+                                                <input type="text" name="site_name" class="form-control" id="site_name" placeholder="Site Name" value="{{ old('site_name') }}"  tabindex="1" maxlength="200" tabindex="1">
                                                 @if(!empty($errors->first('site_name')))
                                                     <p style="color: red;" >{{$errors->first('site_name')}}</p>
                                                 @endif
@@ -50,7 +50,7 @@
                                         <div class="form-group">
                                             <label for="place" class="col-sm-2 control-label"><b style="color: red;">* </b> Place : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('place')) ? 'has-error' : '' }}">
-                                                <input type="text" name="place" class="form-control" id="place" placeholder="Place" value="{{ old('place') }}"  tabindex="1" maxlength="200">
+                                                <input type="text" name="place" class="form-control" id="place" placeholder="Place" value="{{ old('place') }}"  tabindex="2" maxlength="200">
                                                 @if(!empty($errors->first('place')))
                                                     <p style="color: red;" >{{$errors->first('place')}}</p>
                                                 @endif
@@ -60,9 +60,9 @@
                                             <label for="address" class="col-sm-2 control-label">Address : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('address')) ? 'has-error' : '' }}">
                                                 @if(!empty(old('address')))
-                                                    <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" maxlength="200">{{ old('address') }}</textarea>
+                                                    <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" maxlength="200" tabindex="3">{{ old('address') }}</textarea>
                                                 @else
-                                                    <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" maxlength="200"></textarea>
+                                                    <textarea class="form-control" name="address" id="address" rows="3" placeholder="Address" style="resize: none;" maxlength="200" tabindex="3"></textarea>
                                                 @endif
                                                 @if(!empty($errors->first('address')))
                                                     <p style="color: red;" >{{$errors->first('address')}}</p>
@@ -72,7 +72,7 @@
                                         <div class="form-group">
                                             <label for="location_type" class="col-sm-2 control-label"><b style="color: red;">* </b> Location Type : </label>
                                             <div class="col-sm-10 {{ !empty($errors->first('location_type')) ? 'has-error' : '' }}">
-                                                <select class="form-control select2" name="location_type" id="location_type">
+                                                <select class="form-control select2" name="location_type" id="location_type" tabindex="4">
                                                     <option value="" {{ empty(old('location_type')) ? 'selected' : '' }}>Select location type</option>
                                                     @if(!empty($siteTypes))
                                                         @foreach($siteTypes as $key => $siteType)
@@ -93,10 +93,10 @@
                                 <div class="row">
                                     <div class="col-xs-3"></div>
                                     <div class="col-xs-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="12">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="5">Clear</button>
                                     </div>
                                     <div class="col-xs-3">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="11">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="6">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>

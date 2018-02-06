@@ -21,13 +21,10 @@
                 </h4>
             </div>
         @endif
-
-        @if (!empty($errors) && count($errors) > 0)
-            <div class="alert alert-danger">
+        @if (!empty($errors->first('calculations')))
+            <div class="alert alert-danger" id="calculation-error-message">
                 <h4>
-                    @foreach($errors->all() as $error)
-                        {{ $error }}
-                    @endforeach
+                    {{ $errors->first('calculations') }}
                 </h4>
             </div>
         @endif
@@ -37,7 +34,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <!-- form start -->
-                    <form action="{{route('supply.store')}}" method="post" class="form-horizontal">
+                    <form action="{{route('supply.store')}}" method="post" id="supply_registration_form" class="form-horizontal">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="supply_flag" value="true">
                         <!-- nav-tabs-custom -->
@@ -64,9 +61,9 @@
                                             <div class="box-footer">
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-10">
-                                                    <button type="button" class="btn btn-default" disabled>Prev</button>
+                                                    <button type="button" class="btn btn-default" disabled tabindex="35">Prev</button>
                                                     <a href="#purchase_tab" data-toggle="tab" class="arrows">
-                                                        <button type="button" class="btn btn-info pull-right">Next</button>
+                                                        <button type="button" class="btn btn-info pull-right" tabindex="13">Next</button>
                                                     </a>
                                                 </div>
                                             </div>
@@ -93,10 +90,10 @@
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-10">
                                                     <a href="#transportation_tab" data-toggle="tab" class="arrows">
-                                                        <button type="button" class="btn btn-default">Prev</button>
+                                                        <button type="button" class="btn btn-default" tabindex="36">Prev</button>
                                                     </a>
                                                     <a href="#sale_tab" data-toggle="tab" class="arrows">
-                                                        <button type="button" class="btn btn-info pull-right">Next</button>
+                                                        <button type="button" class="btn btn-info pull-right" tabindex="20">Next</button>
                                                     </a>
                                                 </div>
                                             </div>
@@ -123,9 +120,9 @@
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-10">
                                                     <a href="#purchase_tab" data-toggle="tab" class="arrows">
-                                                        <button type="button" class="btn btn-default">Prev</button>
+                                                        <button type="button" class="btn btn-default" tabindex="37">Prev</button>
                                                     </a>
-                                                    <button type="submit" class="btn btn-info pull-right">Submit</button>
+                                                    <button type="button" id="save_button" class="btn btn-info pull-right" tabindex="27">Submit</button>
                                                 </div>
                                             </div>
                                             <!-- /.box-footer -->
@@ -147,7 +144,10 @@
             </div>
             <!-- /.col-md-12 -->
         </div>
-        <!-- /.row (main row) -->
+        
+        {{-- including processing modal --}}
+        @include('sections.processing')
+
     </section>
     <!-- /.content -->
 </div>

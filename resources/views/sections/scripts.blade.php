@@ -9,8 +9,9 @@
 <!-- bootstrap-datepicker -->
 <script src="/bower_components/bootstrap-datepicker/dist/bootstrap-datepicker.min.js"></script>
 <!-- date-range-picker -->
-{{-- <script src="/bower_components/moment/min/moment.min.js"></script>
-<script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script> --}}
+<!-- sweet alert -->
+<script src="/js/plugins/sweet_alert/sweetalert2.all.min.js"></script>
+{{-- <script src="/js/plugins/sweet_alert/sweetalert.js"></script> --}}
 {{-- Custom JS --}}
 <script src="/js/main.js?rndstr={{ rand(1000,9999) }}"></script>
 {{-- default date for form auto filling --}}

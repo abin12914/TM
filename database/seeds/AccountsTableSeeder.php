@@ -19,6 +19,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //real
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Cash account',
                 'status'            => 1,
             ],
             [
@@ -28,6 +29,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Sales account',
                 'status'            => 1,  
             ],
             [
@@ -37,6 +39,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Purchases account',
                 'status'            => 1,  
             ],
             [
@@ -46,6 +49,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Trip rent account',
                 'status'            => 1,
             ],
             [
@@ -55,6 +59,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Employee wage account',
                 'status'            => 1,
             ],
             [
@@ -64,6 +69,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Employee salary account',
                 'status'            => 1,
             ],
             [
@@ -73,6 +79,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Service and expense account',
                 'status'            => 1,
             ],
             [
@@ -82,6 +89,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Account opening Balance account',
                 'status'            => 1,
             ],
             [
@@ -91,6 +99,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Temporary account 1',
                 'status'            => 0,
             ],
             [
@@ -100,6 +109,7 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Temporary account 2',
                 'status'            => 0,
             ],
             [
@@ -109,65 +119,8 @@ class AccountsTableSeeder extends Seeder
                 'relation'          => 0, //nominal
                 'financial_status'  => 0, //none
                 'opening_balance'   => 0,
+                'name'              => 'Temporary account 3',
                 'status'            => 0,
-            ],
-        ]);
-
-        DB::table('account_details')->insert([
-            [
-                'account_id'    => '01',
-                'name'          => 'Cash account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '02',
-                'name'          => 'Sales account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '03',
-                'name'          => 'Purchases account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '04',
-                'name'          => 'Trip rent account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '05',
-                'name'          => 'Employee wage account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '06',
-                'name'          => 'Employee salary account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '07',
-                'name'          => 'Service and expense account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '08',
-                'name'          => 'Account opening Balance account',
-                'status'        => 1,
-            ],
-            [
-                'account_id'    => '09',
-                'name'          => 'Temporary account 1',
-                'status'        => 0,
-            ],
-            [
-                'account_id'    => '10',
-                'name'          => 'Temporary account 2',
-                'status'        => 0,
-            ],
-            [
-                'account_id'    => '11',
-                'name'          => 'Temporary account 3',
-                'status'        => 0,
             ],
         ]);
     }

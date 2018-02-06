@@ -4,6 +4,14 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    /*swal({
+        title: 'Success...',
+        type: 'success',
+        text: 'Everything is ok!',
+        timer: 5000,
+        allowOutsideClick : false,
+        showConfirmButton : false,
+    });*/
 
     //hide flash messages
     dismissAlert();

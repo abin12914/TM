@@ -74,7 +74,7 @@ class TransportationRegistrationRequest extends FormRequest
                                             'required',
                                             'numeric',
                                             'max:25000',
-                                            'min:10',
+                                            'min:0.1',
                                         ],
             'material_id'           =>  [
                                             'required',
@@ -89,6 +89,12 @@ class TransportationRegistrationRequest extends FormRequest
                                             'numeric',
                                             'max:5000',
                                             'min:10',
+                                        ],
+            'no_of_trip'            =>  [
+                                            'required',
+                                            'integer',
+                                            'min:1',
+                                            'max:9',
                                         ],
         ];
     }

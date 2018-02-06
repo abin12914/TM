@@ -40,7 +40,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="{{route('transportations.store')}}" method="post" class="form-horizontal">
+                        <form action="{{route('transportations.store')}}" method="post" id="transportation_registration_form" class="form-horizontal">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">
@@ -54,10 +54,10 @@
                                 <div class="row">
                                     <div class="col-xs-3"></div>
                                     <div class="col-xs-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="12">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="13">Clear</button>
                                     </div>
                                     <div class="col-xs-3">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="11">Submit</button>
+                                        <button type="button" id="save_button" class="btn btn-primary btn-block btn-flat" tabindex="14">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>
@@ -68,7 +68,10 @@
                 </div>
             </div>
         </div>
-        <!-- /.row (main row) -->
+
+        {{-- including processing modal --}}
+        @include('sections.processing')
+
     </section>
     <!-- /.content -->
 </div>
