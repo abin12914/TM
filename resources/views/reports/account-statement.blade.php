@@ -229,7 +229,7 @@
                                             @foreach($transactions as $index => $transaction)
                                                 <tr>
                                                     <td>{{ $index + $transactions->firstItem() }}</td>
-                                                    <td>{{ Carbon\Carbon::parse($transaction->date_time)->format('d-m-Y') }}</td>
+                                                    <td>{{ Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y') }}</td>
                                                     <td class="no-print">{{ $transaction->id }}</td>
                                                     <td>{{ $transaction->particulars }}</td>
                                                     @if($transaction->debit_account_id == $params['account_id'])

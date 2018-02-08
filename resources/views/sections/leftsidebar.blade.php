@@ -7,7 +7,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ !empty($currentUser->image) ? $currentUser->image : '/images/user/default_user.jpg' }}" class="img-circle" alt="User Image">
+                <img src="{{ $currentUser->image or '/images/user/default_user.jpg' }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{ $currentUser->name }}</p>
