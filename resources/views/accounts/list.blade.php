@@ -30,7 +30,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header">
-                        <form action="{{ route('accounts.index') }}" method="get" class="form-horizontal">
+                        <form action="{{ route('accounts.index') }}" method="get" class="form-horizontal" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
@@ -122,7 +122,9 @@
                                                     <td>{{ $index + $accounts->firstItem() }}</td>
                                                     <td>{{ $account->account_name }}</td>
                                                     @if(!empty($accountTypes))
-                                                        <td>{{ !empty($accountTypes[$account->type]) ? $accountTypes[$account->type] : "Error!" }}</td>
+                                                        <td>
+                                                            {{ !empty($accountTypes[$account->type]) ? $accountTypes[$account->type] : "Error!" }}
+                                                        </td>
                                                     @else
                                                         <td>Error</td>
                                                     @endif
@@ -147,7 +149,7 @@
                                                         <td>-</td>
                                                     @endif
                                                     <td class="no-print">
-                                                        <a href="{{ route('accounts.show', ['id' => $account->id]) }}">
+                                                        <a href="{{ route('accounts.show', $account->id) }}">
                                                             <button type="button" class="btn btn-default">Details</button>
                                                         </a>
                                                     </td>

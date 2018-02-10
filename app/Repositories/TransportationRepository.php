@@ -65,7 +65,7 @@ class TransportationRepository
      */
     public function getMaterials()
     {
-        $materials = Material::where('status', 1)->get();
+        $materials = Material::where('status', 1)->orderBy('description')->get();
 
         if(empty($materials) || $materials->count() < 1) {
             $materials = [];

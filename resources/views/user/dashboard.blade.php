@@ -116,16 +116,46 @@
 <script src="/bower_components/moment/moment.js"></script>
 <!-- fullCalendar 2.2.5-->
 <script src="/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-{{-- <script src="/js/dashboard.js?rndstr={{ rand(1000,9999) }}"></script> --}}
+<script src="/js/dashboard.js?rndstr={{ rand(1000,9999) }}"></script>
 <script type="text/javascript">
-// initialize the calendar
-$('#calendar').fullCalendar({
-    height: 600,
-    header: {
-        left: 'prev',
-        center: 'title',
-        right: 'next'
-  }
-});
+    var loggedUser = '';
+    var truckCertificates = [];
+    @if(Session::has('loggedUser'))
+        loggedUser = "{{ $currentUser->name }}";
+    @endif
+    @if(!empty($trucks) && $trucks->count() > 0 && $settings->track_certificate)
+        @foreach($trucks as $truck)
+            var insuranceColor  = "{{ $truck->insuranceFlag == 1 ? "#00a65a" : ($truck->insuranceFlag == 2 ? '#f39c12' : '#f56954') }}";
+            var taxColor        = "{{ $truck->taxFlag == 1 ? "#00a65a" : ($truck->taxFlag == 2 ? '#f39c12' : '#f56954') }}";
+            var fitnessColor    = "{{ $truck->fitnessFlag == 1 ? "#00a65a" : ($truck->fitnessFlag == 2 ? '#f39c12' : '#f56954') }}";
+            var permitColor     = "{{ $truck->permitFlag == 1 ? "#00a65a" : ($truck->permitFlag == 2 ? '#f39c12' : '#f56954') }}";
+
+            truckCertificates.push({
+                title           : '{{ $truck->reg_number }} - Insurance',
+                start           : '{{ $truck->insurance_upto }}',
+                allDay          : true,
+                backgroundColor : insuranceColor,
+                borderColor     : insuranceColor,
+            }, {
+                title           : '{{ $truck->reg_number }} - Tax',
+                start           : '{{ $truck->tax_upto }}',
+                allDay          : true,
+                backgroundColor : taxColor,
+                borderColor     : taxColor,
+            }, {
+                title           : '{{ $truck->reg_number }} - Fitness',
+                start           : '{{ $truck->fitness_upto }}',
+                allDay          : true,
+                backgroundColor : fitnessColor,
+                borderColor     : fitnessColor,
+            }, {
+                title           : '{{ $truck->reg_number }} - Permit',
+                start           : '{{ $truck->permit_upto }}',
+                allDay          : true,
+                backgroundColor : permitColor,
+                borderColor     : permitColor,
+            });
+        @endforeach
+    @endif
 </script>
 @endsection

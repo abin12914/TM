@@ -38,109 +38,158 @@
                                 <h3 class="widget-user-username">{{ $truck->reg_number }}</h3>
                                 <h5 class="widget-user-desc">{{ $truck->truckType->name }}</h5>
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Registration Number 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $truck->reg_number }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Class Of Truck 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $truck->truckType->name }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Descriptiion 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $truck->description or "-" }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Volume 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $truck->volume }} cft</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Body Type 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($bodyTypes) && !empty($bodyTypes[$truck->body_type]))
-                                                    <div class="external-event bg-blue text-center">
-                                                        {{ $bodyTypes[$truck->body_type] }}
-                                                    </div>
-                                                @else
-                                                    <div class="external-event bg-red text-center">
-                                                        Error!
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Insurance Certificate Valid Upto 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-{{ !empty($insuranceFlag) ? $insuranceFlag : 'orange' }} text-center">
-                                                    {{ Carbon\Carbon::parse($truck->insurance_upto)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Tax Certificate Valid Upto 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-{{ !empty($taxFlag) ? $taxFlag : 'orange' }} text-center">
-                                                    {{ Carbon\Carbon::parse($truck->tax_upto)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fitness Certificate Valid Upto 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-{{ !empty($fitnessFlag) ? $fitnessFlag : 'orange' }} text-center">
-                                                    {{ Carbon\Carbon::parse($truck->fitness_upto)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Permit Valid Upto 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-{{ !empty($permitFlag) ? $permitFlag : 'orange' }} text-center">
-                                                    {{ Carbon\Carbon::parse($truck->permit_upto)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('trucks.edit', ['id' => $truck->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tag margin-r-5"></i> Reference Number
+                                        </strong>
+                                        <p class="text-muted">
+                                            #{{ $truck->id }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <form action="{{route('trucks.destroy', ['id' => $truck->id])}}" method="post" class="form-horizontal">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                        </form>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-truck margin-r-5"></i> Registration Number
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $truck->reg_number }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <!-- /.col -->
-                                </div><br>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-bus margin-r-5"></i> Truck Class
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $truck->truckType->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-info-circle margin-r-5"></i> Description
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $truck->description or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-balance-scale margin-r-5"></i> Volume
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $truck->volume }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tag margin-r-5"></i> Body Type
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if(!empty($bodyTypes) && !empty($bodyTypes[$truck->body_type]))
+                                                {{ $bodyTypes[$truck->body_type] }}
+                                            @else
+                                                <div class="text-red">
+                                                    Error!
+                                                </div>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-certificate margin-r-5"></i> Insurance Certificate Valid Upto
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ Carbon\Carbon::parse($truck->insurance_upto)->format('d-m-Y') }}&emsp;
+                                            @if($truck->insuranceFlag == 1)
+                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
+                                            @elseif($truck->insuranceFlag == 2)
+                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
+                                            @else
+                                                <i class="fa fa-warning text-red" title="Expired.."></i>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-certificate margin-r-5"></i> Tax Certificate Valid Upto
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ Carbon\Carbon::parse($truck->tax_upto)->format('d-m-Y') }}&emsp;
+                                            @if($truck->taxFlag == 1)
+                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
+                                            @elseif($truck->taxFlag == 2)
+                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
+                                            @else
+                                                <i class="fa fa-warning text-red" title="Expired.."></i>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-certificate margin-r-5"></i> Fitness Certificate Valid Upto
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ Carbon\Carbon::parse($truck->fitness_upto)->format('d-m-Y') }}&emsp;
+                                            @if($truck->fitnessFlag == 1)
+                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
+                                            @elseif($truck->fitnessFlag == 2)
+                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
+                                            @else
+                                                <i class="fa fa-warning text-red" title="Expired.."></i>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-certificate margin-r-5"></i> Permit Certificate Valid Upto
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ Carbon\Carbon::parse($truck->permit_upto)->format('d-m-Y') }}&emsp;
+                                            @if($truck->permitFlag == 1)
+                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
+                                            @elseif($truck->permitFlag == 2)
+                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
+                                            @else
+                                                <i class="fa fa-warning text-red" title="Expired.."></i>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
+                                                <form action="{{ route('trucks.edit', $truck->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            @if($currentUser->isSuperAdmin())
+                                                <div class="col-md-6">
+                                                    <form action="{{ route('trucks.destroy', $truck->id) }}" method="post" class="form-horizontal">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /.box -->
                         @endif
                     </div>
                     <!-- /.widget-user -->

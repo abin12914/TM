@@ -38,68 +38,78 @@
                                 <h3 class="widget-user-username">{{ $site->name }}</h3>
                                 <h5 class="widget-user-desc">{{ $site->place }}</h5>
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Site Name 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $site->name }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Place 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $site->place }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Address 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $site->address or "-" }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Site Type 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($siteTypes))
-                                                    @if(!empty($siteTypes[$site->site_type]))
-                                                        <div class="external-event bg-aqua text-center">
-                                                            {{ $siteTypes[$site->site_type] }}
-                                                        </div>
-                                                    @else
-                                                        <div class="external-event bg-red text-center">Error!</div>
-                                                    @endif
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-edit margin-r-5"></i> Site Name
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $site->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-map-marker margin-r-5"></i> Place
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $site->place }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-info-circle margin-r-5"></i> Address
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $site->address or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tags margin-r-5"></i> Site Type
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if(!empty($siteTypes))
+                                                @if(!empty($siteTypes[$site->site_type]))
+                                                    {{ $siteTypes[$site->site_type] }}
                                                 @else
-                                                    <div class="external-event bg-red text-center">Error</div>
+                                                    <div class="text-red">Error!</div>
                                                 @endif
+                                            @else
+                                                <div class="text-red">Error</div>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
+                                                <form action="{{ route('sites.edit', $site->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
                                             </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('sites.edit', ['id' => $site->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                                            @if($currentUser->isSuperAdmin())
+                                                <div class="col-md-6">
+                                                    <form action="{{ route('sites.destroy', $site->id) }}" method="post" class="form-horizontal">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <form action="{{route('sites.destroy', ['id' => $site->id])}}" method="post" class="form-horizontal">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                        </form>
-                                    </div>
-                                    <!-- /.col -->
-                                </div><br>
+                                </div>
                             </div>
+                            <!-- /.box -->
                         @endif
                     </div>
                     <!-- /.widget-user -->

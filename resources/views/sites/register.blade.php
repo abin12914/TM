@@ -33,7 +33,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="{{route('sites.store')}}" method="post" class="form-horizontal">
+                        <form action="{{route('sites.store')}}" method="post" class="form-horizontal" autocomplete="off">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">

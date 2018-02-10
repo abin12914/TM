@@ -252,7 +252,7 @@ class SupplyController extends Controller
                 $saleDelete = $saleRepo->deleteSale($supplyTransportation->sale->id);
                 if($saleDelete['flag']) {
 
-                    $employeeWageDelete = $employeeWageRepo->saveEmployeeWage($transportation['id']);
+                    $employeeWageDelete = $employeeWageRepo->deleteEmployeeWage($supplyTransportation->employeeWage->id);
             
                     if($employeeWageDelete['flag']) {
                     

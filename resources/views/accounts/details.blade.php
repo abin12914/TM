@@ -44,122 +44,137 @@
                                     <h5 class="widget-user-desc">Error</h5>
                                 @endif
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Account Name 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $account->account_name }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Description
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $account->description or "-" }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Name 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $account->name }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Phone
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $account->phone or "-" }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Address 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $account->address or "-" }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Relation 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($relationTypes))
-                                                    @if(!empty($relationTypes[$account->relation]))
-                                                        <div class="external-event bg-aqua text-center">
-                                                            {{ $relationTypes[$account->relation] }}
-                                                        </div>
-                                                    @else
-                                                        <div class="external-event bg-red text-center">Error!</div>
-                                                    @endif
-                                                @else
-                                                    <div class="external-event bg-red text-center">Error</div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Type 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($accountTypes))
-                                                    @if(!empty($accountTypes[$account->type]))
-                                                        <div class="external-event bg-blue text-center">{{ $accountTypes[$account->type] }}</div>
-                                                    @else
-                                                        <div class="external-event bg-red text-center">Error!</div>
-                                                    @endif
-                                                @else
-                                                    <div class="external-event bg-red text-center">Error</div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Opening Balance 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    @if($account->financial_status == 1)
-                                                        Creditor - 
-                                                    @elseif($account->financial_status == 2)
-                                                        Debitor - 
-                                                    @endif
-                                                    {{ $account->opening_balance }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('accounts.edit', ['id' => $account->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-book margin-r-5"></i> Account Name
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $account->account_name }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    @if($currentUser->isSuperAdmin())
-                                        <div class="col-xs-3">
-                                            @if($account->relation != 5)
-                                                <form action="{{route('accounts.destroy', ['id' => $account->id])}}" method="post" class="form-horizontal">
-                                                    {{ method_field('DELETE') }}
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                                </form>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-file-text-o margin-r-5"></i> Description
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $account->description or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-user-o margin-r-5"></i> Name
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $account->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-phone margin-r-5"></i> Phone
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $account->phone or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-map-marker margin-r-5"></i> Address
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $account->address or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-link margin-r-5"></i> Relation
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if(!empty($relationTypes))
+                                                @if(!empty($relationTypes[$account->relation]))
+                                                    {{ $relationTypes[$account->relation] }}
+                                                @else
+                                                    <div class="text-red">Error!</div>
+                                                @endif
                                             @else
-                                                <a href="{{ route('employees.show', ['id' => $account->employee->id]) }}">
-                                                    <button type="button" class="btn btn-info btn-block btn-flat">Employee Details</button>
-                                                </a>
+                                                <div class="text-red">Error</div>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tags margin-r-5"></i> Type
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if(!empty($accountTypes))
+                                                @if(!empty($accountTypes[$account->type]))
+                                                    {{ $accountTypes[$account->type] }}
+                                                @else
+                                                    <div class="text-red">Error!</div>
+                                                @endif
+                                            @else
+                                                <div class="text-red">Error</div>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-calculator margin-r-5"></i> Opening Balance
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if($account->financial_status == 1)
+                                                Creditor - 
+                                            @elseif($account->financial_status == 2)
+                                                Debitor - 
+                                            @endif
+                                            {{ $account->opening_balance }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <div class="col-md-{{ ($account->relation != 5 && !$currentUser->isSuperAdmin()) ? "12" : "6" }}">
+                                                <form action="{{ route('accounts.edit', $account->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            @if($account->relation != 5)
+                                                @if($currentUser->isSuperAdmin())
+                                                    <div class="col-md-6">
+                                                        <form action="{{ route('accounts.destroy', $account->id) }}" method="post" class="form-horizontal">
+                                                            {{ method_field('DELETE') }}
+                                                            {{ csrf_field() }}
+                                                            <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="col-md-6">
+                                                    <a href="{{ route('employees.show', $account->employee->id) }}">
+                                                        <button type="button" class="btn btn-info btn-block btn-flat">Employee Details</button>
+                                                    </a>
+                                                </div>
                                             @endif
                                         </div>
-                                        <!-- /.col -->
-                                    @endif
-                                </div><br>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /.box -->
                         @endif
                     </div>
-                    <!-- /.widget-user -->
                 </div>
             </div>
         </div>

@@ -34,7 +34,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <!-- form start -->
-                    <form action="{{route('supply.store')}}" method="post" id="supply_registration_form" class="form-horizontal">
+                    <form action="{{route('supply.store')}}" method="post" id="supply_registration_form" class="form-horizontal" autocomplete="off">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="supply_flag" value="true">
                         <!-- nav-tabs-custom -->

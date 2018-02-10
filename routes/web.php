@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth.check'], function () {
     Route::get('/user/expired', 'LoginController@userExpired')->name('user.expired');
     
     //common routes
-    Route::get('/dashboard', 'LoginController@dashboard')->name('user.dashboard');
+    Route::get('/dashboard', 'DashboardController@dashboard')->name('user.dashboard');
     Route::get('/logout', 'LoginController@logout')->name('logout');
     Route::get('/users/profile', 'UserController@profileView')->name('user.profile');
 

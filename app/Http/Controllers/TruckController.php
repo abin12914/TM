@@ -81,35 +81,20 @@ class TruckController extends Controller
      */
     public function show($id)
     {
-        $insuranceFlag  = 'orange';
-        $taxFlag        = 'orange';
-        $fitnessFlag    = 'orange';
-        $permitFlag     = 'orange';
-
-        $flagValues = [
-                1   => 'green',
-                2   => 'orange',
-                3   => 'red',
-            ];
-
         $truck = $this->truckRepo->getTruck($id);
 
         $validity = $this->truckRepo->checkCertificateValidity($truck);
 
         if($validity['flag']) {
-            $insuranceFlag  = $flagValues[$validity['insuranceFlag']];
-            $taxFlag        = $flagValues[$validity['taxFlag']];
-            $fitnessFlag    = $flagValues[$validity['fitnessFlag']];
-            $permitFlag     = $flagValues[$validity['permitFlag']];
+            $truck->insuranceFlag  = $validity['insuranceFlag'];
+            $truck->taxFlag        = $validity['taxFlag'];
+            $truck->fitnessFlag    = $validity['fitnessFlag'];
+            $truck->permitFlag     = $validity['permitFlag'];
         }
         
         return view('trucks.details', [
                 'truck'         => $truck,
                 'bodyTypes'     => $this->truckRepo->bodyTypes,
-                'insuranceFlag' => $insuranceFlag,
-                'taxFlag'       => $taxFlag,
-                'fitnessFlag'   => $fitnessFlag,
-                'permitFlag'    => $permitFlag,
             ]);
     }
 

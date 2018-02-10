@@ -38,86 +38,94 @@
                                 <h3 class="widget-user-username">{{ $employee->account->name }}</h3>
                                 <h5 class="widget-user-desc">Employee</h5>
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Name 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $employee->account->name }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Account Name
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">{{ $employee->account->account_name }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Address
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $employee->account->address or "-" }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Phone
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $employee->account->phone or "-" }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wage Type 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($wageTypes) && !empty($wageTypes[$employee->wage_type]))
-                                                    <div class="external-event bg-blue text-center">
-                                                        {{ $wageTypes[$employee->wage_type] }}
-                                                    </div>
-                                                @else
-                                                    <div class="external-event bg-red text-center">
-                                                        Error!
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wage / Monthly Salary / Trip Bata
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $employee->wage }} {{ $employee->wage_type == 3 ? "%" : "" }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header no-print">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('trucks.edit', ['id' => $employee->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-user-o margin-r-5"></i> Name
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $employee->account->name }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <form action="{{route('employees.destroy', ['id' => $employee->id])}}" method="post" class="form-horizontal">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                        </form>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-book margin-r-5"></i> Account Name
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $employee->account->account_name }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <!-- /.col -->
-                                </div><br>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-phone margin-r-5"></i> Phone
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $employee->account->phone or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-map-marker margin-r-5"></i> Address
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $employee->account->address or "-" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tags margin-r-5"></i> Wage Type
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if(!empty($wageTypes) && !empty($wageTypes[$employee->wage_type]))
+                                                {{ $wageTypes[$employee->wage_type] }}
+                                            @else
+                                                <div class="text-red">
+                                                    Error!
+                                                </div>
+                                            @endif
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-dollar margin-r-5"></i> {{ !empty($wageTypes) && !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Wage / Monthly Salary / Trip Bata" }}
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $employee->wage }} {{ $employee->wage_type == 3 ? "%" : "" }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
+                                                <form action="{{ route('employees.edit', $employee->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            @if($currentUser->isSuperAdmin())
+                                                <div class="col-md-6">
+                                                    <form action="{{ route('employees.destroy', $employee->id) }}" method="post" class="form-horizontal">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /.box -->
                         @endif
                     </div>
                     <!-- /.widget-user -->

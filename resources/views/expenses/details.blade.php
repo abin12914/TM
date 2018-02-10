@@ -38,73 +38,86 @@
                                 <h3 class="widget-user-username">{{ $expense->truck->reg_number }}</h3>
                                 <h5 class="widget-user-desc">{{ $expense->service->name }}</h5>
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Truck Number 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $expense->truck->reg_number }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Supplier 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $expense->transaction->debitAccount->account_name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Date
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ Carbon\Carbon::parse($expense->date)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Service 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $expense->service->name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Bill Amount 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $expense->bill_amount }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('accounts.edit', ['id' => $account->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tag margin-r-5"></i> Reference Number
+                                        </strong>
+                                        <p class="text-muted">
+                                            #{{ $expense->transaction->id }}/{{ $expense->id }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <form action="{{route('expenses.destroy', ['id' => $expense->id])}}" method="post" class="form-horizontal">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                        </form>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-truck margin-r-5"></i> Truck Number
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $expense->truck->reg_number }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <!-- /.col -->
-                                </div><br>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-book margin-r-5"></i> Supplier
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $expense->transaction->debitAccount->account_name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-calendar margin-r-5"></i> Date
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ Carbon\Carbon::parse($expense->date)->format('d-m-Y') }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-gear margin-r-5"></i> Service
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $expense->service->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-dollar margin-r-5"></i> Bill Amount
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $expense->bill_amount }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <div class="col-md-6">
+                                                <form action="{{ route('expenses.edit', $expense->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <form action="{{ route('expenses.destroy', $expense->id) }}" method="post" class="form-horizontal">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /.box -->
                         @endif
                     </div>
                     <!-- /.widget-user -->

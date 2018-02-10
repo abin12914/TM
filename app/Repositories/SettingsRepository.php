@@ -44,7 +44,7 @@ class SettingsRepository
 
         if(!empty($flag) && $flag == 1) {
             $settings->track_certificate = $trackCertificate == 1 ? true : false;
-            $validationRules    = ['track_certificate' => ['required', Rule::in([true, false]) ] ];
+            $validationRules    = ['track_certificate' => ['required', Rule::in([1, 0]) ] ];
         }
         if(!empty($flag) && $flag == 2) {
             $settings->default_date = $defaultDte;

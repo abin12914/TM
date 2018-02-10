@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
-                        <form action="{{ route('report.account-statement') }}" method="get" class="form-horizontal">
+                        <form action="{{ route('report.account-statement') }}" method="get" class="form-horizontal" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">

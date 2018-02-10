@@ -38,144 +38,148 @@
                                 <h3 class="widget-user-username">{{ $transportation->truck->reg_number }}</h3>
                                 <h5 class="widget-user-desc">{{ $transportation->transaction->debitAccount->account_name }}</h5>
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Truck Number 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">{{ $transportation->truck->reg_number }}</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Contractor 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $transportation->transaction->debitAccount->account_name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Date
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ Carbon\Carbon::parse($transportation->date)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Source 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $transportation->source->name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Destination 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $transportation->destination->name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Material 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $transportation->material->name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">RentType 
-                                            <div style="width: 30%;" class="pull-right">
-                                                @if(!empty($rentTypes))
-                                                    @if(!empty($rentTypes[$transportation->rent_type]))
-                                                        <div class="external-event bg-blue text-center">
-                                                            {{ $rentTypes[$transportation->rent_type] }}
-                                                        </div>
-                                                    @else
-                                                        <div class="external-event bg-red text-center">Error!</div>
-                                                    @endif
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tag margin-r-5"></i> Reference Number
+                                        </strong>
+                                        <p class="text-muted">
+                                            #{{ $transportation->transaction->id }}/{{ $transportation->id }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-truck margin-r-5"></i> Truck Number
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->truck->reg_number }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-book margin-r-5"></i> Contractor
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->transaction->debitAccount->account_name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-calendar margin-r-5"></i> Date
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ Carbon\Carbon::parse($transportation->date)->format('d-m-Y') }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-map-marker margin-r-5"></i> Source
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->source->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-map-marker margin-r-5"></i> Destination
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->destination->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-barcode margin-r-5"></i> Material
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->material->name }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-tag margin-r-5"></i> Rent Type
+                                        </strong>
+                                        <p class="text-muted">
+                                            @if(!empty($rentTypes))
+                                                @if(!empty($rentTypes[$transportation->rent_type]))
+                                                    {{ $rentTypes[$transportation->rent_type] }}
                                                 @else
-                                                    <div class="external-event bg-red text-center">Error</div>
+                                                    <div class="text-red">Error!</div>
                                                 @endif
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Measurement 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $transportation->measurement }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Rent Rate 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $transportation->rent_rate }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Total Rent 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $transportation->total_rent }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Driver 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $transportation->employee->account->account_name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Driver Wage 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $transportation->driver_wage }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('accounts.edit', ['id' => $account->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                                            @else
+                                                <div class="text-red">Error</div>
+                                            @endif
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <form action="{{route('transportations.destroy', ['id' => $transportation->id])}}" method="post" class="form-horizontal">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                        </form>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-balance-scale margin-r-5"></i> Measurement
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->measurement }}
+                                        </p>
+                                        <hr>
                                     </div>
-                                    <!-- /.col -->
-                                </div><br>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-dollar margin-r-5"></i> Rent Rate
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->rent_rate }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-dollar margin-r-5"></i> Total Rent
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->total_rent }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>
+                                            <i class="fa fa-user margin-r-5"></i> Driver & Wage
+                                        </strong>
+                                        <p class="text-muted">
+                                            {{ $transportation->employee->account->account_name }} - {{ $transportation->driver_wage }}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-xs-4"></div>
+                                        <div class="col-xs-4">
+                                            <div class="col-md-6">
+                                                <form action="{{ route('transportations.edit', $transportation->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <form action="{{ route('transportations.destroy', $transportation->id) }}" method="post" class="form-horizontal">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /.box -->
                         @endif
                     </div>
                     <!-- /.widget-user -->
