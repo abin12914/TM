@@ -1,11 +1,11 @@
 @extends('layouts.public')
-@section('title', 'Under Construction')
+@section('title', 'Trial Expired')
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            <p class="login-box-msg"></p>
+        {{-- <div class="col-md-2"></div>
+        <div class="col-md-10"> --}}
+            <p class="login-box-msg">sdffs</p>
             <div class="box-tools pull-right">
                 <a href="{{ route('login.view') }}">
                     <button>
@@ -13,7 +13,7 @@
                     </button>
                 </a>
             </div>
-        </div>
+        {{-- </div> --}}
     </div>
 </div>
 <div class="clearfix"> </div>

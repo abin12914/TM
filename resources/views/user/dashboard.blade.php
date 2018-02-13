@@ -35,7 +35,7 @@
     @endif
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-3 col-md-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-3 col-md-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-3 col-md-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-3 col-md-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">

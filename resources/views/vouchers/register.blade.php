@@ -32,7 +32,7 @@
                                 <p>&nbsp&nbsp&nbsp(Fields marked with <b style="color: red;">* </b>are mandatory.)</p>
                         </div><br>
                         <!-- form start -->
-                        <form action="{{route('vouchers.store')}}" method="post" class="form-horizontal">
+                        <form action="{{route('vouchers.store')}}" method="post" class="form-horizontal" autocomplete="off">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">
@@ -42,11 +42,11 @@
                                 </div><br>
                                 <div class="clearfix"> </div><br>
                                 <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3">
                                         <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="11">Clear</button>
                                     </div>
-                                    <div class="col-xs-3">
+                                    <div class="col-md-3">
                                         <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="10">Submit</button>
                                     </div>
                                     <!-- /.col -->

@@ -35,7 +35,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('relation_type')) ? 'has-error' : '' }}">
                                             <label for="relation_type" class="control-label">Relation : </label>
                                             <select class="form-control select2" name="relation_type" id="relation_type" style="width: 100%" tabindex="1">
                                                 <option value="">Select relation type</option>
@@ -49,7 +49,7 @@
                                                 <p style="color: red;" >{{$errors->first('relation_type')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
                                             <label for="account_id" class="control-label">Account : </label>
                                             <select class="form-control select2" name="account_id" id="account_id" style="width: 100%" tabindex="2">
                                                 <option value="">Select account</option>
@@ -63,7 +63,7 @@
                                                 <p style="color: red;" >{{$errors->first('account_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control number_only" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="3">
                                             @if(!empty($errors->first('no_of_records')))
@@ -101,8 +101,8 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <table class="table table-bordered table-hover">
+                            <div class="col-md-12" style="overflow:scroll;">
+                                <table class="table table-responsive table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>

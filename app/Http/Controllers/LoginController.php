@@ -64,7 +64,7 @@ class LoginController extends Controller
         }
         // Authentication fails...
         $validator->errors()->add("username_password", "Invalid User name Or Password");
-        return redirect(route('login-view'))->withErrors($validator)->withInput();
+        return redirect(route('login.view'))->withErrors($validator)->withInput();
     }
 
     /**

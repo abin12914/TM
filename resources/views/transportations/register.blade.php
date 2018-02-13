@@ -52,11 +52,11 @@
                                 </div>
                                 <div class="clearfix"> </div><br>
                                 <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-3">
                                         <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="13">Clear</button>
                                     </div>
-                                    <div class="col-xs-3">
+                                    <div class="col-md-3">
                                         <button type="button" id="save_button" class="btn btn-primary btn-block btn-flat" tabindex="14">Submit</button>
                                     </div>
                                     <!-- /.col -->

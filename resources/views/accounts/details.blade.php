@@ -46,106 +46,106 @@
                             </div>
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-book margin-r-5"></i> Account Name
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $account->account_name }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                #{{ $account->id }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-book margin-r-5"></i> Account Name
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $account->account_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-file-text-o margin-r-5"></i> Description
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $account->description or "-" }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-file-text-o margin-r-5"></i> Description
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $account->description or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-user-o margin-r-5"></i> Name
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $account->name }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-user-o margin-r-5"></i> Name
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $account->name }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-phone margin-r-5"></i> Phone
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $account->phone or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-map-marker margin-r-5"></i> Address
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $account->address or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-phone margin-r-5"></i> Phone
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $account->phone or "-" }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-map-marker margin-r-5"></i> Address
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $account->address or "-" }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-link margin-r-5"></i> Relation
-                                        </strong>
-                                        <p class="text-muted">
-                                            @if(!empty($relationTypes))
-                                                @if(!empty($relationTypes[$account->relation]))
-                                                    {{ $relationTypes[$account->relation] }}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-link margin-r-5"></i> Relation
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                @if(!empty($relationTypes))
+                                                    @if(!empty($relationTypes[$account->relation]))
+                                                        {{ $relationTypes[$account->relation] }}
+                                                    @else
+                                                        <div class="text-red">Error!</div>
+                                                    @endif
                                                 @else
-                                                    <div class="text-red">Error!</div>
+                                                    <div class="text-red">Error</div>
                                                 @endif
-                                            @else
-                                                <div class="text-red">Error</div>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-tags margin-r-5"></i> Type
-                                        </strong>
-                                        <p class="text-muted">
-                                            @if(!empty($accountTypes))
-                                                @if(!empty($accountTypes[$account->type]))
-                                                    {{ $accountTypes[$account->type] }}
-                                                @else
-                                                    <div class="text-red">Error!</div>
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calculator margin-r-5"></i> Opening Balance
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                @if($account->financial_status == 1)
+                                                    Creditor - 
+                                                @elseif($account->financial_status == 2)
+                                                    Debitor - 
                                                 @endif
-                                            @else
-                                                <div class="text-red">Error</div>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-calculator margin-r-5"></i> Opening Balance
-                                        </strong>
-                                        <p class="text-muted">
-                                            @if($account->financial_status == 1)
-                                                Creditor - 
-                                            @elseif($account->financial_status == 2)
-                                                Debitor - 
-                                            @endif
-                                            {{ $account->opening_balance }}
-                                        </p>
-                                        <hr>
+                                                {{ $account->opening_balance }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <div class="clearfix"> </div>
                                     <div class="row">
-                                        <div class="col-xs-4"></div>
-                                        <div class="col-xs-4">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
                                             <div class="col-md-{{ ($account->relation != 5 && !$currentUser->isSuperAdmin()) ? "12" : "6" }}">
                                                 <form action="{{ route('accounts.edit', $account->id) }}" method="get" class="form-horizontal">
                                                     <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>

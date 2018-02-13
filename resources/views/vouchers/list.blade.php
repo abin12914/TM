@@ -30,26 +30,26 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header">
-                        <form action="{{ route('vouchers.index') }}" method="get" class="form-horizontal">
+                        <form action="{{ route('vouchers.index') }}" method="get" class="form-horizontal" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
                                             <label for="from_date" class="control-label">From Date : </label>
                                             <input type="text" class="form-control datepicker" name="from_date" id="from_date" value="{{ !empty(old('from_date')) ? old('from_date') : $params[0]['paramValue'] }}" tabindex="1">
                                             @if(!empty($errors->first('from_date')))
                                                 <p style="color: red;" >{{$errors->first('from_date')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
                                             <label for="to_date" class="control-label">To Date : </label>
                                             <input type="text" class="form-control datepicker" name="to_date" id="to_date" value="{{ !empty(old('to_date')) ? old('to_date') : $params[1]['paramValue'] }}" tabindex="2">
                                             @if(!empty($errors->first('to_date')))
                                                 <p style="color: red;" >{{$errors->first('to_date')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('account_id')) ? 'has-error' : '' }}">
                                             <label for="account_id" class="control-label">Supplier : </label>
                                             <select class="form-control select2" name="account_id" id="account_id" style="width: 100%" tabindex="3">
                                                 <option value="">Select account</option>
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-lg-4 {{ !empty($errors->first('transaction_type_debit')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('transaction_type_debit')) ? 'has-error' : '' }}">
                                             <label class="control-label"><b style="color: red;">* </b> Transaction Type : </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -79,7 +79,7 @@
                                                 <p style="color: red;" >{{$errors->first('transaction_type_debit')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-lg-4 {{ !empty($errors->first('transaction_type_credit')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('transaction_type_credit')) ? 'has-error' : '' }}">
                                             <label class="control-label"><b style="color: red;">* </b> Transaction Type : </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -88,7 +88,7 @@
                                                 <label for="transaction_type_credit" class="form-control">Credit / Voucher</label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="6">
                                             @if(!empty($errors->first('no_of_records')))
@@ -129,7 +129,7 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>

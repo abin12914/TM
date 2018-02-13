@@ -40,73 +40,79 @@
                             </div>
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-user-o margin-r-5"></i> Name
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $employee->account->name }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-user-o margin-r-5"></i> Name
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $employee->account->name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-book margin-r-5"></i> Account Name
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $employee->account->account_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-book margin-r-5"></i> Account Name
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $employee->account->account_name }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-phone margin-r-5"></i> Phone
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $employee->account->phone or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-map-marker margin-r-5"></i> Address
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $employee->account->address or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-phone margin-r-5"></i> Phone
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $employee->account->phone or "-" }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-map-marker margin-r-5"></i> Address
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $employee->account->address or "-" }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-tags margin-r-5"></i> Wage Type
-                                        </strong>
-                                        <p class="text-muted">
-                                            @if(!empty($wageTypes) && !empty($wageTypes[$employee->wage_type]))
-                                                {{ $wageTypes[$employee->wage_type] }}
-                                            @else
-                                                <div class="text-red">
-                                                    Error!
-                                                </div>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-dollar margin-r-5"></i> {{ !empty($wageTypes) && !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Wage / Monthly Salary / Trip Bata" }}
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $employee->wage }} {{ $employee->wage_type == 3 ? "%" : "" }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-tags margin-r-5"></i> Wage Type
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                @if(!empty($wageTypes) && !empty($wageTypes[$employee->wage_type]))
+                                                    {{ $wageTypes[$employee->wage_type] }}
+                                                @else
+                                                    <div class="text-red">
+                                                        Error!
+                                                    </div>
+                                                @endif
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-dollar margin-r-5"></i> {{ !empty($wageTypes) && !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Wage / Monthly Salary / Trip Bata" }}
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $employee->wage }} {{ $employee->wage_type == 3 ? "%" : "" }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <div class="clearfix"> </div>
                                     <div class="row">
-                                        <div class="col-xs-4"></div>
-                                        <div class="col-xs-4">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
                                             <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
                                                 <form action="{{ route('employees.edit', $employee->id) }}" method="get" class="form-horizontal">
                                                     <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>

@@ -35,21 +35,21 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('from_date')) ? 'has-error' : '' }}">
                                             <label for="from_date" class="control-label">From Date : </label>
                                             <input type="text" class="form-control datepicker" name="from_date" id="from_date" value="{{ !empty(old('from_date')) ? old('from_date') : $params[0]['paramValue'] }}" tabindex="1">
                                             @if(!empty($errors->first('from_date')))
                                                 <p style="color: red;" >{{$errors->first('from_date')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('to_date')) ? 'has-error' : '' }}">
                                             <label for="to_date" class="control-label">To Date : </label>
                                             <input type="text" class="form-control datepicker" name="to_date" id="to_date" value="{{ !empty(old('to_date')) ? old('to_date') : $params[1]['paramValue'] }}" tabindex="2">
                                             @if(!empty($errors->first('to_date')))
                                                 <p style="color: red;" >{{$errors->first('to_date')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('contractor_account_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('contractor_account_id')) ? 'has-error' : '' }}">
                                             <label for="contractor_account_id" class="control-label">Contractor : </label>
                                             <select class="form-control select2" name="contractor_account_id" id="contractor_account_id" style="width: 100%" tabindex="3">
                                                 <option value="">Select account</option>
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
                                             <label for="truck_id" class="control-label">Truck : </label>
                                             <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%" tabindex="4">
                                                 <option value="">Select truck</option>
@@ -81,7 +81,7 @@
                                                 <p style="color: red;" >{{$errors->first('truck_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('source_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('source_id')) ? 'has-error' : '' }}">
                                             <label for="source_id" class="control-label">Source : </label>
                                             <select class="form-control select2" name="source_id" id="source_id" style="width: 100%" tabindex="5">
                                                 <option value="">Select source</option>
@@ -95,7 +95,7 @@
                                                 <p style="color: red;" >{{$errors->first('source_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('destination_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('destination_id')) ? 'has-error' : '' }}">
                                             <label for="destination_id" class="control-label">Destination : </label>
                                             <select class="form-control select2" name="destination_id" id="destination_id" style="width: 100%" tabindex="6">
                                                 <option value="">Select source</option>
@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('driver_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('driver_id')) ? 'has-error' : '' }}">
                                             <label for="driver_id" class="control-label">Driver : </label>
                                             <select class="form-control select2" name="driver_id" id="driver_id" style="width: 100%" tabindex="7">
                                                 <option value="">Select driver</option>
@@ -125,7 +125,7 @@
                                                 <p style="color: red;" >{{$errors->first('driver_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('material_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('material_id')) ? 'has-error' : '' }}">
                                             <label for="material_id" class="control-label">Material : </label>
                                             <select class="form-control select2" name="material_id" id="material_id" style="width: 100%" tabindex="8">
                                                 <option value="">Select material</option>
@@ -139,7 +139,7 @@
                                                 <p style="color: red;" >{{$errors->first('driver_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="9">
                                             @if(!empty($errors->first('no_of_records')))
@@ -180,7 +180,7 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>

@@ -35,7 +35,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('site_type')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('site_type')) ? 'has-error' : '' }}">
                                             <label for="site_type" class="control-label">Site Type : </label>
                                             <select class="form-control select2" name="site_type" id="site_type" style="width: 100%" tabindex="1">
                                                 <option value="">Select site type</option>
@@ -49,7 +49,7 @@
                                                 <p style="color: red;" >{{$errors->first('site_type')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('site_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('site_id')) ? 'has-error' : '' }}">
                                             <label for="site_id" class="control-label">Account : </label>
                                             <select class="form-control select2" name="site_id" id="site_id" style="width: 100%" tabindex="2">
                                                 <option value="">Select site</option>
@@ -63,7 +63,7 @@
                                                 <p style="color: red;" >{{$errors->first('site_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="3">
                                             @if(!empty($errors->first('no_of_records')))
@@ -101,7 +101,7 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>

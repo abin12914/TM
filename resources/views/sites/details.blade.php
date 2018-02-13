@@ -40,57 +40,61 @@
                             </div>
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-edit margin-r-5"></i> Site Name
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $site->name }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-edit margin-r-5"></i> Site Name
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $site->name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-map-marker margin-r-5"></i> Place
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $site->place }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-map-marker margin-r-5"></i> Place
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $site->place }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-info-circle margin-r-5"></i> Address
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $site->address or "-" }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-tags margin-r-5"></i> Site Type
-                                        </strong>
-                                        <p class="text-muted">
-                                            @if(!empty($siteTypes))
-                                                @if(!empty($siteTypes[$site->site_type]))
-                                                    {{ $siteTypes[$site->site_type] }}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-info-circle margin-r-5"></i> Address
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $site->address or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-tags margin-r-5"></i> Site Type
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                @if(!empty($siteTypes))
+                                                    @if(!empty($siteTypes[$site->site_type]))
+                                                        {{ $siteTypes[$site->site_type] }}
+                                                    @else
+                                                        <div class="text-red">Error!</div>
+                                                    @endif
                                                 @else
-                                                    <div class="text-red">Error!</div>
+                                                    <div class="text-red">Error</div>
                                                 @endif
-                                            @else
-                                                <div class="text-red">Error</div>
-                                            @endif
-                                        </p>
-                                        <hr>
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <div class="clearfix"> </div>
                                     <div class="row">
-                                        <div class="col-xs-4"></div>
-                                        <div class="col-xs-4">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
                                             <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
                                                 <form action="{{ route('sites.edit', $site->id) }}" method="get" class="form-horizontal">
                                                     <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>

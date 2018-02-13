@@ -16,3 +16,7 @@ border-left: none ! important;
 .table > tbody > tr > td {
      vertical-align: middle;
 }
+/*break long words to multiple lines*/
+.multi-line {
+    overflow-wrap:break-word;
+}

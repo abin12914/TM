@@ -40,137 +40,147 @@
                             </div>
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-tag margin-r-5"></i> Reference Number
-                                        </strong>
-                                        <p class="text-muted">
-                                            #{{ $truck->id }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                #{{ $truck->id }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-truck margin-r-5"></i> Registration Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $truck->reg_number }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-truck margin-r-5"></i> Registration Number
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $truck->reg_number }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-bus margin-r-5"></i> Truck Class
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $truck->truckType->name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-edit margin-r-5"></i> Description
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $truck->description or "-" }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-bus margin-r-5"></i> Truck Class
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $truck->truckType->name }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-balance-scale margin-r-5"></i> Volume
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $truck->volume }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-puzzle-piece margin-r-5"></i> Body Type
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                @if(!empty($bodyTypes) && !empty($bodyTypes[$truck->body_type]))
+                                                    {{ $bodyTypes[$truck->body_type] }}
+                                                @else
+                                                    <div class="text-red">
+                                                        Error!
+                                                    </div>
+                                                @endif
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-info-circle margin-r-5"></i> Description
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $truck->description or "-" }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calendar margin-r-5"></i> Insurance Certificate Valid Upto
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ Carbon\Carbon::parse($truck->insurance_upto)->format('d-m-Y') }}&emsp;
+                                                @if($truck->insuranceFlag == 1)
+                                                    <i class="fa fa-check text-green" title="Valid"></i>
+                                                @elseif($truck->insuranceFlag == 2)
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                @else
+                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                @endif
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calendar margin-r-5"></i> Tax Certificate Valid Upto
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ Carbon\Carbon::parse($truck->tax_upto)->format('d-m-Y') }}&emsp;
+                                                @if($truck->taxFlag == 1)
+                                                    <i class="fa fa-check text-green" title="Valid"></i>
+                                                @elseif($truck->taxFlag == 2)
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                @else
+                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                @endif
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-balance-scale margin-r-5"></i> Volume
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $truck->volume }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-tag margin-r-5"></i> Body Type
-                                        </strong>
-                                        <p class="text-muted">
-                                            @if(!empty($bodyTypes) && !empty($bodyTypes[$truck->body_type]))
-                                                {{ $bodyTypes[$truck->body_type] }}
-                                            @else
-                                                <div class="text-red">
-                                                    Error!
-                                                </div>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-certificate margin-r-5"></i> Insurance Certificate Valid Upto
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ Carbon\Carbon::parse($truck->insurance_upto)->format('d-m-Y') }}&emsp;
-                                            @if($truck->insuranceFlag == 1)
-                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
-                                            @elseif($truck->insuranceFlag == 2)
-                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
-                                            @else
-                                                <i class="fa fa-warning text-red" title="Expired.."></i>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-certificate margin-r-5"></i> Tax Certificate Valid Upto
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ Carbon\Carbon::parse($truck->tax_upto)->format('d-m-Y') }}&emsp;
-                                            @if($truck->taxFlag == 1)
-                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
-                                            @elseif($truck->taxFlag == 2)
-                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
-                                            @else
-                                                <i class="fa fa-warning text-red" title="Expired.."></i>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-certificate margin-r-5"></i> Fitness Certificate Valid Upto
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ Carbon\Carbon::parse($truck->fitness_upto)->format('d-m-Y') }}&emsp;
-                                            @if($truck->fitnessFlag == 1)
-                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
-                                            @elseif($truck->fitnessFlag == 2)
-                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
-                                            @else
-                                                <i class="fa fa-warning text-red" title="Expired.."></i>
-                                            @endif
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-certificate margin-r-5"></i> Permit Certificate Valid Upto
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ Carbon\Carbon::parse($truck->permit_upto)->format('d-m-Y') }}&emsp;
-                                            @if($truck->permitFlag == 1)
-                                                <i class="fa fa-check-circle text-green" title="Valid.."></i>
-                                            @elseif($truck->permitFlag == 2)
-                                                <i class="fa fa-info-circle text-orange" title="Expiring Soon.."></i>
-                                            @else
-                                                <i class="fa fa-warning text-red" title="Expired.."></i>
-                                            @endif
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calendar margin-r-5"></i> Fitness Certificate Valid Upto
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ Carbon\Carbon::parse($truck->fitness_upto)->format('d-m-Y') }}&emsp;
+                                                @if($truck->fitnessFlag == 1)
+                                                    <i class="fa fa-check-circle text-green" title="Valid"></i>
+                                                @elseif($truck->fitnessFlag == 2)
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                @else
+                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                @endif
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calendar margin-r-5"></i> Permit Certificate Valid Upto
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ Carbon\Carbon::parse($truck->permit_upto)->format('d-m-Y') }}&emsp;
+                                                @if($truck->permitFlag == 1)
+                                                    <i class="fa fa-check-circle text-green" title="Valid"></i>
+                                                @elseif($truck->permitFlag == 2)
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                @else
+                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                @endif
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <div class="clearfix"> </div>
                                     <div class="row">
-                                        <div class="col-xs-4"></div>
-                                        <div class="col-xs-4">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
                                             <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
                                                 <form action="{{ route('trucks.edit', $truck->id) }}" method="get" class="form-horizontal">
                                                     <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>

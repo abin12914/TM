@@ -43,74 +43,90 @@
                                     <h5 class="widget-user-desc">{{ $voucher->transaction->debitAccount->account_name }}</h5>
                                 @endif
                             </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-stacked">
-                                    <li>
-                                        <a href="#">Transaction Type 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $voucher->transaction_type == 1 ? "Receipt" : "Voucher" }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Date
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ Carbon\Carbon::parse($voucher->date)->format('d-m-Y') }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Debit Account 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $voucher->transaction->debitAccount->account_name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Credit Account 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-aqua text-center">
-                                                    {{ $voucher->transaction->creditAccount->account_name }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Bill Amount 
-                                            <div style="width: 30%;" class="pull-right">
-                                                <div class="external-event bg-blue text-center">
-                                                    {{ $voucher->amount }}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-user-header">
-                                <div class="clearfix"> </div><br>
-                                <div class="row">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-3">
-                                        <form action="{{ route('under.construction') }}" method="get" class="form-horizontal">
-                                            {{-- route('accounts.edit', ['id' => $account->id]) --}}
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
-                                        </form>
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                #{{ $voucher->transaction->id }}/{{ $voucher->id }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calendar margin-r-5"></i> Date
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ Carbon\Carbon::parse($voucher->date)->format('d-m-Y') }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-3">
-                                        <form action="{{route('vouchers.destroy', ['id' => $voucher->id])}}" method="post" class="form-horizontal">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-block btn-flat">Delete</button>
-                                        </form>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-sort margin-r-5"></i> Transaction Type
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $voucher->transaction_type == 1 ? "Receipt" : "Voucher" }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-book margin-r-5"></i> Debit Account
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $voucher->transaction->debitAccount->account_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <!-- /.col -->
-                                </div><br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-book margin-r-5"></i> Credit Account
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $voucher->transaction->creditAccount->account_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-inr margin-r-5"></i> {{ $voucher->transaction_type == 1 ? "Receipt" : "Voucher" }} Amount
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $voucher->amount }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <div class="clearfix"> </div>
+                                    <div class="row">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-6">
+                                                <form action="{{ route('vouchers.edit', $voucher->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <form action="{{ route('vouchers.destroy', $voucher->id) }}" method="post" class="form-horizontal">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="button" class="btn btn-danger btn-block btn-flat delete_button">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         @endif
                     </div>

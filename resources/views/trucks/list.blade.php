@@ -30,12 +30,12 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header">
-                        <form action="{{ route('trucks.index') }}" method="get" class="form-horizontal">
+                        <form action="{{ route('trucks.index') }}" method="get" class="form-horizontal" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-sm-4 {{ !empty($errors->first('truck_type_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('truck_type_id')) ? 'has-error' : '' }}">
                                             <label for="truck_type_id" class="control-label">Truck Type : </label>
                                             <select class="form-control select2" name="truck_type_id" id="truck_type_id" style="width: 100%" tabindex="1">
                                                 <option value="">Select truck type</option>
@@ -49,7 +49,7 @@
                                                 <p style="color: red;" >{{$errors->first('truck_type_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('truck_id')) ? 'has-error' : '' }}">
                                             <label for="truck_id" class="control-label">Truck : </label>
                                             <select class="form-control select2" name="truck_id" id="truck_id" style="width: 100%" tabindex="2">
                                                 <option value="">Select truck</option>
@@ -63,7 +63,7 @@
                                                 <p style="color: red;" >{{$errors->first('truck_id')}}</p>
                                             @endif
                                         </div>
-                                        <div class="col-sm-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
+                                        <div class="col-md-4 {{ !empty($errors->first('no_of_records')) ? 'has-error' : '' }}">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             <input type="text" class="form-control" name="no_of_records" id="no_of_records" value="{{ !empty(old('no_of_records')) ? old('no_of_records') : $noOfRecords }}" tabindex="3">
                                             @if(!empty($errors->first('no_of_records')))
@@ -101,7 +101,7 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>

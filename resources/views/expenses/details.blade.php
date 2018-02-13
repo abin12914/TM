@@ -40,67 +40,73 @@
                             </div>
                             <div class="box box-primary">
                                 <div class="box-body">
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-tag margin-r-5"></i> Reference Number
-                                        </strong>
-                                        <p class="text-muted">
-                                            #{{ $expense->transaction->id }}/{{ $expense->id }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-tag margin-r-5"></i> Reference Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                #{{ $expense->transaction->id }}/{{ $expense->id }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-truck margin-r-5"></i> Truck Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $expense->truck->reg_number }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-truck margin-r-5"></i> Truck Number
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $expense->truck->reg_number }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-book margin-r-5"></i> Supplier
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $expense->transaction->debitAccount->account_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calendar margin-r-5"></i> Date
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ Carbon\Carbon::parse($expense->date)->format('d-m-Y') }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-book margin-r-5"></i> Supplier
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $expense->transaction->debitAccount->account_name }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-calendar margin-r-5"></i> Date
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ Carbon\Carbon::parse($expense->date)->format('d-m-Y') }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-gear margin-r-5"></i> Service
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $expense->service->name }}
-                                        </p>
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>
-                                            <i class="fa fa-dollar margin-r-5"></i> Bill Amount
-                                        </strong>
-                                        <p class="text-muted">
-                                            {{ $expense->bill_amount }}
-                                        </p>
-                                        <hr>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-gear margin-r-5"></i> Service
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $expense->service->name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-dollar margin-r-5"></i> Bill Amount
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $expense->bill_amount }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
                                 <div class="box-footer">
                                     <div class="clearfix"> </div>
                                     <div class="row">
-                                        <div class="col-xs-4"></div>
-                                        <div class="col-xs-4">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
                                             <div class="col-md-6">
                                                 <form action="{{ route('expenses.edit', $expense->id) }}" method="get" class="form-horizontal">
                                                     <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
