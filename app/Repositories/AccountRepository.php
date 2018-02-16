@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Account;
-use App\Models\AccountDetail;
 use App\Models\Transaction;
 use \Carbon\Carbon;
 use Auth;
@@ -156,7 +155,7 @@ class AccountRepository
      */
     public function getAccount($id)
     {
-        $account = Account::where('status', 1)->where('id', $id)->first();
+        $account = Account::with('employee')->where('status', 1)->where('id', $id)->first();
 
         if(empty($account) || empty($account->id)) {
             $account = [];

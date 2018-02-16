@@ -159,7 +159,7 @@
                                                         <tr>
                                                             @if($overviewDebit >= $overviewCredit)
                                                                 <th>
-                                                                    <span class="badge bg-black"><i class="fa fa-dollar"></i></span>&nbsp&nbsp Balance To Get
+                                                                    <span class="badge bg-black"><i class="fa fa-inr"></i></span>&nbsp&nbsp Balance To Get
                                                                     <b class="pull-right">:</b>
                                                                 </th>
                                                                 <td>
@@ -169,7 +169,7 @@
                                                                 </td>
                                                             @else
                                                                 <th>
-                                                                    <span class="badge bg-black"><i class="fa fa-dollar"></i></span>&nbsp&nbsp Balance To Pay
+                                                                    <span class="badge bg-black"><i class="fa fa-inr"></i></span>&nbsp&nbsp Balance To Pay
                                                                     <b class="pull-right">:</b>
                                                                 </th>
                                                                 <td>

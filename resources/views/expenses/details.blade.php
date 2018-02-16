@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Expense Details')
+@section('title', 'Service & Expense Details')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Expense
+            Service & Expense
             <small>Details</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Expense Details</li>
+            <li class="active">Service & Expense Details</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -43,10 +43,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-tag margin-r-5"></i> Reference Number
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                #{{ $expense->transaction->id }}/{{ $expense->id }}
+                                                #{{ $expense->id }}/{{ $expense->transaction->id }}
                                             </p>
                                             <hr>
                                         </div>
@@ -63,10 +63,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-book margin-r-5"></i> Supplier
+                                                <i class="fa fa-user-o margin-r-5"></i> Supplier
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $expense->transaction->debitAccount->account_name }}
+                                                {{ $expense->transaction->creditAccount->account_name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -83,7 +83,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-gear margin-r-5"></i> Service
+                                                <i class="fa fa-gear margin-r-5"></i> Service Type
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $expense->service->name }}
@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-dollar margin-r-5"></i> Bill Amount
+                                                <i class="fa fa-inr margin-r-5"></i> Bill Amount
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $expense->bill_amount }}

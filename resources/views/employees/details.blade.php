@@ -43,19 +43,19 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-user-o margin-r-5"></i> Name
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $employee->account->name }}
+                                                #{{ $employee->id. "/". $employee->account_id }}
                                             </p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-book margin-r-5"></i> Account Name
+                                                <i class="fa fa-user-o margin-r-5"></i> Name
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $employee->account->account_name }}
+                                                {{ $employee->account->name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -98,10 +98,35 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-dollar margin-r-5"></i> {{ !empty($wageTypes) && !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Wage / Monthly Salary / Trip Bata" }}
+                                                <i class="fa fa-inr margin-r-5"></i> {{ !empty($wageTypes) && !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Wage / Monthly Salary / Trip Bata" }}
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $employee->wage }} {{ $employee->wage_type == 3 ? "%" : "" }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-book margin-r-5"></i> Account Name
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $employee->account->account_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-calculator margin-r-5"></i> Opening Balance
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                @if($employee->account->financial_status == 1)
+                                                    Creditor - 
+                                                @elseif($employee->account->financial_status == 2)
+                                                    Debitor - 
+                                                @endif
+                                                {{ $employee->account->opening_balance }}
                                             </p>
                                             <hr>
                                         </div>

@@ -50,7 +50,7 @@ class TruckRepository
      */
     public function getTrucks($params=[], $noOfRecords=null)
     {
-        $trucks = Truck::where('status', 1);
+        $trucks = Truck::with('truckType')->where('status', 1);
 
         foreach ($params as $key => $value) {
             if(!empty($value)) {
@@ -120,7 +120,7 @@ class TruckRepository
      */
     public function getTruck($id)
     {
-        $truck = Truck::where('status', 1)->where('id', $id)->first();
+        $truck = Truck::with('truckType')->where('status', 1)->where('id', $id)->first();
 
         if(empty($truck) || empty($truck->id)) {
             $truck = [];

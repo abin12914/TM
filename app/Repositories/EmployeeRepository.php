@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Employee;
 use App\Models\Account;
-use App\Models\AccountDetail;
 use App\Models\Transaction;
 use \Carbon\Carbon;
 use Auth;
@@ -22,7 +21,7 @@ class EmployeeRepository
      */
     public function getEmployees($params=[], $noOfRecords=null)
     {
-        $employees = Employee::where('status', 1);
+        $employees = Employee::with('account')->where('status', 1);
 
         foreach ($params as $key => $value) {
             if(!empty($value)) {
@@ -160,7 +159,7 @@ class EmployeeRepository
      */
     public function getEmployee($id)
     {
-        $employee = Employee::where('status', 1)->where('id', $id)->first();
+        $employee = Employee::with('account')->where('status', 1)->where('id', $id)->first();
 
         if(empty($employee) || empty($employee->id)) {
             $employee = [];
@@ -172,7 +171,7 @@ class EmployeeRepository
     public function deleteEmployee($id, $forceFlag=false)
     {
         $errorCode = 'Unknown';
-        $employee = Employee::where('status', 1)->where('id', $id)->first();
+        $employee = Employee::with('account')->where('status', 1)->where('id', $id)->first();
 
         if(!empty($employee) && !empty($employee->id)) {
             if($forceFlag) {

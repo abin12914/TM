@@ -24,7 +24,7 @@ class SupplyRepository
     public function getSupplyTransportations($params=[], $relationalParams=[], $noOfRecords=null)
     {
         //transportations that has related purchase and sale [supply]
-        $supplyTransportations = Transportation::where('status', 1)->has('purchase')->has('sale');
+        $supplyTransportations = Transportation::with(['truck', 'transaction.debitAccount', 'source', 'destination', 'material'])->where('status', 1)->has('purchase')->has('sale');
 
         foreach ($params as $param) {
             if(!empty($param) && !empty($param['paramValue'])) {
@@ -65,7 +65,11 @@ class SupplyRepository
     public function getSupplyTransportation($id)
     {
         //transportations that has related purchase and sale [supply]
-        $supplyTransportation = Transportation::where('status', 1)->where('id', $id)->has('purchase')->has('sale')->first();
+        $supplyTransportation = Transportation::with([
+                                    'truck', 'source', 'destination', 'material', 'employee.account',
+                                    'transaction.debitAccount', 'purchase.transaction.creditAccount',
+                                    'sale.transaction.debitAccount'])->
+                                    where('status', 1)->where('id', $id)->has('purchase')->has('sale')->first();
         if(empty($supplyTransportation) || $supplyTransportation->count() < 1) {
             $supplyTransportation = [];
         }

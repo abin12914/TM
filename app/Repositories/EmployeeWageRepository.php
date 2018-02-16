@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Models\EmployeeWage;
 use App\Models\Transaction;
 use App\Models\Account;
 use App\Models\Truck;
 use App\Models\Site;
 use App\Models\Employee;
-use App\Models\EmployeeWage;
 use \Carbon\Carbon;
 use Auth;
 

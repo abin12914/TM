@@ -95,7 +95,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                        <label for="image_file" class="col-md-3 control-label">Image : </label>
+                                            <label for="image_file" class="col-md-3 control-label">Image : </label>
                                             <div class="col-md-9 {{ !empty($errors->first('image_file')) ? 'has-error' : '' }}">
                                                 <input type="file" name="image_file" class="form-control" id="image_file" value="{{ old('image_file') }}" tabindex="6" accept="image/*">
                                                 @if(!empty($errors->first('image_file')))

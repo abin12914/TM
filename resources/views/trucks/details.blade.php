@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-edit margin-r-5"></i> Description
+                                                <i class="fa fa-file-text-o margin-r-5"></i> Description
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $truck->description or "-" }}
@@ -114,11 +114,11 @@
                                             <p class="text-muted multi-line">
                                                 {{ Carbon\Carbon::parse($truck->insurance_upto)->format('d-m-Y') }}&emsp;
                                                 @if($truck->insuranceFlag == 1)
-                                                    <i class="fa fa-check text-green" title="Valid"></i>
+                                                    <i class="fa fa-check text-green" title="Valid"> Valid</i>
                                                 @elseif($truck->insuranceFlag == 2)
-                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."> Expiring Soon..</i>
                                                 @else
-                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                    <i class="fa fa-times text-red" title="Expired.."> Expired</i>
                                                 @endif
                                             </p>
                                             <hr>
@@ -130,11 +130,11 @@
                                             <p class="text-muted multi-line">
                                                 {{ Carbon\Carbon::parse($truck->tax_upto)->format('d-m-Y') }}&emsp;
                                                 @if($truck->taxFlag == 1)
-                                                    <i class="fa fa-check text-green" title="Valid"></i>
+                                                    <i class="fa fa-check text-green" title="Valid"> Valid</i>
                                                 @elseif($truck->taxFlag == 2)
-                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."> Expiring Soon..</i>
                                                 @else
-                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                    <i class="fa fa-times text-red" title="Expired.."> Expired</i>
                                                 @endif
                                             </p>
                                             <hr>
@@ -148,11 +148,11 @@
                                             <p class="text-muted multi-line">
                                                 {{ Carbon\Carbon::parse($truck->fitness_upto)->format('d-m-Y') }}&emsp;
                                                 @if($truck->fitnessFlag == 1)
-                                                    <i class="fa fa-check-circle text-green" title="Valid"></i>
+                                                    <i class="fa fa-check-circle text-green" title="Valid"> Valid</i>
                                                 @elseif($truck->fitnessFlag == 2)
-                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."> Expiring Soon..</i>
                                                 @else
-                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                    <i class="fa fa-times text-red" title="Expired.."> Expired</i>
                                                 @endif
                                             </p>
                                             <hr>
@@ -164,11 +164,11 @@
                                             <p class="text-muted multi-line">
                                                 {{ Carbon\Carbon::parse($truck->permit_upto)->format('d-m-Y') }}&emsp;
                                                 @if($truck->permitFlag == 1)
-                                                    <i class="fa fa-check-circle text-green" title="Valid"></i>
+                                                    <i class="fa fa-check-circle text-green" title="Valid"> Valid</i>
                                                 @elseif($truck->permitFlag == 2)
-                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."></i>
+                                                    <i class="fa fa-warning text-orange" title="Expiring Soon.."> Expiring Soon..</i>
                                                 @else
-                                                    <i class="fa fa-times text-red" title="Expired.."></i>
+                                                    <i class="fa fa-times text-red" title="Expired.."> Expired</i>
                                                 @endif
                                             </p>
                                             <hr>

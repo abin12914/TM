@@ -29,7 +29,7 @@ class ExpenseRepository
      */
     public function getExpenses($params=[], $relationalParams=[], $noOfRecords=null)
     {
-        $expenses = Expense::where('status', 1);
+        $expenses = Expense::with(['truck','transaction.creditAccount', 'service'])->where('status', 1);
 
         foreach ($params as $param) {
             if(!empty($param) && !empty($param['paramValue'])) {
@@ -142,7 +142,7 @@ class ExpenseRepository
      */
     public function getExpense($id)
     {
-        $expense = Expense::where('status', 1)->where('id', $id)->first();
+        $expense = Expense::with(['truck','transaction.creditAccount', 'service'])->where('status', 1)->where('id', $id)->first();
         if(empty($expense) || empty($expense->id)) {
             $expense = [];
         }
@@ -153,7 +153,7 @@ class ExpenseRepository
     public function deleteExpense($id, $forceFlag=false)
     {
         $errorCode = 'Unknown';
-        $expense = Expense::where('status', 1)->where('id', $id)->first();
+        $expense = Expense::with('transaction')->where('status', 1)->where('id', $id)->first();
 
         if(!empty($expense) && !empty($expense->id)) {
             if($forceFlag) {

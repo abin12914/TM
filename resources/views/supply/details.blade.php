@@ -35,8 +35,7 @@
                                     <table class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th style="width: 5%;">Ref. No.</th>
-                                                <th style="width: 10%;">Truck</th>
+                                                <th style="width: 15%;">Truck</th>
                                                 <th style="width: 20%;">Source</th>
                                                 <th style="width: 20%;">Destination</th>
                                                 <th style="width: 10%;">Material</th>
@@ -46,7 +45,6 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ $supplyTransportation->id }}</td>
                                                 <td>{{ $supplyTransportation->truck->reg_number }}</td>
                                                 <td>{{ $supplyTransportation->source->name }}</td>
                                                 <td>{{ $supplyTransportation->destination->name }}</td>
@@ -91,7 +89,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ $supplyTransportation->id }}</td>
+                                                <td class="text-muted">#{{ $supplyTransportation->id }}/{{ $supplyTransportation->transaction->id }}</td>
                                                 <td>{{ Carbon\Carbon::parse($supplyTransportation->date)->format('d-m-Y') }}</td>
                                                 <td class="text-red">{{ $supplyTransportation->transaction->debitAccount->account_name }}</td>
                                                 @if(!empty($rentTypes))
@@ -142,7 +140,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ $supplyTransportation->purchase->id }}</td>
+                                                <td class="text-muted">#{{ $supplyTransportation->purchase->id }}/{{ $supplyTransportation->purchase->transaction_id }}</td>
                                                 <td>{{ Carbon\Carbon::parse($supplyTransportation->purchase->date)->format('d-m-Y') }}</td>
                                                 <td class="text-red">{{ $supplyTransportation->purchase->transaction->creditAccount->account_name }}</td>
                                                 @if(!empty($measureTypes))
@@ -192,7 +190,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{{ $supplyTransportation->sale->id }}</td>
+                                                <td class="text-muted">#{{ $supplyTransportation->sale->id }}/{{ $supplyTransportation->sale->transaction_id }}</td>
                                                 <td>{{ Carbon\Carbon::parse($supplyTransportation->sale->date)->format('d-m-Y') }}</td>
                                                 <td class="text-red">{{ $supplyTransportation->sale->transaction->debitAccount->account_name }}</td>
                                                 @if(!empty($measureTypes))
@@ -217,7 +215,7 @@
                 <!-- /.col-md-12 -->
             </div>
             <!-- /.row (main row) -->
-            <div class="row">
+            <div class="row no-print">
                 <div class="col-md-12 col-xs-12">
                     <div class="clearfix"> </div><br>
                         <div class="row">

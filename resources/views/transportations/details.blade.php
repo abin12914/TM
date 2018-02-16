@@ -43,10 +43,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-tag margin-r-5"></i> Reference Number
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                #{{ $transportation->transaction->id }}/{{ $transportation->id }}
+                                                #{{ $transportation->id }}/{{ $transportation->transaction->id }}
                                             </p>
                                             <hr>
                                         </div>
@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-book margin-r-5"></i> Contractor
+                                                <i class="fa fa-user-o margin-r-5"></i> Contractor
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $transportation->transaction->debitAccount->account_name }}
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-dollar margin-r-5"></i> Rent Rate
+                                                <i class="fa fa-inr margin-r-5"></i> Rent Rate
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $transportation->rent_rate }}
@@ -151,7 +151,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-dollar margin-r-5"></i> Total Rent
+                                                <i class="fa fa-inr margin-r-5"></i> Total Rent
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $transportation->total_rent }}

@@ -43,6 +43,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                #{{ $site->id }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
                                                 <i class="fa fa-edit margin-r-5"></i> Site Name
                                             </strong>
                                             <p class="text-muted multi-line">
@@ -50,6 +59,8 @@
                                             </p>
                                             <hr>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-6">
                                             <strong>
                                                 <i class="fa fa-map-marker margin-r-5"></i> Place
@@ -59,8 +70,6 @@
                                             </p>
                                             <hr>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <strong>
                                                 <i class="fa fa-info-circle margin-r-5"></i> Address
@@ -70,6 +79,8 @@
                                             </p>
                                             <hr>
                                         </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-6">
                                             <strong>
                                                 <i class="fa fa-tags margin-r-5"></i> Site Type

@@ -77,10 +77,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-book margin-r-5"></i> Debit Account
+                                                <i class="fa fa-inr margin-r-5"></i> {{ $voucher->transaction_type == 1 ? "Receipt" : "Voucher" }} Amount
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $voucher->transaction->debitAccount->account_name }}
+                                                {{ $voucher->amount }}
                                             </p>
                                             <hr>
                                         </div>
@@ -88,19 +88,19 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-book margin-r-5"></i> Credit Account
+                                                <i class="fa fa-user-o margin-r-5"></i> Debit Account
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $voucher->transaction->creditAccount->account_name }}
+                                                {{ $voucher->transaction->debitAccount->account_name }}
                                             </p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-inr margin-r-5"></i> {{ $voucher->transaction_type == 1 ? "Receipt" : "Voucher" }} Amount
+                                                <i class="fa fa-user-o margin-r-5"></i> Credit Account
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $voucher->amount }}
+                                                {{ $voucher->transaction->creditAccount->account_name }}
                                             </p>
                                             <hr>
                                         </div>

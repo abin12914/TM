@@ -15,7 +15,7 @@ class VoucherRepository
      */
     public function getVouchers($params=[], $relationalOrParams=[], $noOfRecords=null)
     {
-        $vouchers = Voucher::where('status', 1);
+        $vouchers = Voucher::with('transaction')->where('status', 1);
 
         foreach ($params as $param) {
             if(!empty($param) && !empty($param['paramValue'])) {
@@ -132,7 +132,7 @@ class VoucherRepository
      */
     public function getVoucher($id)
     {   
-        $voucher = Voucher::where('status', 1)->where('id', $id)->first();
+        $voucher = Voucher::with('transaction')->where('status', 1)->where('id', $id)->first();
 
         if(empty($voucher) || empty($voucher->id)) {
             $voucher = [];
@@ -146,7 +146,7 @@ class VoucherRepository
      */
     public function deleteVoucher($id, $forceFlag=false)
     {   
-        $voucher = Voucher::where('status', 1)->where('id', $id)->first();
+        $voucher = Voucher::with('transaction')->where('status', 1)->where('id', $id)->first();
 
         if(!empty($voucher) && !empty($voucher->id)) {
             if($forceFlag) {

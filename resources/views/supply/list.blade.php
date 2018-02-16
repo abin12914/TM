@@ -191,7 +191,7 @@
                                                     <td>{{ $transportation->material->name }}</td>
                                                     <td>
                                                         <a href="{{ route('supply.show', ['id' => $transportation->id]) }}">
-                                                            <button class="bg-aqua submit-button" type="button">view</button>
+                                                            <button class="btn btn-default" type="button">view</button>
                                                         </a>
                                                     </td>
                                                 </tr>

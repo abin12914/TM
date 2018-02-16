@@ -96,7 +96,13 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
-        //
+        //excluding the relationtype 'employee'[index = 5] for account update
+        unset($this->accountRepo->relationTypes[5]);
+
+        return view('accounts.edit', [
+                'account'       => $this->accountRepo->getAccount($id),
+                'relationTypes' => $this->accountRepo->relationTypes,
+            ]);
     }
 
     /**

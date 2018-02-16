@@ -26,7 +26,7 @@ class TransportationRepository
      */
     public function getTransportations($params=[], $relationalParams=[], $noOfRecords=null)
     {
-        $transportations = Transportation::where('status', 1);
+        $transportations = Transportation::with(['truck', 'transaction.debitAccount', 'source', 'destination', 'material', 'employee.account'])->where('status', 1);
 
         foreach ($params as $param) {
             if(!empty($param) && !empty($param['paramValue'])) {
@@ -161,7 +161,7 @@ class TransportationRepository
      */
     public function getTransportation($id)
     {
-        $transportation = Transportation::where('status', 1)->where('id', $id)->first();
+        $transportation = Transportation::with(['source', 'destination', 'truck', 'transaction.debitAccount', 'material', 'employee.account'])->where('status', 1)->where('id', $id)->first();
         if(empty($transportation) || empty($transportation->id)) {
             $transportation = [];
         }
@@ -171,7 +171,7 @@ class TransportationRepository
 
     public function deleteTransportation($id, $forceFlag=false)
     {
-        $transportation = Transportation::where('status', 1)->where('id', $id)->first();
+        $transportation = Transportation::with('transaction')->where('status', 1)->where('id', $id)->first();
 
         if(!empty($transportation) && !empty($transportation->id)) {
             if($forceFlag) {
