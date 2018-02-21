@@ -11,6 +11,7 @@
 }
 .fc-unthemed .fc-today {
   background-color: lightgoldenrodyellow;
+  color: red;
 }
 </style>
 <div class="content-wrapper no-print">
@@ -45,7 +46,7 @@
                     <div class="icon">
                         <i class="fa fa-road"></i>
                     </div>
-                    <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('transportations.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -59,7 +60,7 @@
                     <div class="icon">
                         <i class="fa fa-truck"></i>
                     </div>
-                    <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('trucks.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -73,7 +74,7 @@
                     <div class="icon">
                         <i class="fa fa-certificate"></i>
                     </div>
-                    <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('trucks.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -87,7 +88,7 @@
                     <div class="icon">
                         <i class="fa  fa-certificate"></i>
                     </div>
-                    <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('trucks.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->

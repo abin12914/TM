@@ -35,7 +35,6 @@
                             <!-- /.box-header -->
                             <!-- form start -->
                             <form action="{{route('accounts.update', $account->id)}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
-                                <input type="hidden" name="id" value="{{ $account->id }}">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 {{ method_field('PUT') }}
                                 <div class="box-body">
@@ -62,7 +61,7 @@
                                                         <p style="color: red;" >{{$errors->first('description')}}</p>
                                                     @endif
                                                 </div>
-                                            </div><br>
+                                            </div>
                                             <div class="box-header with-border">
                                                 <h3 class="box-title" style="float: left;">Personal Details</h3>
                                             </div>
@@ -123,7 +122,7 @@
                                                         <p style="color: red;" >{{$errors->first('relation_type')}}</p>
                                                     @endif
                                                 </div>
-                                            </div><br>
+                                            </div>
                                             <div class="box-header with-border">
                                                 <h3 class="box-title" style="float: left;">Financial Details</h3>
                                                     <p>&nbsp&nbsp&nbsp</p>

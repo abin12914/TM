@@ -35,7 +35,7 @@
                             <div class="widget-user-desc">&nbsp;&nbsp;&nbsp;<i class="text-red">Update required fields.</i>/&nbsp;<i class="text-maroon">Leaving empty won't update current values.</i>/&nbsp;<i class="text-orange"><b>"Current password" </b>field is mandatory.</i>
                             </div>
                         </div>
-                        <form action="{{ route('user.profile.action') }}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <form action="{{ route('user.profile.action') }}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">

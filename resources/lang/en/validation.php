@@ -116,6 +116,23 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'relation_type'                 => 'primary relation',
+        'supplier_account_id'           => 'supplier',
+        'truck_id'                      => 'truck',
+        'service_id'                    => 'service',
+        'customer_account_id'           => 'customer',
+        'source_id'                     => 'source',
+        'destination_id'                => 'destination',
+        'contractor_account_id'         => 'contractor',
+        'employee_id'                   => 'driver',
+        'employee_wage'                 => 'driver bata',
+        'voucher_reciept_account_id'    => 'account',
+        'reg_number_state_code'         => 'state code',
+        'reg_number_region_code'        => 'region code',
+        'reg_number_unique_alphabet'    => 'unique alphabet',
+        'reg_number_unique_digit'       => 'unique digit',
+        'reg_number'                    => 'registration code',
+    ],
 
 ];

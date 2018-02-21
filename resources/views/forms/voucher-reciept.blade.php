@@ -27,7 +27,7 @@
 <div class="form-group">
     <label class="col-md-3 control-label">
         <b style="color: red;">* </b>
-        <b id="account_label">{{ (empty(old('transaction_type')) || old('transaction_type') == 1) ? "Giver / From : " : "Reciever / To : " }}</b>
+        <b id="account_label">{{ (empty(old('transaction_type')) || old('transaction_type') == 1) ? "Giver / From " : "Reciever / To " }}- Account :</b>
     </label>
     <div class="col-md-9">
         <div class="row">

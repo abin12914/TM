@@ -4,7 +4,7 @@
 @if(Session::has('message'))
     <div class="alert {{ Session::get('alert-class', 'alert-info') }}" id="alert-message">
         <h4>
-            {{} Session::get('message') }}
+            {{ Session::get('message') }}
         </h4>
     </div>
 @endif
@@ -18,7 +18,7 @@
 <div class="login-box">
     <div class="login-logo">
         <div>
-            <img src="/images/tipping.png" width: 100%; height="100">
+            <img src="/images/trucks/tipping.png" width: 100%; height="100">
             <br>
             <b>
                 WELCOME TO<br>TRUCKING MANAGER
