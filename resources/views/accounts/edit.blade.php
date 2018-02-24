@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Account Update')
+@section('title', 'Account Edit')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
             Account
-            <small>Update</small>
+            <small>Edit</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Account Update</li>
+            <li class="active">Account Edit</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -158,7 +158,7 @@
                                             <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="10">Clear</button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="11">Submit</button>
+                                            <button type="button" class="btn btn-primary btn-block btn-flat update_button" tabindex="11">Update</button>
                                         </div>
                                         <!-- /.col -->
                                     </div><br>

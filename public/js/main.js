@@ -140,6 +140,23 @@ $(function () {
     });
 
     // for confirming delete
+    $('body').on("click", ".update_button", function () {
+        swal({
+              title: 'Are you sure to update the record?',
+              type: 'warning',
+              showCancelButton: true,
+              focusCancel : true,
+              confirmButtonColor: '#d33',
+              confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+              if (result.value) {
+                //submit delete form on confirmation
+                $(this).parents('form:first').submit();
+              }
+            })
+        });
+
+    // for confirming delete
     $('body').on("click", ".delete_button", function () {
         swal({
               title: 'Are you sure to delete?',
@@ -155,7 +172,7 @@ $(function () {
                 $(this).parents('form:first').submit();
               }
             })
-        });
+    });
 
     // right sidebar menu track certificate click event
     $('body').on("change", "#rsb_track_certificate", function () {
