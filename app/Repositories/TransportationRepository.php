@@ -159,9 +159,35 @@ class TransportationRepository
     /**
      * return transportation.
      */
-    public function getTransportation($id)
+    public function getTransportation($params=[], $relationalParams=[], $order=[])
     {
-        $transportation = Transportation::with(['source', 'destination', 'truck', 'transaction.debitAccount', 'material', 'employee.account'])->where('status', 1)->where('id', $id)->first();
+        $transportation = Transportation::with(['source', 'destination', 'truck', 'transaction.debitAccount', 'material', 'employee.account'])
+                                ->where('status', 1);
+
+        //custom parameters
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $transportation = $transportation->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+            }
+        }
+
+        foreach ($relationalParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $transportation = $transportation->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName'], $param['paramValue']);
+                });
+            }
+        }
+
+        //custom ordering if any
+        if(!empty($order)) {
+            $transportation = $transportation->orderBy($order['order_key'], $order['order_type']);
+        }
+
+        //secondary ordering apart from custom ordering for more accuracy
+        //selecting first element after the ordering
+        $transportation = $transportation->orderBy('id', 'desc')->first();
+
         if(empty($transportation) || empty($transportation->id)) {
             $transportation = [];
         }

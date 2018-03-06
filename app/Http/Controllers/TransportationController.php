@@ -11,6 +11,7 @@ use App\Repositories\EmployeeRepository;
 use App\Repositories\EmployeeWageRepository;
 use App\Http\Requests\TransportationRegistrationRequest;
 use App\Http\Requests\TransportationFilterRequest;
+use App\Http\Requests\TransportationAjaxRequests;
 use \Carbon\Carbon;
 
 class TransportationController extends Controller
@@ -164,8 +165,15 @@ class TransportationController extends Controller
      */
     public function show($id)
     {
+        $params = [
+                [
+                    'paramName'     => 'id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $id,
+                ]
+            ];
         return view('transportations.details', [
-                'transportation'    => $this->transportationRepo->getTransportation($id),
+                'transportation'    => $this->transportationRepo->getTransportation($params, [], []),
                 'rentTypes'         => $this->transportationRepo->rentTypes,
             ]);
     }
@@ -201,7 +209,15 @@ class TransportationController extends Controller
      */
     public function destroy($id, EmployeeWageRepository $employeeWageRepo)
     {
-        $transportation = $this->transportationRepo->getTransportation($id);
+        $params = [
+                [
+                    'paramName'     => 'id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $id,
+                ]
+            ];
+
+        $transportation = $this->transportationRepo->getTransportation($params, [], []);
 
         if(!empty($transportation) && !empty($transportation->id)) {
             $deleteEmployeeWage = $employeeWageRepo->deleteEmployeeWage($transportation->employeeWage->id);
@@ -222,5 +238,127 @@ class TransportationController extends Controller
         }
 
         return redirect(route('transportations.index'))->with("message", "Deletion failed. Error Code : ". $this->errorHead. " / ". $errorCode)->with("alert-class", "alert-danger");
+    }
+
+    /**
+     * get driver id for selected truck from previous data
+     *
+     */
+    public function driverByTruck(TransportationAjaxRequests $request)
+    {
+        $params = [
+            [
+                'paramName'     => 'truck_id',
+                'paramOperator' => '=',
+                'paramValue'    => $request->get('truck_id'),
+            ]
+        ];
+
+        $order  = [
+            'order_key'     => 'date',
+            'order_type'    => 'desc'
+         ];
+
+        $lastTransportation = $this->transportationRepo->getTransportation($params, [], $order);
+
+        if(!empty($lastTransportation) && !empty($lastTransportation->id)) {
+            return [
+                'flag'      => 'true',
+                'driverId'  => $lastTransportation->driver_id
+            ];
+        }
+        return [
+            'flag' => 'false',
+        ];
+    }
+
+    /**
+     * get contractor id for selected sites from previous data
+     *
+     */
+    public function contractorBySite(TransportationAjaxRequests $request)
+    {
+        $params = [
+            [
+                'paramName'     => 'source_id',
+                'paramOperator' => '=',
+                'paramValue'    => $request->get('source_id'),
+            ],
+            [
+                'paramName'     => 'destination_id',
+                'paramOperator' => '=',
+                'paramValue'    => $request->get('destination_id'),
+            ]
+        ];
+
+        $order  = [
+            'order_key'     => 'date',
+            'order_type'    => 'desc'
+         ];
+
+        $lastTransportation = $this->transportationRepo->getTransportation($params, [], $order);
+
+        if(!empty($lastTransportation) && !empty($lastTransportation->id)) {
+            return [
+                'flag'                  => 'true',
+                'contractorAccountId'   => $lastTransportation->transaction->debit_account_id,
+            ];
+        }
+        return [
+            'flag' => 'false',
+        ];
+    }
+
+    /**
+     * get rent type for selected sites, contractor and truck from previous data
+     *
+     */
+    public function rentDetailByCombo(TransportationAjaxRequests $request)
+    {
+        $params = [
+            [
+                'paramName'     => 'truck_id',
+                'paramOperator' => '=',
+                'paramValue'    => $request->get('truck_id'),
+            ],
+            [
+                'paramName'     => 'source_id',
+                'paramOperator' => '=',
+                'paramValue'    => $request->get('source_id'),
+            ],
+            [
+                'paramName'     => 'destination_id',
+                'paramOperator' => '=',
+                'paramValue'    => $request->get('destination_id'),
+            ]
+        ];
+
+        $order  = [
+            'order_key'     => 'date',
+            'order_type'    => 'desc'
+         ];
+
+        $relationalParams = [
+            [
+                'relation'      => 'transaction',
+                'paramName'     => 'debit_account_id',
+                'paramValue'    => $request->get('contractor_account_id'),
+            ]
+        ];
+
+        $lastTransportation = $this->transportationRepo->getTransportation($params, $relationalParams, $order);
+
+        if(!empty($lastTransportation) && !empty($lastTransportation->id)) {
+            return [
+                'flag'          => 'true',
+                'rentType'      => $lastTransportation->rent_type,
+                'rentRate'      => $lastTransportation->rent_rate,
+                'materialId'    => $lastTransportation->material_id,
+            ];
+        }
+
+        return [
+            'flag' => 'false',
+        ];
     }
 }

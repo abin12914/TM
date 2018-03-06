@@ -130,12 +130,37 @@ class PurchaseRepository
     }
 
     /**
-     * Return supply transportation.
+     * Return supply purchase.
      */
-    public function getPurchase($id)
+    public function getPurchase($params=[], $relationalParams=[], $order=[])
     {
-        $purchase = Purchase::where('status', 1)->where('id', $id)->first();
-        if(empty($purchase) || !empty($purchase->id)) {
+        $purchase = Purchase::with(['transaction', 'transportation'])->where('status', 1);
+
+        //custom parameters
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $purchase = $purchase->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+            }
+        }
+
+        foreach ($relationalParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $purchase = $purchase->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName'], $param['paramValue']);
+                });
+            }
+        }
+
+        //custom ordering if any
+        if(!empty($order)) {
+            $purchase = $purchase->orderBy($order['order_key'], $order['order_type']);
+        }
+
+        //secondary ordering apart from custom ordering for more accuracy
+        //selecting first element after the ordering
+        $purchase = $purchase->orderBy('id', 'desc')->first();
+
+        if(empty($purchase) || empty($purchase->id)) {
             $purchase = [];
         }
 

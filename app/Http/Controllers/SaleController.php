@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\SaleRepository;
+use App\Http\Requests\SaleAjaxRequests;
 
 class SaleController extends Controller
 {
+    protected $saleRepo;
+    public $errorHead = 5, $noOfRecordsPerPage = 15;
+
+    public function __construct(SaleRepository $saleRepo)
+    {
+        $this->saleRepo = $saleRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -80,5 +90,56 @@ class SaleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * get purchase detail by truck, source and supplier
+     *
+     */
+    public function saleDetailsByCombo(SaleAjaxRequests $request)
+    {
+        $params = [];
+        $relationalParams = [
+                [
+                    'relation'      => 'transaction',
+                    'paramName'     => 'debit_account_id',
+                    'paramValue'    => $request->get('customer_account_id'),
+                ],
+                [
+                    'relation'      => 'transportation',
+                    'paramName'     => 'truck_id',
+                    'paramValue'    => $request->get('truck_id'),
+                ],
+                [
+                    'relation'      => 'transportation',
+                    'paramName'     => 'source_id',
+                    'paramValue'    => $request->get('source_id'),
+                ],
+                [
+                    'relation'      => 'transportation',
+                    'paramName'     => 'material_id',
+                    'paramValue'    => $request->get('material_id'),
+                ],
+            ];
+
+            $order  = [
+                'order_key'     => 'date',
+                'order_type'    => 'desc'
+             ];
+
+        $lastSale = $this->saleRepo->getSale($params, $relationalParams, $order);
+
+        if(!empty($lastSale) && !empty($lastSale->id)) {
+            return [
+                'flag'              => 'true',
+                'measureType'       => $lastSale->measure_type,
+                'purchaseQuantity'  => $lastSale->quantity,
+                'purchaseRate'      => $lastSale->rate,
+            ];
+        }
+
+        return [
+            'flag' => 'false',
+        ];
     }
 }

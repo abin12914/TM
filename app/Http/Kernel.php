@@ -64,5 +64,7 @@ class Kernel extends HttpKernel
         'is.guest' => \App\Http\Middleware\IsGuest::class,
         //User role check
         'user.role' => \App\Http\Middleware\CheckUserRole::class,
+        //Ajax request check
+        'is.ajax' => \App\Http\Middleware\IsAjax::class,
     ];
 }

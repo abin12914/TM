@@ -127,9 +127,34 @@ class SaleRepository
     /**
      * Return supply transportation.
      */
-    public function getSale($id)
+    public function getSale($params=[], $relationalParams=[], $order=[])
     {
-        $sale = Sale::where('status', 1)->where('id', $id)->first();
+        $sale = Sale::with(['transaction', 'transportation'])->where('status', 1);
+
+        //custom parameters
+        foreach ($params as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $sale = $sale->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+            }
+        }
+
+        foreach ($relationalParams as $param) {
+            if(!empty($param) && !empty($param['paramValue'])) {
+                $sale = $sale->whereHas($param['relation'], function($qry) use($param) {
+                    $qry->where($param['paramName'], $param['paramValue']);
+                });
+            }
+        }
+
+        //custom ordering if any
+        if(!empty($order)) {
+            $sale = $sale->orderBy($order['order_key'], $order['order_type']);
+        }
+
+        //secondary ordering apart from custom ordering for more accuracy
+        //selecting first element after the ordering
+        $sale = $sale->orderBy('id', 'desc')->first();
+        
         if(empty($sale) || !empty($sale->id)) {
             $sale = [];
         }

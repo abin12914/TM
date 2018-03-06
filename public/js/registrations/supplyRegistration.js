@@ -17,6 +17,11 @@ $(function () {
         $('li a[href="'+ link +'"]').trigger('click');
     });
 
+    //setting measurement of purchase at source site
+    $('body').on("change", "#supplier_account_id", function() {
+        purchaseDetailsByCombo();
+    });
+
     //measure type change event actions
     $('body').on("change", "#purchase_measure_type", function (evt) {
         var measureType = $('#purchase_measure_type').val();
@@ -32,6 +37,11 @@ $(function () {
 
         //calculate total rent
         calculateTotalPurchaseBill();
+    });
+
+    //setting measurement of sale at destination site
+    $('body').on("change", "#customer_account_id", function() {
+        saleDetailsByCombo();
     });
 
     //measure type change event actions
@@ -137,5 +147,105 @@ function calculateTotalSaleBill() {
         $('#sale_bill').val(0);
         $('#sale_discount').val(0);
         $('#sale_total_bill').val(0);
+    }
+}
+
+function purchaseDetailsByCombo() {
+    var truckId             = $('#truck_id').val();
+    var sourceId            = $('#source_id').val();
+    var materialId          = $('#material_id').val();
+    var supplierAccountId   = $('#supplier_account_id').val();
+
+    if(truckId && sourceId && materialId && supplierAccountId) {
+        $.ajax({
+            url: "/purchase/details/",
+            method: "get",
+            data: {
+                type                : 'purchaseDetailsByCombo',
+                truck_id            : truckId,
+                source_id           : sourceId,
+                material_id         : materialId,
+                supplier_account_id : supplierAccountId,
+            },
+            success: function(result) {
+                if(result && result.flag) {
+                    var purhaseMeasureType  = result.measureType;
+                    var purchaseQuantity    = result.purchaseQuantity;
+                    var purchaseRate        = result.purchaseRate;
+                    
+                    $('#purchase_measure_type').val(purhaseMeasureType);
+                    $('#purchase_measure_type').trigger('change');
+                    $('#purchase_quantity').val(purchaseQuantity);
+                    $('#purchase_quantity').trigger('change');
+                    $('#purchase_rate').val(purchaseRate);
+                    $('#purchase_rate').trigger('change');
+                } else {
+                    $('#purchase_measure_type').val('');
+                    $('#purchase_measure_type').trigger('change');
+                    $('#purchase_quantity').val('');
+                    $('#purchase_quantity').trigger('change');
+                    $('#purchase_rate').val('');
+                    $('#purchase_rate').trigger('change');
+                }
+            },
+            error: function () {
+                $('#purchase_measure_type').val('');
+                $('#purchase_measure_type').trigger('change');
+                $('#purchase_quantity').val('');
+                $('#purchase_quantity').trigger('change');
+                $('#purchase_rate').val('');
+                $('#purchase_rate').trigger('change');
+            }
+        });
+    }
+}
+
+function saleDetailsByCombo() {
+    var truckId             = $('#truck_id').val();
+    var sourceId            = $('#source_id').val();
+    var materialId          = $('#material_id').val();
+    var customerAccountId   = $('#customer_account_id').val();
+
+    if(truckId && sourceId && materialId && customerAccountId) {
+        $.ajax({
+            url: "/sale/details/",
+            method: "get",
+            data: {
+                type                : 'saleDetailsByCombo',
+                truck_id            : truckId,
+                source_id           : sourceId,
+                material_id         : materialId,
+                customer_account_id : customerAccountId,
+            },
+            success: function(result) {
+                if(result && result.flag) {
+                    var saleMeasureType  = result.measureType;
+                    var saleQuantity    = result.saleQuantity;
+                    var saleRate        = result.saleRate;
+                    
+                    $('#sale_measure_type').val(purhaseMeasureType);
+                    $('#sale_measure_type').trigger('change');
+                    $('#sale_quantity').val(purchaseQuantity);
+                    $('#sale_quantity').trigger('change');
+                    $('#sale_rate').val(purchaseRate);
+                    $('#sale_rate').trigger('change');
+                } else {
+                    $('#sale_measure_type').val('');
+                    $('#sale_measure_type').trigger('change');
+                    $('#sale_quantity').val('');
+                    $('#sale_quantity').trigger('change');
+                    $('#sale_rate').val('');
+                    $('#sale_rate').trigger('change');
+                }
+            },
+            error: function () {
+                $('#sale_measure_type').val('');
+                $('#sale_measure_type').trigger('change');
+                $('#sale_quantity').val('');
+                $('#sale_quantity').trigger('change');
+                $('#sale_rate').val('');
+                $('#sale_rate').trigger('change');
+            }
+        });
     }
 }

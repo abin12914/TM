@@ -62,5 +62,17 @@ Route::group(['middleware' => 'auth.check'], function () {
 
         //reports
         Route::get('reports/account-statement', 'ReportController@accountStatement')->name('report.account-statement');
+
+        //ajax urls
+        Route::group(['middleware' => 'is.ajax'], function () {
+            //transportation form
+            Route::get('/transportation/driver', 'TransportationController@driverByTruck')->name('transportation.driver.truck');
+            Route::get('/transportation/contractor', 'TransportationController@contractorBySite')->name('transportation.contractor.site');
+            Route::get('/transportation/rentDetail', 'TransportationController@rentDetailByCombo')->name('transportation.rentDetail.combo');
+            //purchase form
+            Route::get('/purchase/details', 'PurchaseController@purchaseDetailsByCombo')->name('purchase.detail.combo');
+            //sale form
+            Route::get('/sale/details', 'SaleController@saleDetailsByCombo')->name('sale.detail.combo');
+        });
     });
 });

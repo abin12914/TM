@@ -124,7 +124,7 @@
     @if(Session::has('loggedUser'))
         loggedUser = "{{ $currentUser->name }}";
     @endif
-    @if(!empty($trucks) && $trucks->count() > 0 && $settings->track_certificate)
+    @if(!empty($trucks) && $trucks->count() > 0 && $settings->track_certificate == 1)
         @foreach($trucks as $truck)
             var insuranceColor  = "{{ $truck->insuranceFlag == 1 ? "#00a65a" : ($truck->insuranceFlag == 2 ? '#f39c12' : '#f56954') }}";
             var taxColor        = "{{ $truck->taxFlag == 1 ? "#00a65a" : ($truck->taxFlag == 2 ? '#f39c12' : '#f56954') }}";
