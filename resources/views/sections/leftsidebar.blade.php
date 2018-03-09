@@ -98,7 +98,7 @@
                                 <i class="fa fa-circle-o text-yellow"></i> Register
                             </a>
                         </li>
-                        <li class="{{ Request::is('transportations')? 'active' : '' }}">
+                        <li class="{{ Request::is('expenses')? 'active' : '' }}">
                             <a href="{{ route('expenses.index') }}">
                                 <i class="fa fa-circle-o text-aqua"></i> List
                             </a>

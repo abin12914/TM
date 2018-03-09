@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\VoucherRepository;
-use App\Repositories\AccountRepository;
 use App\Http\Requests\VoucherRegistrationRequest;
 use App\Http\Requests\VoucherFilterRequest;
 use \Carbon\Carbon;
@@ -24,7 +23,7 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(VoucherFilterRequest $request, AccountRepository $accountRepo)
+    public function index(VoucherFilterRequest $request)
     {
         $fromDate       = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
         $toDate         = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
@@ -66,7 +65,6 @@ class VoucherController extends Controller
         $params = array_merge($params, $relationalOrParams);
 
         return view('vouchers.list', [
-                'accounts'      => $accountRepo->getAccounts(),
                 'vouchers'      => $vouchers,
                 'params'        => $params,
                 'noOfRecords'   => $noOfRecords,
@@ -78,11 +76,9 @@ class VoucherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(AccountRepository $accountRepo)
+    public function create()
     {
-        return view('vouchers.register', [
-                'accounts'  => $accountRepo->getAccounts(),
-            ]);
+        return view('vouchers.register', []);
     }
 
     /**

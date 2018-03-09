@@ -158,7 +158,7 @@ function purchaseDetailsByCombo() {
 
     if(truckId && sourceId && materialId && supplierAccountId) {
         $.ajax({
-            url: "/purchase/details/",
+            url: purchaseDetailsUrl,//"/purchase/details/",
             method: "get",
             data: {
                 type                : 'purchaseDetailsByCombo',
@@ -202,18 +202,18 @@ function purchaseDetailsByCombo() {
 
 function saleDetailsByCombo() {
     var truckId             = $('#truck_id').val();
-    var sourceId            = $('#source_id').val();
+    var destinationId       = $('#destination_id').val();
     var materialId          = $('#material_id').val();
     var customerAccountId   = $('#customer_account_id').val();
 
-    if(truckId && sourceId && materialId && customerAccountId) {
+    if(truckId && destinationId && materialId && customerAccountId) {
         $.ajax({
-            url: "/sale/details/",
+            url: saleDetailsUrl, //"/sale/details/",
             method: "get",
             data: {
                 type                : 'saleDetailsByCombo',
                 truck_id            : truckId,
-                source_id           : sourceId,
+                destination_id      : destinationId,
                 material_id         : materialId,
                 customer_account_id : customerAccountId,
             },
@@ -223,11 +223,11 @@ function saleDetailsByCombo() {
                     var saleQuantity    = result.saleQuantity;
                     var saleRate        = result.saleRate;
                     
-                    $('#sale_measure_type').val(purhaseMeasureType);
+                    $('#sale_measure_type').val(saleMeasureType);
                     $('#sale_measure_type').trigger('change');
-                    $('#sale_quantity').val(purchaseQuantity);
+                    $('#sale_quantity').val(saleQuantity);
                     $('#sale_quantity').trigger('change');
-                    $('#sale_rate').val(purchaseRate);
+                    $('#sale_rate').val(saleRate);
                     $('#sale_rate').trigger('change');
                 } else {
                     $('#sale_measure_type').val('');

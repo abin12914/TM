@@ -13,7 +13,7 @@ class DashboardController extends Controller
     /**
      * Redirect successfully logged users
      */
-    public function dashboard(TruckRepository $truckRepo, AccountRepository $accountRepo, TransportationRepository $transportationRepo)
+    public function dashboard(TruckRepository $truckRepo, TransportationRepository $transportationRepo)
     {
         $expiredCertificateCount    = 0;
         $truckCount                 = 0;

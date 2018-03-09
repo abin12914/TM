@@ -4,22 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\ExpenseRepository;
-use App\Repositories\TruckRepository;
-use App\Repositories\AccountRepository;
 use App\Http\Requests\ExpenseRegistrationRequest;
 use App\Http\Requests\ExpenseFilterRequest;
 use \Carbon\Carbon;
 
 class ExpenseController extends Controller
 {
-    protected $expenseRepo, $truckRepo, $accountRepo;
+    protected $expenseRepo;
     public $errorHead = 6, $noOfRecordsPerPage = 15;
 
-     public function __construct(ExpenseRepository $expenseRepo, TruckRepository $truckRepo, AccountRepository $accountRepo)
+     public function __construct(ExpenseRepository $expenseRepo)
     {
         $this->expenseRepo  = $expenseRepo;
-        $this->truckRepo    = $truckRepo;
-        $this->accountRepo  = $accountRepo;
     }
 
     /**
@@ -72,8 +68,6 @@ class ExpenseController extends Controller
         $params = array_merge($params, $relationalParams);
         
         return view('expenses.list', [
-                'accounts'      => $this->accountRepo->getAccounts(),
-                'trucks'        => $this->truckRepo->getTrucks(),
                 'services'      => $this->expenseRepo->getServices(),
                 'expenses'      => $expenses,
                 'params'        => $params,
@@ -89,8 +83,6 @@ class ExpenseController extends Controller
     public function create()
     {
         return view('expenses.register', [
-                'trucks'    => $this->truckRepo->getTrucks(),
-                'accounts'  => $this->accountRepo->getAccounts(),
                 'services'  => $this->expenseRepo->getServices(),
             ]);
     }

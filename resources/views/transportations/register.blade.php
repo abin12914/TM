@@ -77,5 +77,11 @@
 </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript">
+        var transportationDriverUrl     = "{{ route('transportation.driver.truck') }}";
+        var transportationContractorUrl = "{{ route('transportation.contractor.site') }}";
+        var transportationRentDetailUrl = "{{ route('transportation.rentDetail.combo') }}";
+    </script>
+
     <script src="/js/registrations/transportationRegistration.js?rndstr={{ rand(1000,9999) }}"></script>
 @endsection

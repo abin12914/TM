@@ -115,8 +115,8 @@
                                             <label for="driver_id" class="control-label">Driver : </label>
                                             <select class="form-control select2" name="driver_id" id="driver_id" style="width: 100%" tabindex="7">
                                                 <option value="">Select driver</option>
-                                                @if(!empty($drivers) && (count($drivers) > 0))
-                                                    @foreach($drivers as $driver)
+                                                @if(!empty($employees) && (count($employees) > 0))
+                                                    @foreach($employees as $driver)
                                                         <option value="{{ $driver->id }}" {{ (old('driver_id') == $driver->id || $params[5]['paramValue'] == $driver->id) ? 'selected' : '' }}>{{ $driver->account->name }}</option>
                                                     @endforeach
                                                 @endif

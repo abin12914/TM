@@ -154,8 +154,8 @@ class SaleRepository
         //secondary ordering apart from custom ordering for more accuracy
         //selecting first element after the ordering
         $sale = $sale->orderBy('id', 'desc')->first();
-        
-        if(empty($sale) || !empty($sale->id)) {
+
+        if(empty($sale) || empty($sale->id)) {
             $sale = [];
         }
 

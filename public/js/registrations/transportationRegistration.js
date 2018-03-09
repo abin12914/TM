@@ -138,7 +138,7 @@ function driverByTruck() {
 
     if(truckId) {
         $.ajax({
-            url: "/transportation/driver",
+            url: transportationDriverUrl, //"/transportation/driver",
             method: "get",
             data: {
                 type        : 'driverByTruck',
@@ -172,7 +172,7 @@ function contractorBySite() {
 
     if(sourceId && destinationId) {
         $.ajax({
-            url: "/transportation/contractor",
+            url: transportationContractorUrl, //"/transportation/contractor",
             method: "get",
             data: {
                 type            : 'contractorBySite',
@@ -209,7 +209,7 @@ function rentDetailByCombo() {
 
     if(truckId && sourceId && destinationId && contractorAccountId) {
         $.ajax({
-            url: "/transportation/rentDetail",
+            url: transportationRentDetailUrl, //"/transportation/rentDetail",
             method: "get",
             data: {
                 type                    : 'rentDetailByCombo',

@@ -112,8 +112,8 @@ class SaleController extends Controller
                 ],
                 [
                     'relation'      => 'transportation',
-                    'paramName'     => 'source_id',
-                    'paramValue'    => $request->get('source_id'),
+                    'paramName'     => 'destination_id',
+                    'paramValue'    => $request->get('destination_id'),
                 ],
                 [
                     'relation'      => 'transportation',
@@ -131,10 +131,10 @@ class SaleController extends Controller
 
         if(!empty($lastSale) && !empty($lastSale->id)) {
             return [
-                'flag'              => 'true',
-                'measureType'       => $lastSale->measure_type,
-                'purchaseQuantity'  => $lastSale->quantity,
-                'purchaseRate'      => $lastSale->rate,
+                'flag'          => 'true',
+                'measureType'   => $lastSale->measure_type,
+                'saleQuantity'  => $lastSale->quantity,
+                'saleRate'      => $lastSale->rate,
             ];
         }
 

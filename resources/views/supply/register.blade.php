@@ -153,6 +153,14 @@
 </div>
 @endsection
 @section('scripts')
+    <script type="text/javascript">
+        var transportationDriverUrl     = "{{ route('transportation.driver.truck') }}";
+        var transportationContractorUrl = "{{ route('transportation.contractor.site') }}";
+        var transportationRentDetailUrl = "{{ route('transportation.rentDetail.combo') }}";
+        var purchaseDetailsUrl          = "{{ route('purchase.detail.combo') }}";
+        var saleDetailsUrl              = "{{ route('sale.detail.combo') }}";
+    </script>
+
     <script src="/js/registrations/transportationRegistration.js?rndstr={{ rand(1000,9999) }}"></script>
     <script src="/js/registrations/supplyRegistration.js?rndstr={{ rand(1000,9999) }}"></script>
 @endsection

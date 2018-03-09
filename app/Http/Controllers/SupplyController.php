@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\SupplyRepository;
 use App\Repositories\TransportationRepository;
-use App\Repositories\TruckRepository;
-use App\Repositories\AccountRepository;
-use App\Repositories\SiteRepository;
-use App\Repositories\EmployeeRepository;
 use App\Repositories\PurchaseRepository;
 use App\Repositories\SaleRepository;
 use App\Repositories\EmployeeWageRepository;
@@ -32,7 +28,7 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TransportationFilterRequest $request, TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
+    public function index(TransportationFilterRequest $request)
     {
         $fromDate            = !empty($request->get('from_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('from_date'))->format('Y-m-d') : "";
         $toDate              = !empty($request->get('to_date')) ? Carbon::createFromFormat('d-m-Y', $request->get('to_date'))->format('Y-m-d') : "";
@@ -87,9 +83,6 @@ class SupplyController extends Controller
         $params = array_merge($params, $relationalParams);
         
         return view('supply.list', [
-                'accounts'              => $accountRepo->getAccounts(),
-                'sites'                 => $siteRpepo->getSites(),
-                'trucks'                => $truckRepo->getTrucks(),
                 'materials'             => $this->transportationRepo->getMaterials(),
                 'supplyTransportations' => $supplyTransportations,
                 'rentTypes'             => $this->transportationRepo->rentTypes,
@@ -103,13 +96,9 @@ class SupplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(TruckRepository $truckRepo, AccountRepository $accountRepo, SiteRepository $siteRpepo, EmployeeRepository $employeeRepo)
+    public function create()
     {
         return view('supply.register', [
-                'trucks'        => $truckRepo->getTrucks(),
-                'accounts'      => $accountRepo->getAccounts(),
-                'sites'         => $siteRpepo->getSites(),
-                'employees'     => $employeeRepo->getEmployees(),
                 'materials'     => $this->transportationRepo->getMaterials(),
                 'rentTypes'     => $this->transportationRepo->rentTypes,
                 'measureTypes'  => $this->supplyRepo->measureTypes,
