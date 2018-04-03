@@ -39,8 +39,13 @@ class ReportController extends Controller
 
         $accounts       = $this->accountRepo->getAccounts();
         $cashAccount    = $this->accountRepo->getAccounts(['account_name' => 'Cash'], 1, false);//retrieving cash account
+
         if(!empty($cashAccount) && !empty($cashAccount->id)) {
-            $accounts->push($cashAccount);//pushing cash account to account list
+            if(empty($accounts) && count($accounts) <= 0) {
+                $accounts = collect([$cashAccount]);
+            } else {
+                $accounts->push($cashAccount);//pushing cash account to account list
+            }
         }
         
         if($result['flag']) {
