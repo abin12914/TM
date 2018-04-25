@@ -37,7 +37,7 @@ class ReportController extends Controller
 
         $result = $this->reportRepo->getAccountStatement($params, $noOfRecords);
 
-        $accounts       = $this->accountRepo->getAccounts();
+        /*$accounts       = $this->accountRepo->getAccounts();
         $cashAccount    = $this->accountRepo->getAccounts(['account_name' => 'Cash'], 1, false);//retrieving cash account
 
         if(!empty($cashAccount) && !empty($cashAccount->id)) {
@@ -46,7 +46,7 @@ class ReportController extends Controller
             } else {
                 $accounts->push($cashAccount);//pushing cash account to account list
             }
-        }
+        }*/
         
         if($result['flag']) {
             $params['account_id'] = $result['account_id'];
@@ -62,7 +62,7 @@ class ReportController extends Controller
                     'totalDebit'        => $result['totalDebit'],
                     'totalCredit'       => $result['totalCredit'],
                     'relations'         => $this->reportRepo->transactionRelations,
-                    'accounts'          => $accounts,
+                    //'accounts'          => $accounts,
                     'params'            => $params,
                     'noOfRecords'       => $noOfRecords,
                 ]);
@@ -79,7 +79,7 @@ class ReportController extends Controller
                 'totalDebit'        => 0,
                 'totalCredit'       => 0,
                 'relations'         => $this->reportRepo->transactionRelations,
-                'accounts'          => $accounts,
+                //'accounts'          => $accounts,
                 'params'            => $params,
                 'params'            => $params,
                 'noOfRecords'       => $noOfRecords,

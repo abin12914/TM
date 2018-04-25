@@ -17,7 +17,7 @@ class ComposerServiceProvider extends ServiceProvider
         //current user and settings to all views
         View::composer('*', "App\Http\ViewComposers\AllViewComposer");
         //accounts to views
-        View::composer(['expenses.register', 'expenses.list', 'supply.list', 'supply.register', 'transportations.register', 'transportations.list', 'vouchers.register', 'vouchers.list'], "App\Http\ViewComposers\AccountPartialComposer");
+        View::composer(['expenses.register', 'expenses.list', 'supply.list', 'supply.register', 'transportations.register', 'transportations.list', 'vouchers.register', 'vouchers.list', 'reports.account-statement'], "App\Http\ViewComposers\AccountPartialComposer");
         //trucks to views
         View::composer(['expenses.register', 'expenses.list', 'supply.list', 'supply.register', 'transportations.register', 'transportations.list'], "App\Http\ViewComposers\TruckPartialComposer");
         //sites to views
