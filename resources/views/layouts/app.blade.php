@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <!-- sections/head.main.blade -->
-    @include('sections.head')
-    
-    {{-- additional stylesheet includes --}}
-    @section('stylesheets')
-    @show
+    <head>
+        <!-- sections/head.main.blade -->
+        @include('sections.head')
+        
+        {{-- additional stylesheet includes --}}
+        @section('stylesheets')
+        @show
+    </head>
     
     <body class="hold-transition skin-blue fixed sidebar-mini">
         <div class="wrapper">
