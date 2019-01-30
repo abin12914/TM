@@ -137,4 +137,26 @@ class TruckController extends Controller
 
         return redirect(route('trucks.index'))->with("message", "Deletion failed. Error Code :". $deleteFlag['errorCode'])->with("alert-class", "alert-danger");
     }
+
+    public function editCert(Request $request, $id)
+    {
+        $truck = $this->truckRepo->getTruck($id);
+
+        return view('trucks.edit-cert', [
+                'truck'         => $truck,
+                'bodyTypes'     => $this->truckRepo->bodyTypes,
+            ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCert(Request $request, $id)
+    {
+        return redirect()->back()->with("message", "This action restricted!")->with("alert-class", "alert-danger");
+    }
 }

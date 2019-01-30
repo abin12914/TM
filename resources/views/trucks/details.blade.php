@@ -181,9 +181,14 @@
                                     <div class="row">
                                         <div class="col-md-4"></div>
                                         <div class="col-md-4">
-                                            <div class="col-md-{{ (!$currentUser->isSuperAdmin()) ? "12" : "6" }}">
+                                            <div class="col-md-6">
                                                 <form action="{{ route('trucks.edit', $truck->id) }}" method="get" class="form-horizontal">
                                                     <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <form action="{{ route('truck.cert.edit', $truck->id) }}" method="get" class="form-horizontal">
+                                                    <button type="submit" class="btn btn-warning btn-block btn-flat">Edit Certificate</button>
                                                 </form>
                                             </div>
                                             @if($currentUser->isSuperAdmin())

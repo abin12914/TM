@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::resource('employees', 'EmployeeController');
 
         //trucks
+        Route::get('/trucks/{id}/edit-cert', 'TruckController@editCert')->name('truck.cert.edit');
+        Route::post('/trucks/{id}/update-cert', 'TruckController@updateCert')->name('truck.cert.update');
         Route::resource('trucks', 'TruckController');
 
         //sites
